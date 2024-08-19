@@ -1,0 +1,25 @@
+#pragma once
+#include <glm/gtc/type_ptr.hpp>
+
+// glfw: whenever the mouse moves, this callback is called
+
+class Mouse{
+    bool firstMouse{ true };
+	float lastX{};
+	float lastY{};
+
+    float xoffset{};
+    float yoffset{};
+
+public:
+    Mouse(glm::vec2 screenResolution) {
+        lastX = screenResolution.x / 2.0;
+        lastY = screenResolution.y / 2.0;
+    }
+
+    void update(double xposIn, double yposIn);
+    void reset();
+    glm::vec2 get_offset();
+
+};
+
