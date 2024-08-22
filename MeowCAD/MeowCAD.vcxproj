@@ -151,12 +151,14 @@
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MeowCAD.cpp" />
     <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="ObjParser.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="TextEditor.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="VAO.cpp" />
     <ClCompile Include="VBO.cpp" />
+    <ClCompile Include="Vector.cpp" />
     <ClCompile Include="Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -171,12 +173,14 @@
     <ClInclude Include="LogUtils.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mouse.h" />
+    <ClInclude Include="ObjParser.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="TextEditor.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="VAO.h" />
     <ClInclude Include="VBO.h" />
+    <ClInclude Include="Vector.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
