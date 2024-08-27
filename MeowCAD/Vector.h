@@ -32,9 +32,14 @@ struct Vector{
 
 	friend Vector operator-(const Vector& v);
 
-
 	float magnitude() const;
 	Vector normalize(const Vector& v);
+
+	friend float dot(const Vector& a, const Vector& b);
+	friend Vector cross(const Vector& a, const Vector& b);
+
+	friend Vector project(const Vector& a, const Vector& b);
+	friend Vector reject(const Vector& a, const Vector& b);
 
 };
 

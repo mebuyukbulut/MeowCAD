@@ -32,6 +32,26 @@ Vector operator-(const Vector& v){
 	return Vector(-v.x, -v.y, -v.z);
 }
 
+float dot(const Vector& a, const Vector& b){
+	return a.x*b.x + a.y*b.y + a.z*b.z;
+}
+
+Vector cross(const Vector& a, const Vector& b){
+	return Vector(
+		a.y * b.z - a.z * b.y,
+		a.z * b.x - a.x * b.z,
+		a.x * b.y - a.y * b.x
+	);
+}
+
+Vector project(const Vector& a, const Vector& b){
+	return b * (dot(a, b) / dot(b, b));
+}
+
+Vector reject(const Vector& a, const Vector& b){
+	return a - project(a, b);
+}
+
 Vector::Vector() :x{}, y{}, z{} {}
 Vector::Vector(float x, float y, float z) :x{ x }, y{ y }, z{ z } {}
 
@@ -70,16 +90,17 @@ Vector& Vector::operator/=(float s){
 	z *= s;
 	return *this;
 }
-
 Vector& Vector::operator+=(const Vector& v){
 	x += v.x;
 	y += v.y;
 	z += v.z;
+	return *this;
 }
 Vector& Vector::operator-=(const Vector& v){
 	x -= v.x;
 	y -= v.y;
 	z -= v.z;
+	return *this;
 }
 
 float Vector::magnitude() const {

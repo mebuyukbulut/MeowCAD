@@ -6,6 +6,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/quaternion.hpp>
+//#define GLM_ENABLE_EXPERIMENTAL
+//#include <glm/gtx/quaternion.hpp>
+
 
 #include <chrono>
 #include <thread>
@@ -63,7 +67,17 @@ void processInput(GLFWwindow* window);
 void transforms(Shader& shader) {
     // create transformations
     glm::mat4 model = glm::mat4(1.0f); 
-    model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f));
+    
+    // quaternion
+    // https://www.opengl-tutorial.org/intermediate-tutorials/tutorial-17-quaternions/#how-do-i-create-a-quaternion-in-c-
+    // https://glm.g-truc.net/0.9.5/api/a00179.html
+    glm::quat myQuat(glm::vec3(0.f, 0.f, glfwGetTime()));
+    glm::quat myQuat2 = glm::angleAxis(static_cast<float>(glfwGetTime()), glm::vec3(0.f, 0.f, 1.f));
+    glm::mat4 RotationMatrix = glm::mat4_cast(myQuat);
+
+    // mat4 ModelMatrix = TranslationMatrix * RotationMatrix * ScaleMatrix;
+    model = RotationMatrix;
+    //model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f));
 
     glm::mat4 projection = camera.get_projection();
     glm::mat4 view = camera.get_view();

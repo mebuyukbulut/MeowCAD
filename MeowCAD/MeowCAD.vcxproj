@@ -149,6 +149,7 @@
     <ClCompile Include="Initializers.cpp" />
     <ClCompile Include="LogUtils.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="MeowCAD.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="ObjParser.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="Initializers.h" />
     <ClInclude Include="LogUtils.h" />
     <ClInclude Include="Material.h" />
+    <ClInclude Include="Matrix.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="ObjParser.h" />
     <ClInclude Include="Shader.h" />
