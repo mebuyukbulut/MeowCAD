@@ -10,9 +10,19 @@ VBO::~VBO(){
 void VBO::bind_data(std::vector<Vertex>& data){
 	//for (auto i : data)
 	//	std::cout << i << ", ";
-
 	use();
-	glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(Vertex), data.data(), GL_STATIC_DRAW);
+	allocate_data(data.size() * sizeof(Vertex));
+	write_data(0, data);
+	//glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(Vertex), nullptr, GL_STATIC_DRAW);
+	//glBufferSubData(GL_ARRAY_BUFFER,0, data.size() * sizeof(Vertex), data.data());
+}
+
+void VBO::allocate_data(int byteSize){
+	glBufferData(GL_ARRAY_BUFFER, byteSize, nullptr, GL_STATIC_DRAW);
+}
+
+void VBO::write_data(int offset, std::vector<Vertex>& data){
+	glBufferSubData(GL_ARRAY_BUFFER, offset, data.size() * sizeof(Vertex), data.data());
 }
 
 void VBO::use(){ // ?

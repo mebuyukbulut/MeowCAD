@@ -12,11 +12,11 @@ struct MaterialInfo {
 };
 class Material{
     MaterialInfo material_info{};
-    Shader* shader;
+    //Shader* shader;
     
 public:
 
-    void init(MaterialInfo materialInfo, Shader* shader);
-    void use();
+    void init(MaterialInfo materialInfo);
+    void use(Shader* shader);
 };
 

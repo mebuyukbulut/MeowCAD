@@ -13,6 +13,8 @@ public:
 
 	void init();
 	void bind_data(std::vector<Vertex>& data);
+	void allocate_data(int byteSize);
+	void write_data(int offset, std::vector<Vertex>& data);
 	void use();
 };
 
