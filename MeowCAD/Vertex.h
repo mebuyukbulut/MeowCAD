@@ -29,5 +29,18 @@ struct Vertex{
 			tex_coord[1],
 		};
 	}
-};
 
+	void set_position(glm::vec3 position);
+	void set_normal(glm::vec3 normal);
+	void set_color(glm::vec4 color);
+	void set_tex_coord(glm::vec2 tex_coord);
+
+
+	glm::vec3 get_position();
+	glm::vec3 get_normal();
+	glm::vec4 get_color();
+	glm::vec2 get_tex_coord();
+
+
+
+};	

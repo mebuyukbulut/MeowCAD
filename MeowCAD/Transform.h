@@ -16,9 +16,11 @@ public:
 	void make_dirty();
 	
 	void set_position(glm::vec3 position) {
+		make_dirty();
 		this->position = position;
 	}
 	void move(glm::vec3 deltaPosition) {
+		make_dirty();
 		position += deltaPosition;
 	}
 

@@ -24,7 +24,18 @@ void UI::menu_bar() {
             }
             ImGui::EndMenu();
         }
-
+        if (ImGui::BeginMenu("Edit")) {
+            if (ImGui::MenuItem("Add Cube")) {
+                //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+            }
+            //if (ImGui::MenuItem("Line")) {
+            //    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            //}
+            //if (ImGui::MenuItem("Point")) {
+            //    glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+            //}
+            ImGui::EndMenu();
+        }
 
         if (ImGui::BeginMenu("View")) {
             if (ImGui::MenuItem("Text Editor", "", &is_text_editor_window_active)) {
@@ -62,6 +73,7 @@ void UI::menu_bar() {
     }
 
 }
+
 void UI::text_editor_window() {
     editor.SetColorizerEnable(false);
     auto cpos = editor.GetCursorPosition();

@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Cube.cpp" />
     <ClCompile Include="ETime.cpp" />
     <ClCompile Include="FileUtils.cpp" />
     <ClCompile Include="Initializers.cpp" />
@@ -156,6 +157,7 @@
     <ClCompile Include="ObjParser.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Shape3D.cpp" />
     <ClCompile Include="TextEditor.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -171,6 +173,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Cube.h" />
     <ClInclude Include="ETime.h" />
     <ClInclude Include="FileUtils.h" />
     <ClInclude Include="Initializers.h" />
@@ -182,6 +185,7 @@
     <ClInclude Include="ObjParser.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="Shape3D.h" />
     <ClInclude Include="TextEditor.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Transform.h" />
