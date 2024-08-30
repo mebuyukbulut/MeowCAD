@@ -1,4 +1,5 @@
 #include "UI.h"
+#include "Command.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -14,6 +15,9 @@
 void UI::menu_bar() {
     if (ImGui::BeginMainMenuBar()) {
         if (ImGui::BeginMenu("File")) {
+            if (ImGui::MenuItem("Exit")) {
+                //CM.exec(CommandID::ExitProgram);
+            }
             if (ImGui::MenuItem("Create")) {
             }
             if (ImGui::MenuItem("Open", "Ctrl+O")) {
@@ -28,16 +32,11 @@ void UI::menu_bar() {
             if (ImGui::MenuItem("Add Cube")) {
                 //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
             }
-            //if (ImGui::MenuItem("Line")) {
-            //    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-            //}
-            //if (ImGui::MenuItem("Point")) {
-            //    glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
-            //}
             ImGui::EndMenu();
         }
 
         if (ImGui::BeginMenu("View")) {
+            // we can implement this things with commands 
             if (ImGui::MenuItem("Text Editor", "", &is_text_editor_window_active)) {
             }
             if (ImGui::MenuItem("Show Test", "", &is_test_window_active)) {
@@ -52,15 +51,9 @@ void UI::menu_bar() {
 
         if (ImGui::BeginMenu("OGL")) {
             if(ImGui::BeginMenu("Polygon Mode")){
-                if (ImGui::MenuItem("Fill")) {
-                    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-                }
-                if (ImGui::MenuItem("Line")) {
-                    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-                }
-                if (ImGui::MenuItem("Point")) {
-                    glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
-                }
+                if (ImGui::MenuItem("Fill")) CM.exec(CommandID::PolygonModeFill);                
+                if (ImGui::MenuItem("Line")) CM.exec(CommandID::PolygonModeLine);                
+                if (ImGui::MenuItem("Point")) CM.exec(CommandID::PolygonModePoint);                
                 ImGui::EndMenu();
             }
 
@@ -177,6 +170,7 @@ void UI::init_imgui() {
 
 }
 
+
 void UI::render() {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
@@ -201,4 +195,5 @@ void UI::render() {
 void UI::init_UI(GLFWwindow* window) {
     this->window = window;
     init_imgui();
+
 }

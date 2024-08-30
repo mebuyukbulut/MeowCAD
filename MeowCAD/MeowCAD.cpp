@@ -209,3 +209,15 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
 }
 
 
+// ToDo 
+// Improve shape class and add new child classes 
+// - Sphere
+// - Cylinder
+//  
+// Understand and implement Command pattern
+// https://refactoring.guru/design-patterns/command
+// 
+// 
+ 
+
+// Handle mesh, material vb resource correctly !!!
