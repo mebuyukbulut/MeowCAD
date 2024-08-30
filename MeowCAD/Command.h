@@ -25,12 +25,8 @@ class PolygonModePointCommand : public Command {
 public:
 	void execute();
 };
-
-struct GLFWwindow;
 class ExitProgramCommand : public Command {
-	GLFWwindow* window;
 public:
-	ExitProgramCommand(GLFWwindow* window);
 	void execute();
 };
 

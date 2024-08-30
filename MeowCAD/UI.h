@@ -5,6 +5,9 @@
 
 struct GLFWwindow;
 
+enum class AllWindows {
+	TEXT_EDITOR, TEST, DEMO
+};
 
 class UI{
 	CommandManager CM;
@@ -15,15 +18,22 @@ class UI{
 	bool is_text_editor_window_active = false;
 	bool is_test_window_active = false;
 	bool is_demo_window_active = false;
+	bool is_log_window_active = true;
+
 
 	void menu_bar();
 	void text_editor_window();
 	void test_window();
 	void demo_window();
+	void log_window();
+
 	void init_imgui();
 
 public:
 	void render();
 	void init_UI(GLFWwindow* window);
+
+public:
+	//void toggle_window_visibility(AllWindows window);
 };
 

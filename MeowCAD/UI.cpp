@@ -12,22 +12,20 @@
 #include "TextEditor.h"
 #include <tchar.h>
 
+#include "LogUtils.h"
+
 void UI::menu_bar() {
     if (ImGui::BeginMainMenuBar()) {
         if (ImGui::BeginMenu("File")) {
-            if (ImGui::MenuItem("Exit")) {
-                //CM.exec(CommandID::ExitProgram);
-            }
-            if (ImGui::MenuItem("Create")) {
-            }
-            if (ImGui::MenuItem("Open", "Ctrl+O")) {
-            }
-            if (ImGui::MenuItem("Save", "Ctrl+S")) {
-            }
-            if (ImGui::MenuItem("Save as..")) {
-            }
+            if (ImGui::MenuItem("Exit")) CM.exec(CommandID::ExitProgram);
+            
+            if (ImGui::MenuItem("Create")) {}
+            if (ImGui::MenuItem("Open", "Ctrl+O")) {}
+            if (ImGui::MenuItem("Save", "Ctrl+S")) {}
+            if (ImGui::MenuItem("Save as..")) {}
             ImGui::EndMenu();
         }
+
         if (ImGui::BeginMenu("Edit")) {
             if (ImGui::MenuItem("Add Cube")) {
                 //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -37,17 +35,13 @@ void UI::menu_bar() {
 
         if (ImGui::BeginMenu("View")) {
             // we can implement this things with commands 
-            if (ImGui::MenuItem("Text Editor", "", &is_text_editor_window_active)) {
-            }
-            if (ImGui::MenuItem("Show Test", "", &is_test_window_active)) {
-            }
-            if (ImGui::MenuItem("Show Demo", "", &is_demo_window_active)) {
-            }
-
+            if (ImGui::MenuItem("Text Editor", "", &is_text_editor_window_active)) {}
+            if (ImGui::MenuItem("Show Test", "", &is_test_window_active)) {}
+            if (ImGui::MenuItem("Show Demo", "", &is_demo_window_active)) {}
+            if (ImGui::MenuItem("Show LOG", "", &is_log_window_active)) {}
 
             ImGui::EndMenu();
         }
-
 
         if (ImGui::BeginMenu("OGL")) {
             if(ImGui::BeginMenu("Polygon Mode")){
@@ -56,9 +50,6 @@ void UI::menu_bar() {
                 if (ImGui::MenuItem("Point")) CM.exec(CommandID::PolygonModePoint);                
                 ImGui::EndMenu();
             }
-
-
-
             ImGui::EndMenu();
         }
 
@@ -154,6 +145,48 @@ void UI::demo_window() {
     ImGui::ShowDemoWindow();
 }
 
+void UI::log_window(){
+    static bool my_tool_active = true;
+    //static float my_color[4];
+    // Create a window called "My First Tool", with a menu bar.
+    ImGui::Begin("My First Tool", &my_tool_active, ImGuiWindowFlags_MenuBar);
+    if (ImGui::BeginMenuBar())
+    {
+        if (ImGui::BeginMenu("File"))
+        {
+            if (ImGui::MenuItem("Open..", "Ctrl+O")) { /* Do stuff */ }
+            if (ImGui::MenuItem("Save", "Ctrl+S")) { /* Do stuff */ }
+            if (ImGui::MenuItem("Close", "Ctrl+W")) { my_tool_active = false; }
+            ImGui::EndMenu();
+        }
+        ImGui::EndMenuBar();
+    }
+
+    // Edit a color stored as 4 floats
+    //ImGui::ColorEdit4("Color", my_color);
+
+    // Generate samples and plot them
+    //float samples[100];
+    //for (int n = 0; n < 100; n++)
+    //    samples[n] = sinf(n * 0.2f + ImGui::GetTime() * 1.5f);
+    //ImGui::PlotLines("Samples", samples, 100);
+
+    // Display contents in a scrolling region
+    //ImGui::TextColored(ImVec4(1, 1, 0, 1), "Important Stuff");
+    ImGui::BeginChild("LOG:");
+    auto logs = LogUtils::get().get_log();
+    for(auto& log :logs)
+        
+        ImGui::TextColored(log.first, log.second.c_str());
+    //ImGui::TextColored(ImVec4(1, 0, 1, 1), "for log purpose");
+    //ImGui::TextColored(ImVec4(1, 0, 1, 1), "Important Stuff");
+    //ImGui::TextColored(ImVec4(1, 0, 1, 1), "Important Stuff");
+    //for (int n = 0; n < 50; n++)
+    //    ImGui::Text("%04d: Some text", n);
+    ImGui::EndChild();
+    ImGui::End();
+}
+
 void UI::init_imgui() {
     ImGui::CreateContext();
     ImGui::StyleColorsDark();
@@ -179,12 +212,10 @@ void UI::render() {
 
     menu_bar();
 
-    if (is_text_editor_window_active)
-        text_editor_window();
-    if (is_test_window_active)
-        test_window();
-    if (is_demo_window_active)
-        demo_window();
+    if (is_text_editor_window_active) text_editor_window();
+    if (is_test_window_active) test_window();
+    if (is_demo_window_active) demo_window();
+    if (is_log_window_active) log_window();
 
 
     ImGui::Render();
