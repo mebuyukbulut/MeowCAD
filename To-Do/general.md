@@ -2,13 +2,15 @@
 - OBJ import export
 - Text render
 - PBR
-- 
+- Add different shape primitives
+- Add Actor.h class 
 
 # In progress
 - Scene Graph 
-- App Icon
-- Credits
+
 
 # Complete
 - Multi mesh rendering 
+- App Icon
+- Credits
 - 
