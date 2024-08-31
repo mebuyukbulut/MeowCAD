@@ -1,7 +1,14 @@
-# Yapılacaklar
+# ToDo
 - OBJ import export
 - Text render
-- Scene Graph
-- Multi mesh rendering
 - PBR
+- 
+
+# In progress
+- Scene Graph 
+- App Icon
+- Credits
+
+# Complete
+- Multi mesh rendering 
 - 
