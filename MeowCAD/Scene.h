@@ -21,10 +21,12 @@ class Scene{
 	Shader shader;
 
 	std::vector<Mesh*> meshes;
+	std::vector<std::string> mesh_names;
 	int buffer_size{};
 	int buffer_capacity{};
 	int vertex_index{};
 
+	// maybe we need a dirty flag for update 
 public:
 
 	void init() {
@@ -99,8 +101,14 @@ public:
 		vbo.write_data(old_buffer_size, mesh->get_data());
 		vbo.use();
 		meshes.push_back(mesh);
+
+		mesh_names.push_back(mesh->get_name());
 	}
 	//void destroy_mesh();
+
+	std::vector<std::string>& get_names() {
+		return mesh_names;
+	}
 
 	Camera& get_camera() { return camera; }
 	ETime& get_time() { return time; }

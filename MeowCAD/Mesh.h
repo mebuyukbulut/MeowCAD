@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <vector>
+#include <string>
 
 #include "Transform.h"
 #include "Material.h"
@@ -10,6 +11,7 @@
 
 class Mesh{
 	uint32_t ID;
+	std::string name;
 
 	uint32_t vertex_index;
 	uint32_t vertex_count; 
@@ -23,6 +25,9 @@ class Mesh{
 public:
 	void draw();
 
+	void set_ID(uint32_t ID);
+	void set_name(std::string name);
+
 	void set_transform(Transform transform);
 	void set_material(Material* material);
 	void set_texture(Texture* texture);
@@ -33,6 +38,10 @@ public:
 		this->data = data;
 	}
 
+
+
+	uint32_t get_ID();
+	std::string get_name();
 
 	Transform get_transform();
 	Material* get_material();

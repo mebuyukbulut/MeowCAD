@@ -3,6 +3,14 @@
 
 void Mesh::draw(){}
 
+void Mesh::set_ID(uint32_t ID){
+	this->ID = ID;
+}
+
+void Mesh::set_name(std::string name){
+	this->name = name;
+}
+
 void Mesh::set_transform(Transform transform){
 	this->transform = transform;
 }
@@ -22,6 +30,14 @@ void Mesh::set_vertex_count(uint32_t vertexCount){
 //void Mesh::set_data(std::vector<Vertex> data)
 
 
+
+uint32_t Mesh::get_ID(){
+	return ID;
+}
+
+std::string Mesh::get_name(){
+	return name;
+}
 
 Transform Mesh::get_transform(){
 	return transform;

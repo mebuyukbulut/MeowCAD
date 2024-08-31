@@ -13,6 +13,7 @@
 #include <tchar.h>
 
 #include "LogUtils.h"
+#include "Engine.h"
 
 void UI::menu_bar() {
     if (ImGui::BeginMainMenuBar()) {
@@ -40,6 +41,7 @@ void UI::menu_bar() {
             if (ImGui::MenuItem("Show Demo", "", &is_demo_window_active)) {}
             if (ImGui::MenuItem("Show LOG", "", &is_log_window_active)) {}
             if (ImGui::MenuItem("Show Credits", "", &is_credits_window_active)) {}
+            if (ImGui::MenuItem("Show Outliner", "", &is_outliner_window_active)) {}
 
             ImGui::EndMenu();
         }
@@ -141,11 +143,9 @@ void UI::test_window() {
 
     ImGui::End();
 }
-
 void UI::demo_window() {
     ImGui::ShowDemoWindow();
 }
-
 void UI::log_window(){
     // Create a window called "My First Tool", with a menu bar.
     ImGui::Begin("LOG", &is_log_window_active, ImGuiWindowFlags_MenuBar);
@@ -177,9 +177,37 @@ void UI::credits_window(){
     ImGui::Text("Muhammet Esat BUYUKBULUT");
 
     ImGui::End();
+}
 
+void UI::outliner_window(){
+    ImGui::Begin("Outliner", &is_outliner_window_active);
+
+    ImGuiTreeNodeFlags flag = ImGuiTreeNodeFlags_DefaultOpen;
+
+
+
+    if (ImGui::TreeNodeEx("root", flag)){
+        if (ImGui::IsItemClicked())
+            std::cout << "root" << std::endl;
+
+        for (auto& i : Engine::get().scene.get_names()) {
+            if(ImGui::TreeNodeEx(i.c_str(), ImGuiTreeNodeFlags_Leaf)) {
+                if (ImGui::IsItemClicked())
+                    std::cout << i << std::endl;
+                ImGui::TreePop(); 
+            }
+        }
+
+        
+        // Call ImGui::TreeNodeEx() recursively to populate each level of children
+        ImGui::TreePop();  // This is required at the end of the if block
+    }
+
+    ImGui::End();
 
 }
+
+
 
 void UI::init_imgui() {
     ImGui::CreateContext();
@@ -211,6 +239,7 @@ void UI::render() {
     if (is_demo_window_active) demo_window();
     if (is_log_window_active) log_window();
     if (is_credits_window_active) credits_window();
+    if (is_outliner_window_active) outliner_window();
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

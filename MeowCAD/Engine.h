@@ -153,17 +153,20 @@ public:
         Transform transform{};
         //transform.;
 
-        Mesh* my_mesh = new Mesh();
-        my_mesh->set_data(shape->get_data());
-        my_mesh->set_material(&material);
-        my_mesh->set_texture(&texture);
-        my_mesh->set_transform(transform);
+        //Mesh* my_mesh = new Mesh();
+        //my_mesh->set_data(shape->get_data());
+        //my_mesh->set_material(&material);
+        //my_mesh->set_texture(&texture);
+        //my_mesh->set_transform(transform);
 
         scene.init();
-        scene.add_mesh(my_mesh);
-        for (int i = 0; i < 10; i++) {
+        //scene.add_mesh(my_mesh);
 
+        for (int i = 0; i < 10; i++) {
             Mesh* new_mesh = new Mesh();
+            new_mesh->set_ID(i); // Every mesh need a unique ID 
+            new_mesh->set_name("mesh " + std::to_string(i));
+
             new_mesh->set_data(shape->get_data());
             new_mesh->set_material(&material);
             new_mesh->set_texture(&texture);
