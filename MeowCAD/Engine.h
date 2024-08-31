@@ -5,6 +5,7 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <stb_image.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -12,6 +13,8 @@
 #include <glm/gtc/quaternion.hpp>
 //#define GLM_ENABLE_EXPERIMENTAL
 //#include <glm/gtx/quaternion.hpp>
+
+
 
 #include <chrono>
 #include <thread>
@@ -76,6 +79,13 @@ private:
         glfwTerminate();
     }
 
+    void load_app_icon() {
+        GLFWimage images[1];
+        images[0].pixels = stbi_load("images/meow_icon.png", &images[0].width, &images[0].height, 0, 4); //rgba channels 
+        glfwSetWindowIcon(window, 1, images);
+        stbi_image_free(images[0].pixels);
+    }
+
 public:
     void exit() {
         glfwSetWindowShouldClose(window, true);
@@ -117,6 +127,7 @@ public:
             //window
         };
         window = init::glfw(glfw_init_info);
+        load_app_icon();
 
         init::glad();
         my_config();

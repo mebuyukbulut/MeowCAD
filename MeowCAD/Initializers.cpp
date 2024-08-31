@@ -46,6 +46,8 @@ namespace init {
         return initInfo.window;
     }
 
+
+
     void glad() { // glad: load all OpenGL function pointers
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         {

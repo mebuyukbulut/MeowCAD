@@ -1,4 +1,4 @@
-#include "UI.h"
+﻿#include "UI.h"
 #include "Command.h"
 
 #include <glad/glad.h>
@@ -39,6 +39,7 @@ void UI::menu_bar() {
             if (ImGui::MenuItem("Show Test", "", &is_test_window_active)) {}
             if (ImGui::MenuItem("Show Demo", "", &is_demo_window_active)) {}
             if (ImGui::MenuItem("Show LOG", "", &is_log_window_active)) {}
+            if (ImGui::MenuItem("Show Credits", "", &is_credits_window_active)) {}
 
             ImGui::EndMenu();
         }
@@ -61,7 +62,7 @@ void UI::menu_bar() {
 void UI::text_editor_window() {
     editor.SetColorizerEnable(false);
     auto cpos = editor.GetCursorPosition();
-    ImGui::Begin("Text Editor Demo", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
+    ImGui::Begin("Text Editor Demo", &is_text_editor_window_active, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
     ImGui::SetWindowSize(ImVec2(800, 600), ImGuiCond_FirstUseEver);
     if (ImGui::BeginMenuBar())
     {
@@ -146,45 +147,38 @@ void UI::demo_window() {
 }
 
 void UI::log_window(){
-    static bool my_tool_active = true;
-    //static float my_color[4];
     // Create a window called "My First Tool", with a menu bar.
-    ImGui::Begin("My First Tool", &my_tool_active, ImGuiWindowFlags_MenuBar);
+    ImGui::Begin("LOG", &is_log_window_active, ImGuiWindowFlags_MenuBar);
     if (ImGui::BeginMenuBar())
     {
         if (ImGui::BeginMenu("File"))
         {
             if (ImGui::MenuItem("Open..", "Ctrl+O")) { /* Do stuff */ }
             if (ImGui::MenuItem("Save", "Ctrl+S")) { /* Do stuff */ }
-            if (ImGui::MenuItem("Close", "Ctrl+W")) { my_tool_active = false; }
+            if (ImGui::MenuItem("Close", "Ctrl+W")) { is_log_window_active = false; }
             ImGui::EndMenu();
         }
         ImGui::EndMenuBar();
     }
 
-    // Edit a color stored as 4 floats
-    //ImGui::ColorEdit4("Color", my_color);
-
-    // Generate samples and plot them
-    //float samples[100];
-    //for (int n = 0; n < 100; n++)
-    //    samples[n] = sinf(n * 0.2f + ImGui::GetTime() * 1.5f);
-    //ImGui::PlotLines("Samples", samples, 100);
-
-    // Display contents in a scrolling region
-    //ImGui::TextColored(ImVec4(1, 1, 0, 1), "Important Stuff");
-    ImGui::BeginChild("LOG:");
+    //ImGui::BeginChild("Log");
     auto logs = LogUtils::get().get_log();
-    for(auto& log :logs)
-        
+    for(auto& log :logs)        
         ImGui::TextColored(log.first, log.second.c_str());
-    //ImGui::TextColored(ImVec4(1, 0, 1, 1), "for log purpose");
-    //ImGui::TextColored(ImVec4(1, 0, 1, 1), "Important Stuff");
-    //ImGui::TextColored(ImVec4(1, 0, 1, 1), "Important Stuff");
-    //for (int n = 0; n < 50; n++)
-    //    ImGui::Text("%04d: Some text", n);
-    ImGui::EndChild();
+    //ImGui::EndChild();
+
     ImGui::End();
+}
+
+void UI::credits_window(){
+    ImGui::Begin("Credits",&is_credits_window_active);
+    ImGui::Text("MeowCad @2024");
+    ImGui::Text("Barkin KOYUNCU");
+    ImGui::Text("Muhammet Esat BUYUKBULUT");
+
+    ImGui::End();
+
+
 }
 
 void UI::init_imgui() {
@@ -216,7 +210,7 @@ void UI::render() {
     if (is_test_window_active) test_window();
     if (is_demo_window_active) demo_window();
     if (is_log_window_active) log_window();
-
+    if (is_credits_window_active) credits_window();
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
