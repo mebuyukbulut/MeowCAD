@@ -21,6 +21,8 @@ class UI{
 	bool is_log_window_active = true;
 	bool is_credits_window_active = false;
 	bool is_outliner_window_active = false;
+	bool is_properties_window_active = false;
+	bool is_material_winodw_active = false; 
 
 	void menu_bar();
 	void text_editor_window();
@@ -29,6 +31,9 @@ class UI{
 	void log_window();
 	void credits_window();
 	void outliner_window();
+	void properties_window();
+	void material_window();
+
 	void init_imgui();
 
 public:

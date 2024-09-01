@@ -66,12 +66,9 @@ void UI::text_editor_window() {
     auto cpos = editor.GetCursorPosition();
     ImGui::Begin("Text Editor Demo", &is_text_editor_window_active, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
     ImGui::SetWindowSize(ImVec2(800, 600), ImGuiCond_FirstUseEver);
-    if (ImGui::BeginMenuBar())
-    {
-        if (ImGui::BeginMenu("File"))
-        {
-            if (ImGui::MenuItem("Save"))
-            {
+    if (ImGui::BeginMenuBar()){
+        if (ImGui::BeginMenu("File")){
+            if (ImGui::MenuItem("Save")){
                 auto textToSave = editor.GetText();
                 /// save text....
             }
@@ -79,8 +76,7 @@ void UI::text_editor_window() {
                 return;
             ImGui::EndMenu();
         }
-        if (ImGui::BeginMenu("Edit"))
-        {
+        if (ImGui::BeginMenu("Edit")){
             bool ro = editor.IsReadOnly();
             if (ImGui::MenuItem("Read-only mode", nullptr, &ro))
                 editor.SetReadOnly(ro);
@@ -110,8 +106,7 @@ void UI::text_editor_window() {
             ImGui::EndMenu();
         }
 
-        if (ImGui::BeginMenu("View"))
-        {
+        if (ImGui::BeginMenu("View")){
             if (ImGui::MenuItem("Dark palette"))
                 editor.SetPalette(TextEditor::GetDarkPalette());
             if (ImGui::MenuItem("Light palette"))
@@ -149,8 +144,7 @@ void UI::demo_window() {
 void UI::log_window(){
     // Create a window called "My First Tool", with a menu bar.
     ImGui::Begin("LOG", &is_log_window_active, ImGuiWindowFlags_MenuBar);
-    if (ImGui::BeginMenuBar())
-    {
+    if (ImGui::BeginMenuBar()){
         if (ImGui::BeginMenu("File"))
         {
             if (ImGui::MenuItem("Open..", "Ctrl+O")) { /* Do stuff */ }
@@ -191,9 +185,12 @@ void UI::outliner_window(){
             std::cout << "root" << std::endl;
 
         for (auto& i : Engine::get().scene.get_names()) {
-            if(ImGui::TreeNodeEx(i.c_str(), ImGuiTreeNodeFlags_Leaf)) {
-                if (ImGui::IsItemClicked())
-                    std::cout << i << std::endl;
+            if(ImGui::TreeNodeEx(i.first.c_str(), ImGuiTreeNodeFlags_Leaf)) {
+                if (ImGui::IsItemClicked()) {
+                    std::cout << i.first << std::endl;
+                    Engine::get().scene.select_mesh(i.second);
+                    is_properties_window_active = true;
+                }
                 ImGui::TreePop(); 
             }
         }
@@ -205,6 +202,45 @@ void UI::outliner_window(){
 
     ImGui::End();
 
+}
+
+void UI::properties_window()
+{
+    ImGui::Begin("Properties", &is_properties_window_active);
+    Mesh* mesh = Engine::get().scene.get_selected_mesh();
+    Transform t = mesh->get_transform();
+    glm::vec3 t_pos = t.get_position();
+    glm::vec3 t_rot = t.get_euler_rotation();
+    glm::vec3 t_scl = t.get_scale();
+    glm::vec3 t_old_pos = t_pos;
+    glm::vec3 t_old_rot = t_rot;
+    glm::vec3 t_old_scl = t_scl;
+
+    //static float position[3], rotation[3], scale[3];
+    
+    ImGui::Text("Transform");
+    ImGui::Separator();
+
+    ImGui::DragFloat3("Position:", &t_pos[0],0.1);
+    ImGui::DragFloat3("Rotation:", &t_rot[0]);
+    ImGui::DragFloat3("Scale:", &t_scl[0], 0.1);
+
+    if(t_old_pos != t_pos) t.set_position(t_pos);
+    if (t_old_rot != t_rot) t.set_euler_rotation(t_rot);
+    if (t_old_scl != t_scl) t.set_scale(t_scl);
+
+    mesh->set_transform(t);
+    ImGui::NewLine();
+    ImGui::Text("Material");
+    ImGui::Separator();
+
+    ImGui::End();
+}
+
+void UI::material_window(){
+    ImGui::Begin("Materials", &is_properties_window_active);
+
+    ImGui::End();
 }
 
 
@@ -240,6 +276,8 @@ void UI::render() {
     if (is_log_window_active) log_window();
     if (is_credits_window_active) credits_window();
     if (is_outliner_window_active) outliner_window();
+    if (is_properties_window_active) properties_window();
+    if (is_material_winodw_active) material_window();
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

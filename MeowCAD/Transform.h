@@ -12,17 +12,44 @@ class Transform{
 
 	glm::mat4 calculate_model_matrix();
 public:
-	glm::mat4 get_model_matrix();	
-	void make_dirty();
-	
-	void set_position(glm::vec3 position) {
+	glm::vec3 get_position() {
+		return position;
+	}
+	glm::vec3 get_euler_rotation() {
+		float x, y, z;
+		auto eu = glm::eulerAngles(rotation);
+		x = glm::degrees(eu.x);
+		y = glm::degrees(eu.y);
+		z = glm::degrees(eu.z);
+		return glm::vec3(x, y, z);
+	}
+	glm::vec3 get_scale() {
+		return scale;
+	}
+	void set_position(glm::vec3 position ) {
 		make_dirty();
 		this->position = position;
 	}
+	void set_euler_rotation(glm::vec3 rotation) {
+		make_dirty();
+		this->rotation = glm::quat(rotation);
+	}
+	void set_scale(glm::vec3 scale) {
+		make_dirty();
+		this-> scale = scale;
+	}
+	//void set_position(glm::vec3 position) {
+	//	make_dirty();
+	//	this->position = position;
+	//}
 	void move(glm::vec3 deltaPosition) {
 		make_dirty();
 		position += deltaPosition;
 	}
+
+	glm::mat4 get_model_matrix();	
+	void make_dirty();
+	
 
 	//void set_transform(glm::vec3 eulerRotatio)
 };

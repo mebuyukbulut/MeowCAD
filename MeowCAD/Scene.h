@@ -21,7 +21,9 @@ class Scene{
 	Shader shader;
 
 	std::vector<Mesh*> meshes;
-	std::vector<std::string> mesh_names;
+	std::vector<std::pair<std::string, uint32_t>> mesh_names;
+	Mesh* selected_mesh{};
+
 	int buffer_size{};
 	int buffer_capacity{};
 	int vertex_index{};
@@ -77,8 +79,14 @@ public:
 		}
 	}
 
-
-
+	void select_mesh(uint32_t ID){
+		for (auto& mesh : meshes)
+			if (mesh->get_ID() == ID)
+				selected_mesh = mesh;
+	}
+	void deselect_mesh() {
+		selected_mesh = nullptr;
+	}
 	void add_mesh(Mesh* mesh) {
 		int mesh_vertex_count = mesh->get_data().size();
 		int old_vertex_index = vertex_index;
@@ -102,11 +110,25 @@ public:
 		vbo.use();
 		meshes.push_back(mesh);
 
-		mesh_names.push_back(mesh->get_name());
-	}
-	//void destroy_mesh();
+		std::pair<std::string, uint32_t> mp;
+		mp.first = mesh->get_name();
+		mp.second = mesh->get_ID();
+		mesh_names.push_back(mp);
 
-	std::vector<std::string>& get_names() {
+	}
+	
+	//void destroy_mesh();
+	Mesh* get_selected_mesh() {
+		return selected_mesh;
+	}
+
+	void mesh_transform(Transform newTransform) {
+		selected_mesh->set_transform(newTransform);
+	}
+
+
+
+	std::vector<std::pair<std::string, uint32_t>>& get_names() {
 		return mesh_names;
 	}
 
