@@ -1,6 +1,4 @@
 #pragma once
-
-
 //#pragma execution_character_set("utf-8") // ?
 
 #include <glad/glad.h>
@@ -13,8 +11,6 @@
 #include <glm/gtc/quaternion.hpp>
 //#define GLM_ENABLE_EXPERIMENTAL
 //#include <glm/gtx/quaternion.hpp>
-
-
 
 #include <chrono>
 #include <thread>
@@ -73,6 +69,7 @@ private:
         glPointSize(5);
         glEnable(GL_DEPTH_TEST);
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        //glEnable(GL_FRAMEBUFFER_SRGB); // Gamma correction
     }
 
     void cleanup() {
@@ -100,15 +97,28 @@ public:
 	UI ui;
 
 
-    void render_loop(){
 
+
+    void draw_background() {
+
+    }
+
+
+    void render_loop(){
         while (!glfwWindowShouldClose(window)){
             processInput(window);
 
             // render
             //glClearColor(0.2f, 0.3f, 0.3f, 1.0f); 
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            // draw cube map
+            glDisable(GL_DEPTH_TEST);
+            scene.draw_cubemap();
 
+            // draw scene 
+
+
+            glEnable(GL_DEPTH_TEST);
             scene.draw();
             ui.render();
 
