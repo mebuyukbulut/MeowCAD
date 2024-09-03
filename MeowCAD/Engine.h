@@ -70,6 +70,7 @@ private:
         glEnable(GL_DEPTH_TEST);
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         //glEnable(GL_FRAMEBUFFER_SRGB); // Gamma correction
+        glEnable(GL_MULTISAMPLE); // MSAA - glfwWindowHint(GLFW_SAMPLES, 4);
     }
 
     void cleanup() {
