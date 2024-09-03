@@ -3,7 +3,7 @@
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
-    Engine::get().scene.get_camera().update_screen_size(width, height);
+    //Engine::get().scene.get_camera().update_screen_size(width, height);
 }
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn) {
     if (Engine::get().input_mode == InputMode::UI)

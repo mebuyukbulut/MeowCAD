@@ -148,6 +148,7 @@
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="ETime.cpp" />
+    <ClCompile Include="EViewport.cpp" />
     <ClCompile Include="FileUtils.cpp" />
     <ClCompile Include="Initializers.cpp" />
     <ClCompile Include="LogUtils.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="ETime.h" />
+    <ClInclude Include="EViewport.h" />
     <ClInclude Include="FileUtils.h" />
     <ClInclude Include="Initializers.h" />
     <ClInclude Include="LogUtils.h" />
