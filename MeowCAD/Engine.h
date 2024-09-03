@@ -98,6 +98,7 @@ public:
 	GLFWwindow* window{};
 	UI ui;
 
+    EViewport viewport;
 
 
 
@@ -105,37 +106,42 @@ public:
 
     }
 
+    void render_viewport() {
+
+        if (viewport.is_dirty()) {
+            auto res = viewport.get_resolution();
+            if (res.x != 0 || res.y != 0) {
+                //std::cout << res.x << "\t" << res.y << std::endl; 
+                viewport.rescale_frame_buffer(res);
+                scene.get_camera().update_screen_size(res.x, res.y);
+                viewport.set_dirty(false);
+            }
+        }
+
+        viewport.bind();
+
+        // draw cube map
+        glDisable(GL_DEPTH_TEST);
+        scene.draw_cubemap();
+
+        // draw scene 
+        glEnable(GL_DEPTH_TEST);
+        scene.draw();
+        viewport.unbind(screen_resolution.x, screen_resolution.y);
+
+        
+    }
 
     void render_loop(){
-        EViewport viewport;
-        viewport.set(800, 600);
         
         while (!glfwWindowShouldClose(window)){
             processInput(window);
 
-            if (ui.viewport_dirty) {
-                auto res = ui.viewport_resolution;
-                if (res.x != 0 || res.y != 0) {
-                    //std::cout << res.x << "\t" << res.y << std::endl; 
-                    viewport.rescale_frame_buffer(res.x, res.y);
-                    scene.get_camera().update_screen_size(res.x, res.y);
-                    ui.viewport_dirty = false;
-                }
-            }
+            if (viewport.is_active())
+                render_viewport();
 
-            viewport.bind();
-            // draw cube map
-            glDisable(GL_DEPTH_TEST);
-            scene.draw_cubemap();
-            // draw scene 
-            glEnable(GL_DEPTH_TEST);
-            scene.draw();
-            viewport.unbind(screen_resolution.x,screen_resolution.y);
-
-            ui.set_viewport_texture(viewport.renderedTexture);
-
+            glClearColor(0.1, 0.1, 0.1, 1.0);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
             ui.render();
 
             // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -204,7 +210,8 @@ public:
 
 
         ui.init_UI(window);
-
+        viewport.set(800, 600);
+        ui.set_viewport(&viewport);
         render_loop();
 
         cleanup();

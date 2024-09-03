@@ -1,17 +1,47 @@
 #pragma once
 
+#include <glm/glm.hpp>
 #include <glad/glad.h>
 #include <cstdint>
 
 class EViewport{
-	uint32_t height, width;
+	//uint32_t height, width;
 	GLuint FramebufferName; 
 	GLint origFB;
-public:
+
+	bool is_viewport_window_active{true};
+	bool dirty{};
+	glm::ivec2 resolution{ 0,0 };
 	GLuint renderedTexture;
+
+public:
+	GLuint texID() {
+		return renderedTexture;
+	}
+	bool is_active() {
+		return is_viewport_window_active;
+	}
+	bool& get_active() {
+		return is_viewport_window_active;
+	}
+	void set_active(bool value) {
+		is_viewport_window_active = value;
+	}
+	bool is_dirty() {
+		return dirty;
+	}
+	void set_dirty(bool value) {
+		dirty = value;
+	}
+	glm::ivec2 get_resolution(){
+		return resolution;
+	}
+	void set_resolution(glm::ivec2 resolution) {
+		this->resolution = resolution;
+	}
 	void set(uint32_t texture_width, uint32_t texture_height) {
-		width = texture_width;
-		height = texture_height;
+		resolution.x = texture_width;
+		resolution.y = texture_height;
 
 		// The framebuffer, which regroups 0, 1, or more textures, and 0 or 1 depth buffer.
 		FramebufferName = 0;
@@ -26,7 +56,7 @@ public:
 		glBindTexture(GL_TEXTURE_2D, renderedTexture);
 
 		// Give an empty image to OpenGL ( the last "0" )
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, resolution.x, resolution.y, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
 
 		// Poor filtering. Needed !
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -38,7 +68,7 @@ public:
 		GLuint depthrenderbuffer;
 		glGenRenderbuffers(1, &depthrenderbuffer);
 		glBindRenderbuffer(GL_RENDERBUFFER, depthrenderbuffer);
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, resolution.x, resolution.y);
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthrenderbuffer);
 
 		// Set "renderedTexture" as our colour attachement #0
@@ -54,20 +84,19 @@ public:
 
 	}
 
-	void rescale_frame_buffer(uint32_t texture_width, uint32_t texture_height) // what will happen to old buffer? 
+	void rescale_frame_buffer(glm::ivec2 texture_resolution) // what will happen to old buffer? 
 	{
-		width = texture_width;
-		height = texture_height;
+		resolution = texture_resolution;
 
 		//glDeleteTextures(1, &renderedTexture);
 		glBindTexture(GL_TEXTURE_2D, renderedTexture);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, resolution.x, resolution.y, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture, 0);
 
 		glBindRenderbuffer(GL_RENDERBUFFER, FramebufferName);
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, resolution.x, resolution.y);
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, FramebufferName);
 	}
 
@@ -77,7 +106,7 @@ public:
 
 		// Render to our framebuffer
 		glBindFramebuffer(GL_FRAMEBUFFER, FramebufferName);
-		glViewport(0, 0, width, height); // Render on the whole framebuffer, complete from the lower left corner to the upper right
+		glViewport(0, 0, resolution.x, resolution.y); // Render on the whole framebuffer, complete from the lower left corner to the upper right
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	}

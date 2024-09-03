@@ -20,6 +20,8 @@ namespace init {
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_SAMPLES, 4); // MSAA - glEnable(GL_MULTISAMPLE);
 
+        //glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, 1); // it is not a neccessary feature 
+
 #ifdef __APPLE__
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif

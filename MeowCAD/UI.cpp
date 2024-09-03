@@ -42,6 +42,7 @@ void UI::menu_bar() {
             if (ImGui::MenuItem("Show LOG", "", &is_log_window_active)) {}
             if (ImGui::MenuItem("Show Credits", "", &is_credits_window_active)) {}
             if (ImGui::MenuItem("Show Outliner", "", &is_outliner_window_active)) {}
+            if (ImGui::MenuItem("Show Viewport", "", &viewport->get_active())) {}
 
             ImGui::EndMenu();
         }
@@ -176,15 +177,17 @@ void UI::credits_window(){
 
 
 void UI::viewport_window(){
-    ImGui::Begin("Viewport", &is_viewport_window_active);	
-    
-    ImVec2 window_size = ImGui::GetWindowSize();
-    if (window_size.x != viewport_resolution.x && window_size.y != viewport_resolution.y) {
-        viewport_resolution = window_size;
-        viewport_dirty = true;
+    ImGui::Begin("Viewport", &viewport->get_active());	
+
+    auto t_size = ImGui::GetWindowSize();
+    glm::ivec2 window_size{ t_size.x, t_size.y};
+
+    if (window_size != viewport->get_resolution()) {
+        viewport->set_resolution(window_size);
+        viewport->set_dirty(true);
     }
     ImGui::Image(
-        (ImTextureID)viewport_texID,
+        (ImTextureID)viewport->texID(),
         ImGui::GetContentRegionAvail(),
         ImVec2(0, 1),
         ImVec2(1, 0)
@@ -297,7 +300,7 @@ void UI::render() {
     if (is_outliner_window_active) outliner_window();
     if (is_properties_window_active) properties_window();
     if (is_material_window_active) material_window();
-    if (is_viewport_window_active) viewport_window();
+    if (viewport->is_active()) viewport_window();
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
