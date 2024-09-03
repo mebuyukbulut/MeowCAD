@@ -157,7 +157,7 @@ public:
         material_info.ambient = glm::vec3(1.0f, 0.5f, 0.31f);
         material_info.diffuse = glm::vec3(1.0f, 0.5f, 0.31f);
         material_info.specular = glm::vec3(0.5f, 0.5f, 0.5f);
-        material_info.shininess = 32.0f;
+        material_info.shininess = 0.3f;
         material.init(material_info);
 
 

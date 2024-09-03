@@ -1,6 +1,8 @@
 #version 330 core
 out vec4 FragColor;
 
+uniform samplerCube skybox;
+
 struct Material {
     vec3 ambient;
     vec3 diffuse;
@@ -36,9 +38,10 @@ void main()
     
     // specular
     vec3 viewDir = normalize(viewPos - FragPos);
-    vec3 reflectDir = reflect(-lightDir, norm);  
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-    vec3 specular = light.specular * (spec * material.specular);  
+    vec3 reflectDir = reflect(-viewDir, norm);  
+    //float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+    //vec3 specular = light.specular * (spec * material.specular);  
+    vec3 specular = texture(skybox, reflectDir).xyz * material.shininess;
         
     vec3 result = ambient + diffuse + specular;
     FragColor = vec4(result, 1.0);
