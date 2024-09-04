@@ -230,6 +230,12 @@ void UI::properties_window()
 {
     ImGui::Begin("Properties", &is_properties_window_active);
     Mesh* mesh = Engine::get().scene.get_selected_mesh();
+
+    if (!mesh) {
+        ImGui::End();
+        return;
+    }
+
     Transform t = mesh->get_transform();
 
     glm::vec3 t_pos = t.get_position();
@@ -241,7 +247,6 @@ void UI::properties_window()
     glm::vec3 t_old_scl = t_scl;
 
     //std::cout << t_rot.x << " \told\n";
-
     //static float position[3], rotation[3], scale[3];
     
     ImGui::Text("Transform");
@@ -282,8 +287,21 @@ void UI::init_imgui() {
     ImGui::StyleColorsDark();
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 440");
-    ImGuiIO& io = ImGui::GetIO();
+
+
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.Fonts->AddFontFromFileTTF("fonts/Roboto-Regular.ttf", 18, NULL, io.Fonts->GetGlyphRangesCyrillic());
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
+    //io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
+    
+    //io.ConfigViewportsNoAutoMerge = true;
+    //io.ConfigViewportsNoTaskBarIcon = true;
+    
+    io.ConfigWindowsResizeFromEdges = true;
+    io.ConfigWindowsMoveFromTitleBarOnly = true;
+
 
     //ImGuiIO& io = ImGui::GetIO();
     //io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Verdana.ttf"e, DefaultFontSize, NULL io.Fonts->GetGlyphRangesCyrillic());
@@ -299,8 +317,12 @@ void UI::render() {
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
+    // dock directly to main window
+    ImGuiID dockspace_id = ImGui::DockSpaceOverViewport();
+
 
     menu_bar();
+
 
     if (is_text_editor_window_active) text_editor_window();
     if (is_test_window_active) test_window();

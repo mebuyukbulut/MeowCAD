@@ -8,7 +8,7 @@
 class EViewport{
 	GLuint framebufferName; 
 
-	bool is_viewport_window_active{false};
+	bool is_viewport_window_active{true};
 	bool dirty{};
 
 	glm::ivec2 resolution{ 0,0 };

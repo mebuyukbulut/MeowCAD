@@ -22,8 +22,8 @@ class UI{
 	bool is_demo_window_active = false;
 	bool is_log_window_active = false;
 	bool is_credits_window_active = false;
-	bool is_outliner_window_active = false;
-	bool is_properties_window_active = false;
+	bool is_outliner_window_active = true;
+	bool is_properties_window_active = true;
 	bool is_material_window_active = false;
 	//bool is_viewport_window_active = true;
 	
