@@ -231,12 +231,16 @@ void UI::properties_window()
     ImGui::Begin("Properties", &is_properties_window_active);
     Mesh* mesh = Engine::get().scene.get_selected_mesh();
     Transform t = mesh->get_transform();
+
     glm::vec3 t_pos = t.get_position();
     glm::vec3 t_rot = t.get_euler_rotation();
     glm::vec3 t_scl = t.get_scale();
+
     glm::vec3 t_old_pos = t_pos;
     glm::vec3 t_old_rot = t_rot;
     glm::vec3 t_old_scl = t_scl;
+
+    //std::cout << t_rot.x << " \told\n";
 
     //static float position[3], rotation[3], scale[3];
     
@@ -248,8 +252,14 @@ void UI::properties_window()
     ImGui::DragFloat3("Scale:", &t_scl[0], 0.1);
 
     if(t_old_pos != t_pos) t.set_position(t_pos);
-    if (t_old_rot != t_rot) t.set_euler_rotation(t_rot);
+    if (t_old_rot != t_rot) {
+        std::cout << t_old_rot.x << "\t" << t_old_rot.y << "\t" << t_old_rot.z << " \told\n";
+        std::cout << t_rot.x << "\t" << t_rot.y << "\t" << t_rot.z << " \tnew\n";
+        t.set_euler_delta_rotation(t_rot-t_old_rot);
+    }
     if (t_old_scl != t_scl) t.set_scale(t_scl);
+
+    //std::cout << t_rot.x << " \tnew\n";
 
     mesh->set_transform(t);
     ImGui::NewLine();

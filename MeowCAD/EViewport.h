@@ -39,6 +39,9 @@ public:
 	//	}
 	//} 
 
+
+	// We expose a lot of variable by function. 
+	// Maybe we can more elegant, more minimal solution.
 	GLuint texID() {
 		return renderedTexture;
 	}
