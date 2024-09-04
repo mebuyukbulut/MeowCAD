@@ -23,6 +23,7 @@ public:
     void zoom(float value);
     
     void move(glm::vec3 deltaLocation, float deltaTime);
+    void update_screen_size(glm::ivec2 resolution);
     void update_screen_size(unsigned int width, unsigned int height);
 
     glm::mat4 get_projection();

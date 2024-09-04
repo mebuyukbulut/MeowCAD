@@ -47,7 +47,9 @@ void Camera::move(glm::vec3 deltaLocation, float deltaTime) {
     if (fabs(deltaLocation.z) > 0.1)
         cameraPos += deltaLocation.z * cameraSpeed * cameraUp;
 }
-
+void Camera::update_screen_size(glm::ivec2 resolution) {
+    update_screen_size(resolution.x, resolution.y);
+}
 void Camera::update_screen_size(unsigned int width, unsigned int height) {
     SCR_WIDTH = width;
     SCR_HEIGHT = height;

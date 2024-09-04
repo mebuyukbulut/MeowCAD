@@ -50,12 +50,12 @@ class Engine{
 //
     Engine() {}
 public:
-    static Engine& get()
-    {
+    static Engine& get(){
         static Engine instance; // Guaranteed to be destroyed.
         // Instantiated on first use.
         return instance;
     }
+
     Engine(Engine const&) = delete;
     void operator=(Engine const&) = delete;
 
@@ -108,14 +108,15 @@ public:
 
     void render_viewport() {
 
+
         if (viewport.is_dirty()) {
             auto res = viewport.get_resolution();
-            if (res.x != 0 || res.y != 0) {
-                //std::cout << res.x << "\t" << res.y << std::endl; 
+            //if (res.x != 0 || res.y != 0) {
+                std::cout << res.x << "\t" << res.y << std::endl; 
                 viewport.rescale_frame_buffer(res);
-                scene.get_camera().update_screen_size(res.x, res.y);
                 viewport.set_dirty(false);
-            }
+                scene.get_camera().update_screen_size(res.x, res.y);
+            //}
         }
 
         viewport.bind();
