@@ -98,7 +98,11 @@ void Shader::set(std::string uniform_name, glm::vec3 value) {
     glUniform3f(get_loc(uniform_name), value.x,value.y,value.z);
 }
 
-void Shader::set(std::string uniform_name, glm::mat4 value){
+void Shader::set(std::string uniform_name, glm::mat4 value) {
     glUseProgram(ID);
     glUniformMatrix4fv(get_loc(uniform_name), 1, GL_FALSE, glm::value_ptr(value));
+}
+void Shader::set(std::string uniform_name, glm::mat3 value) {
+    glUseProgram(ID);
+    glUniformMatrix3fv(get_loc(uniform_name), 1, GL_FALSE, glm::value_ptr(value));
 }

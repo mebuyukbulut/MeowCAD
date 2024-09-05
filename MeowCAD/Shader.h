@@ -24,5 +24,6 @@ public:
 	void set(std::string uniform_name, float value);
 	void set(std::string uniform_name, glm::mat4 value);
 	void set(std::string uniform_name, glm::vec3 value);
+	void set(std::string uniform_name, glm::mat3 value);
 };
 

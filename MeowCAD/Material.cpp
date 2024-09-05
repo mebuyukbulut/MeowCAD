@@ -8,8 +8,13 @@ void Material::init(MaterialInfo materialInfo){
 }
 
 void Material::use(Shader* shader){
-    shader->set("material.ambient",   material_info.ambient);
-    shader->set("material.diffuse",   material_info.diffuse);
-    shader->set("material.specular",  material_info.specular);
-    shader->set("material.shininess", material_info.shininess);
+    shader->set("albedo",   material_info.albedo);
+    shader->set("metallic",   material_info.metallic);
+    shader->set("roughness",  material_info.roughness);
+    shader->set("ao", material_info.ao);
 }
+
+//uniform vec3 albedo;
+//uniform float metallic;
+//uniform float roughness;
+//uniform float ao;

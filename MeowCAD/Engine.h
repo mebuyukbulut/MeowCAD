@@ -176,10 +176,10 @@ public:
 
         Material material{};
         MaterialInfo material_info{};
-        material_info.ambient = glm::vec3(1.0f, 0.5f, 0.31f);
-        material_info.diffuse = glm::vec3(1.0f, 0.5f, 0.31f);
-        material_info.specular = glm::vec3(0.5f, 0.5f, 0.5f);
-        material_info.shininess = 0.3f;
+        material_info.albedo = glm::vec3(0.39, 0.42, 0.18);
+        material_info.metallic = 0.0f;
+        material_info.roughness = 0.3f;
+        material_info.ao = 0.1f;
         material.init(material_info);
 
 

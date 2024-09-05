@@ -42,17 +42,46 @@ public:
 		buffer_capacity = 1024*1024;
 		vbo.allocate_data(buffer_capacity);
 
-		shader.init("shaders/material.vert", "shaders/material.frag");
+		shader.init("shaders/pbr.vs", "shaders/pbr.fs");
 		shader.use();
 
+		glm::vec3 lightPositions[] = {
+			glm::vec3(-10.0f,  10.0f, 10.0f),
+			glm::vec3(10.0f,  10.0f, 10.0f),
+			glm::vec3(-10.0f, -10.0f, 10.0f),
+			glm::vec3(10.0f, -10.0f, 10.0f),
+		};
+		glm::vec3 lightColors[] = {
+			glm::vec3(300.0f, 300.0f, 300.0f),
+			glm::vec3(300.0f, 300.0f, 300.0f),
+			glm::vec3(300.0f, 300.0f, 300.0f),
+			glm::vec3(300.0f, 300.0f, 300.0f)
+		};
 
-		// lighting
-		glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+		for (unsigned int i = 0; i < sizeof(lightPositions) / sizeof(lightPositions[0]); ++i)
+		{
+			glm::vec3 newPos = lightPositions[i];// +glm::vec3(sin(glfwGetTime() * 5.0) * 5.0, 0.0, 0.0);
+			newPos = lightPositions[i];
+			shader.set("lightPositions[" + std::to_string(i) + "]", newPos);
+			shader.set("lightColors[" + std::to_string(i) + "]", lightColors[i]);
 
-		shader.set("light.position", lightPos);
-		shader.set("light.ambient", glm::vec3(0.2f, 0.2f, 0.2f));
-		shader.set("light.diffuse", glm::vec3(0.5f, 0.5f, 0.5f));
-		shader.set("light.specular;", glm::vec3(1.0f, 1.0f, 1.0f));
+			//model = glm::mat4(1.0f);
+			//model = glm::translate(model, newPos);
+			//model = glm::scale(model, glm::vec3(0.5f));
+			//shader.setMat4("model", model);
+			//shader.setMat3("normalMatrix", glm::transpose(glm::inverse(glm::mat3(model))));
+			//renderSphere();
+		}
+
+
+
+		//// lighting
+		//glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+
+		//shader.set("light.position", lightPos);
+		//shader.set("light.ambient", glm::vec3(0.2f, 0.2f, 0.2f));
+		//shader.set("light.diffuse", glm::vec3(0.5f, 0.5f, 0.5f));
+		//shader.set("light.specular;", glm::vec3(1.0f, 1.0f, 1.0f));
 
 		// Cubemap 
 		
@@ -154,8 +183,9 @@ public:
 			shader.set("model", model);
 			shader.set("view", view);
 			shader.set("projection", projection);
+			shader.set("normalMatrix", glm::transpose(glm::inverse(glm::mat3(model))));
 
-			shader.set("viewPos", camera.get_position());
+			shader.set("camPos", camera.get_position());
 			//std::cout << camera.get_position().x;
 			//std::cout << i->get_vertex_index() << "\t" << i->get_vertex_count() << "\n";
 			//shader.set();
