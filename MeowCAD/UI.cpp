@@ -196,7 +196,7 @@ void UI::viewport_window(){
 }
 
 void UI::outliner_window() {
-    ImGui::Begin("Outliner", &is_outliner_window_active);
+    ImGui::Begin("Outliner", &is_outliner_window_active, disabled ? ImGuiWindowFlags_NoInputs : ImGuiWindowFlags_None);
 
     ImGuiTreeNodeFlags flag = ImGuiTreeNodeFlags_DefaultOpen;
 
@@ -302,6 +302,7 @@ void UI::init_imgui() {
     io.ConfigWindowsResizeFromEdges = true;
     io.ConfigWindowsMoveFromTitleBarOnly = true;
 
+    //io. = false;
 
     //ImGuiIO& io = ImGui::GetIO();
     //io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Verdana.ttf"e, DefaultFontSize, NULL io.Fonts->GetGlyphRangesCyrillic());

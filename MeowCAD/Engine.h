@@ -231,6 +231,9 @@ public:
 
             std::cout << "Input mode was changed" << std::endl;
 
+            // disable UI
+            ui.set_disabled(input_mode == InputMode::GAME);
+
             std::this_thread::sleep_for(std::chrono::milliseconds(300));
             mouse.reset();
         }

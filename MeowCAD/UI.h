@@ -17,6 +17,8 @@ class UI{
 	TextEditor editor{};
 	GLFWwindow* window{};
 
+	bool disabled = false; 
+
 	bool is_text_editor_window_active = false;
 	bool is_test_window_active = false;
 	bool is_demo_window_active = false;
@@ -45,7 +47,12 @@ class UI{
 	EViewport* viewport;
 
 public:
-
+	bool is_disabled() {
+		return disabled;
+	}
+	void set_disabled(bool value) {
+		disabled = value;
+	}
 
 	void render();
 	void init_UI(GLFWwindow* window);
