@@ -240,33 +240,33 @@ void UI::properties_window()
 
     glm::vec3 t_pos = t.get_position();
     glm::vec3 t_rot = t.get_euler_rotation();
-    glm::vec3 t_scl = t.get_scale();
-
-    glm::vec3 t_old_pos = t_pos;
     glm::vec3 t_old_rot = t_rot;
-    glm::vec3 t_old_scl = t_scl;
-
-    //std::cout << t_rot.x << " \told\n";
-    //static float position[3], rotation[3], scale[3];
+    glm::vec3 t_scl = t.get_scale();
     
     ImGui::Text("Transform");
     ImGui::Separator();
 
-    ImGui::DragFloat3("Position:", &t_pos[0],0.1);
-    ImGui::DragFloat3("Rotation:", &t_rot[0]);
-    ImGui::DragFloat3("Scale:", &t_scl[0], 0.1);
-
-    if(t_old_pos != t_pos) t.set_position(t_pos);
-    if (t_old_rot != t_rot) {
-        std::cout << t_old_rot.x << "\t" << t_old_rot.y << "\t" << t_old_rot.z << " \told\n";
-        std::cout << t_rot.x << "\t" << t_rot.y << "\t" << t_rot.z << " \tnew\n";
-        t.set_euler_delta_rotation(t_rot-t_old_rot);
+    if(ImGui::DragFloat3("Position:", &t_pos[0],0.1))  t.set_position(t_pos);
+    if(ImGui::DragFloat3("Rotation:", &t_rot[0])) {
+        //std::cout << t_old_rot.x << "\t" << t_old_rot.y << "\t" << t_old_rot.z << " \told\n";
+        //std::cout << t_rot.x << "\t" << t_rot.y << "\t" << t_rot.z << " \tnew\n";
+        t.set_euler_delta_rotation(t_rot - t_old_rot);
     }
-    if (t_old_scl != t_scl) t.set_scale(t_scl);
+    if(ImGui::DragFloat3("Scale:", &t_scl[0], 0.1)) t.set_scale(t_scl);
+
 
     //std::cout << t_rot.x << " \tnew\n";
 
     mesh->set_transform(t);
+
+
+
+    // -----
+    // -----
+    // -----
+
+
+
     ImGui::NewLine();
     ImGui::Text("Material");
     ImGui::Separator();
@@ -276,17 +276,16 @@ void UI::properties_window()
     auto old_material_info = material_info;
 
     ImGui::Text(material->get_name().c_str());
-    ImGui::ColorPicker3("albedo",  &material_info.albedo[0]);
-    ImGui::DragFloat("metallic", &material_info.metallic, 0.02, 0, 1);
-    ImGui::DragFloat("roughness", &material_info.roughness, 0.02, 0, 1);
-    ImGui::DragFloat("ao", &material_info.ao, 0.02, 0, 1);
 
-    if (old_material_info != material_info)
+    bool mat_info_control = false;
+    mat_info_control |= ImGui::ColorPicker3("albedo",  &material_info.albedo[0]);
+    mat_info_control |= ImGui::DragFloat("metallic", &material_info.metallic, 0.02, 0, 1);
+    mat_info_control |= ImGui::DragFloat("roughness", &material_info.roughness, 0.02, 0, 1);
+    mat_info_control |= ImGui::DragFloat("ao", &material_info.ao, 0.02, 0, 1);
+
+    if (mat_info_control) 
         material->set(material_info);
-                     //     glm::vec3 albedo;
-                     //     float metallic;
-                     //     float roughness;
-                     //     float ao;
+
 
     ImGui::End();
 }
