@@ -271,6 +271,23 @@ void UI::properties_window()
     ImGui::Text("Material");
     ImGui::Separator();
 
+    auto material = mesh->get_material();
+    auto material_info = material->get();
+    auto old_material_info = material_info;
+
+    ImGui::Text(material->get_name().c_str());
+    ImGui::ColorPicker3("albedo",  &material_info.albedo[0]);
+    ImGui::DragFloat("metallic", &material_info.metallic, 0.02, 0, 1);
+    ImGui::DragFloat("roughness", &material_info.roughness, 0.02, 0, 1);
+    ImGui::DragFloat("ao", &material_info.ao, 0.02, 0, 1);
+
+    if (old_material_info != material_info)
+        material->set(material_info);
+                     //     glm::vec3 albedo;
+                     //     float metallic;
+                     //     float roughness;
+                     //     float ao;
+
     ImGui::End();
 }
 

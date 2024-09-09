@@ -180,7 +180,7 @@ public:
         material_info.metallic = 0.0f;
         material_info.roughness = 0.3f;
         material_info.ao = 0.1f;
-        material.init(material_info);
+        material.init(material_info,0, "material 1");
 
 
         Transform transform{};
