@@ -150,9 +150,11 @@
     <ClCompile Include="ETime.cpp" />
     <ClCompile Include="EViewport.cpp" />
     <ClCompile Include="FileUtils.cpp" />
+    <ClCompile Include="IDGen.cpp" />
     <ClCompile Include="Initializers.cpp" />
     <ClCompile Include="LogUtils.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="MaterialManager.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="MeowCAD.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -178,9 +180,11 @@
     <ClInclude Include="ETime.h" />
     <ClInclude Include="EViewport.h" />
     <ClInclude Include="FileUtils.h" />
+    <ClInclude Include="IDGen.h" />
     <ClInclude Include="Initializers.h" />
     <ClInclude Include="LogUtils.h" />
     <ClInclude Include="Material.h" />
+    <ClInclude Include="MaterialManager.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Mouse.h" />

@@ -2,9 +2,9 @@
 #include "Shader.h"
 
 
-void Material::init(MaterialInfo materialInfo, uint32_t ID, std::string name){
-    material_info = materialInfo;
-    this->ID = ID; 
+void Material::init(MaterialInfo materialInfo, uint32_t materialID, std::string name ) {
+    material_info = materialInfo;    
+    this->ID = materialID;
     this->name = name; 
 
     //this->shader = shader;

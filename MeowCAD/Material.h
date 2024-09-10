@@ -5,10 +5,10 @@
 class Shader;
 
 struct MaterialInfo {
-    glm::vec3 albedo;
-    float metallic;
-    float roughness;
-    float ao;
+    glm::vec3 albedo{1,1,1};
+    float metallic{};
+    float roughness{0.3};
+    float ao{0.1};
 
     bool operator !=(MaterialInfo lhs) {
         return
@@ -20,7 +20,7 @@ struct MaterialInfo {
 };
 
 
-class Material{
+class Material{    
     uint32_t ID; 
     std::string name; 
 
@@ -28,7 +28,7 @@ class Material{
     //Shader* shader;
     
 public:
-    void init(MaterialInfo materialInfo, uint32_t ID, std::string name);
+    void init(MaterialInfo materialInfo, uint32_t materialID, std::string name);
     void use(Shader* shader);
 
     MaterialInfo get();
@@ -37,6 +37,9 @@ public:
     
     std::string get_name() {
         return name; 
+    }
+    uint32_t get_ID() {
+        return ID;
     }
 
     

@@ -30,6 +30,7 @@
 #include "VBO.h"
 #include "Vertex.h"
 #include "Material.h"
+#include "MaterialManager.h"
 #include "EViewport.h"
 
 #include "Initializers.h"
@@ -93,12 +94,15 @@ public:
 	InputMode input_mode = InputMode::UI;
 
 	Scene scene;
-	Mouse mouse = Mouse(screen_resolution);
+
+    Mouse mouse = Mouse(screen_resolution);
 
 	GLFWwindow* window{};
 	UI ui;
 
     EViewport viewport;
+    //MaterialManager mat_manager;
+
 
 
 
@@ -168,19 +172,22 @@ public:
 
         scene.get_camera().update_screen_size(screen_resolution.x, screen_resolution.y);
 
+        
+
+
         Cube cube(0.3);
         Shape3D* shape = &cube;
 
         Texture texture;
         texture.init("images/image-1.jpg");
 
-        Material material{};
-        MaterialInfo material_info{};
-        material_info.albedo = glm::vec3(0.39, 0.42, 0.18);
-        material_info.metallic = 0.0f;
-        material_info.roughness = 0.3f;
-        material_info.ao = 0.1f;
-        material.init(material_info,0, "material 1");
+        //Material material{};
+        //MaterialInfo material_info{};
+        //material_info.albedo = glm::vec3(0.39, 0.42, 0.18);
+        //material_info.metallic = 0.0f;
+        //material_info.roughness = 0.3f;
+        //material_info.ao = 0.1f;
+        //material.init(material_info, 0, "Material");
 
 
         Transform transform{};
@@ -201,7 +208,10 @@ public:
             new_mesh->set_name("mesh " + std::to_string(i));
 
             new_mesh->set_data(shape->get_data());
-            new_mesh->set_material(&material);
+
+
+            auto material = MaterialManager::get().create_material();
+            new_mesh->set_material(material);
             new_mesh->set_texture(&texture);
             transform.make_dirty();
             transform.set_position(glm::vec3(i, i, i));
