@@ -15,6 +15,9 @@
 #include "LogUtils.h"
 #include "Engine.h"
 
+#include "Shape3D.h"
+#include "Transform.h"
+
 void UI::menu_bar() {
     if (ImGui::BeginMainMenuBar()) {
         if (ImGui::BeginMenu("File")) {
@@ -29,7 +32,22 @@ void UI::menu_bar() {
 
         if (ImGui::BeginMenu("Edit")) {
             if (ImGui::MenuItem("Add Cube")) {
-                //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+                Mesh* new_mesh = new Mesh();
+                new_mesh->set_ID(111); // Every mesh need a unique ID 
+                new_mesh->set_name("New cube");
+
+                Shape3D* shape = new Cube();
+                new_mesh->set_data(shape->get_data());
+
+
+                auto material = MaterialManager::get().get_default_material();
+                new_mesh->set_material(material);
+                //new_mesh->set_texture(&texture);
+                Transform transform;
+                transform.make_dirty();
+                transform.set_position(glm::vec3(0,0,0));
+                new_mesh->set_transform(transform);
+                Engine::get().scene.add_mesh(new_mesh);
             }
             ImGui::EndMenu();
         }

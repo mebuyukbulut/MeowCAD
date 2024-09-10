@@ -3,7 +3,12 @@
 #include <string>
 #include "Material.h"
 
+MaterialManager::MaterialManager() {	
+	default_material = new Material();
+	default_material->init({}, 0, "Default Material");
+}
 MaterialManager::~MaterialManager(){
+	if (default_material) delete default_material;
 	destroy_all();
 }
 

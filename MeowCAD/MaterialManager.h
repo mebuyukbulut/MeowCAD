@@ -9,7 +9,7 @@ class MaterialManager {
 //
 //     SINGLETON PATTERN BEGINS
 //
-	MaterialManager() = default;
+	MaterialManager();
 public:
 	static MaterialManager& get() {
 		static MaterialManager instance; // Guaranteed to be destroyed.
@@ -28,6 +28,7 @@ private:
 
 
 	std::vector<Material*> materials;
+	Material* default_material;
 	IDGen globalID{};
 		
 public:
@@ -36,5 +37,8 @@ public:
 	void destroy_material(uint32_t ID);
 	void destroy_all();
 	std::vector<Material*> get_all_materials();
+	Material* get_default_material() {
+		return default_material;
+	}
 };
 
