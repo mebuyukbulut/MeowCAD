@@ -266,10 +266,25 @@ void UI::properties_window()
     // -----
 
 
-
     ImGui::NewLine();
     ImGui::Text("Material");
-    ImGui::Separator();
+    ImGui::Separator(); // ------------------------------------------------------
+
+
+    // this is not a good approach for showing materials. 
+    static int Selecteditem = 0; // it should show material of selected mesh 
+
+    auto materials = MaterialManager::get().get_all_materials();
+    std::vector<const char*> material_names;
+    for (Material* material : materials) 
+        material_names.push_back(material->get_name().data());   
+
+    if (ImGui::Combo("All materials", &Selecteditem, material_names.data(), material_names.size())) {
+        mesh->set_material(materials[Selecteditem]);
+        std::cout << Selecteditem;
+    }
+    // -----------------
+
 
     auto material = mesh->get_material();
     auto material_info = material->get();

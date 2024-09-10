@@ -35,7 +35,7 @@ public:
     void set(MaterialInfo materialInfo);
 
     
-    std::string get_name() {
+    std::string& get_name() {
         return name; 
     }
     uint32_t get_ID() {
