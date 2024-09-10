@@ -272,16 +272,22 @@ void UI::properties_window()
 
 
     // this is not a good approach for showing materials. 
-    static int Selecteditem = 0; // it should show material of selected mesh 
+    static int material_selected_item = 0; // it should show material of selected mesh 
 
+    // create material
+    if (ImGui::Button("Create New Material")) {
+        mesh->set_material(MaterialManager::get().create_material());
+        material_selected_item = MaterialManager::get().get_all_materials().size()-1;
+    }
+    // list materials
     auto materials = MaterialManager::get().get_all_materials();
     std::vector<const char*> material_names;
     for (Material* material : materials) 
         material_names.push_back(material->get_name().data());   
 
-    if (ImGui::Combo("All materials", &Selecteditem, material_names.data(), material_names.size())) {
-        mesh->set_material(materials[Selecteditem]);
-        std::cout << Selecteditem;
+    if (ImGui::Combo("All materials", &material_selected_item, material_names.data(), material_names.size())) {
+        mesh->set_material(materials[material_selected_item]);
+        std::cout << material_selected_item;
     }
     // -----------------
 
