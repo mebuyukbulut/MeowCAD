@@ -245,8 +245,7 @@ void UI::outliner_window() {
 }
 
 
-void UI::properties_window()
-{
+void UI::properties_window(){
     ImGui::Begin("Properties", &is_properties_window_active);
     Mesh* mesh = Engine::get().scene.get_selected_mesh();
 
@@ -264,9 +263,8 @@ void UI::properties_window()
 }
 
 void UI::properties_window_transform(Mesh* mesh){
-    ImGui::NewLine();
     ImGui::Text("Transform");
-    ImGui::Separator(); // ------------------------------------------------------
+    ImGui::Separator();
 
     Transform t = mesh->get_transform();
 
@@ -275,8 +273,6 @@ void UI::properties_window_transform(Mesh* mesh){
     glm::vec3 t_old_rot = t_rot;
     glm::vec3 t_scl = t.get_scale();
 
-    ImGui::Text("Transform");
-    ImGui::Separator();
 
     if (ImGui::DragFloat3("Position:", &t_pos[0], 0.1))  t.set_position(t_pos);
     if (ImGui::DragFloat3("Rotation:", &t_rot[0])) {
@@ -307,19 +303,13 @@ void UI::properties_window_material(Mesh* mesh){
         material_selected_item = MaterialManager::get().get_all_materials().size() - 1;
     }
     // list materials
-    auto materials = MaterialManager::get().get_all_materials();
-    std::vector<const char*> material_names;
-    std::vector<MaterialID> material_IDs;
-
-    for (Material* material : materials)
-        material_IDs.push_back(material->get_ID());
-    for (MaterialID& mat_ID : material_IDs)
-        material_names.push_back(mat_ID.name.data());
-
+    auto material_names = MaterialManager::get().get_names_cchar();
     if (ImGui::Combo("All materials", &material_selected_item, material_names.data(), material_names.size())) {
-        mesh->set_material(materials[material_selected_item]);
+        Material* selected_material = MaterialManager::get().get_material_by_nameIndex(material_selected_item);
+        mesh->set_material(selected_material);
         std::cout << material_selected_item;
     }
+
     // -----------------
 
 
