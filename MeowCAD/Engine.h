@@ -181,24 +181,9 @@ public:
         Texture texture;
         texture.init("images/image-1.jpg");
 
-        //Material material{};
-        //MaterialInfo material_info{};
-        //material_info.albedo = glm::vec3(0.39, 0.42, 0.18);
-        //material_info.metallic = 0.0f;
-        //material_info.roughness = 0.3f;
-        //material_info.ao = 0.1f;
-        //material.init(material_info, 0, "Material");
 
 
         Transform transform{};
-        //transform.;
-
-        //Mesh* my_mesh = new Mesh();
-        //my_mesh->set_data(shape->get_data());
-        //my_mesh->set_material(&material);
-        //my_mesh->set_texture(&texture);
-        //my_mesh->set_transform(transform);
-
         scene.init();
         //scene.add_mesh(my_mesh);
 

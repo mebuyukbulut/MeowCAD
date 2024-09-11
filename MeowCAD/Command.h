@@ -5,7 +5,11 @@ enum class CommandID : int {
 	PolygonModeFill = 0,
 	PolygonModeLine = 1,
 	PolygonModePoint = 2,
-	ExitProgram = 3
+
+	ExitProgram = 3,
+
+	AddNewCube = 4,
+	AddNewCylinder = 5,
 };
 
 class Command{
@@ -25,7 +29,19 @@ class PolygonModePointCommand : public Command {
 public:
 	void execute();
 };
+
 class ExitProgramCommand : public Command {
+public:
+	void execute();
+};
+
+
+class AddNewCubeCommand : public Command {
+public:
+	void execute();
+};
+
+class AddNewCylinderCommand : public Command {
 public:
 	void execute();
 };

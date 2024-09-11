@@ -8,6 +8,7 @@ void Vertex::set_position(glm::vec3 position) {
 void Vertex::set_normal(glm::vec3 normal){
 	this->normal[0] = normal.x;
 	this->normal[1] = normal.y;
+	this->normal[2] = normal.z;
 }
 void Vertex::set_color(glm::vec4 color){
 	this->color[0] = color.x;

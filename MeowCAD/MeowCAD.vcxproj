@@ -146,6 +146,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="Cylinder.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="ETime.cpp" />
     <ClCompile Include="EViewport.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Cube.h" />
+    <ClInclude Include="Cylinder.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="ETime.h" />
     <ClInclude Include="EViewport.h" />
