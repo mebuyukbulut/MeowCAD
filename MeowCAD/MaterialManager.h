@@ -32,12 +32,12 @@ private:
 	std::vector<std::string> names;
 	std::vector<const char*> names_cchar;
 
-	Material* default_material;
 	IDGen globalID{};
 	bool dirty{ true };
 
 
 	void calculate_names();
+	void create_default_material();
 		
 public:
 	~MaterialManager();
@@ -49,9 +49,7 @@ public:
 
 	std::vector<Material*> get_all_materials();
 	Material* get_material_by_nameIndex(uint32_t index);
-	Material* get_default_material() {
-		return default_material;
-	}
+	Material* get_default_material();
 	std::vector<const char*>& get_names_cchar();
 	//void get_IDs();
 

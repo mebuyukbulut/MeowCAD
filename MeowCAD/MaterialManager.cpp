@@ -4,8 +4,7 @@
 #include "Material.h"
 
 MaterialManager::MaterialManager() {	
-	default_material = new Material();
-	default_material->init({}, MaterialID( 0, "Default Material"));
+	create_default_material();
 }
 void MaterialManager::calculate_names(){
 	names.clear();
@@ -17,8 +16,13 @@ void MaterialManager::calculate_names(){
 	for (std::string& i : names)
 		names_cchar.push_back(i.data());
 }
+void MaterialManager::create_default_material(){
+	auto def_mat = new Material();
+	def_mat->init({}, MaterialID(0, "Default Material"));
+	materials.push_back(def_mat);
+	dirty = true;
+}
 MaterialManager::~MaterialManager(){
-	if (default_material) delete default_material;
 	destroy_all();
 }
 
@@ -62,6 +66,11 @@ Material* MaterialManager::get_material_by_nameIndex(uint32_t index){
 	return materials[index];
 }
 
+Material* MaterialManager::get_default_material() {
+	if (materials.empty())
+		create_default_material();
+	return materials[0];
+}
 std::vector<const char*>& MaterialManager::get_names_cchar(){
 	if (dirty) {
 		calculate_names();
