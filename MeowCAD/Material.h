@@ -18,27 +18,30 @@ struct MaterialInfo {
             ao != lhs.ao; 
     }
 };
+struct MaterialID {
+    uint32_t ID;
+    std::string name;
+
+    MaterialID() = default;
+    MaterialID(uint32_t ID, std::string name) : ID{ ID }, name{ name } {}
+};
 
 
-class Material{    
-    uint32_t ID; 
-    std::string name; 
-
+class Material{
+    MaterialID ID;
     MaterialInfo material_info{};
-    //Shader* shader;
     
 public:
-    void init(MaterialInfo materialInfo, uint32_t materialID, std::string name);
+    void init(MaterialInfo materialInfo, MaterialID ID);
     void use(Shader* shader);
 
     MaterialInfo get();
     void set(MaterialInfo materialInfo);
-
-    
-    std::string& get_name() {
-        return name; 
-    }
-    uint32_t get_ID() {
+        
+    //std::string& get_name() {
+    //    return name; 
+    //}
+    MaterialID get_ID() {
         return ID;
     }
 

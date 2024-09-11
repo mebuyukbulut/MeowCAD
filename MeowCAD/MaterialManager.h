@@ -5,6 +5,8 @@
 
 class Material;
 
+
+
 class MaterialManager {
 //
 //     SINGLETON PATTERN BEGINS

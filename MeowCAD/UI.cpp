@@ -244,6 +244,7 @@ void UI::outliner_window() {
 
 }
 
+
 void UI::properties_window()
 {
     ImGui::Begin("Properties", &is_properties_window_active);
@@ -254,36 +255,44 @@ void UI::properties_window()
         return;
     }
 
+    properties_window_transform(mesh);
+    properties_window_material(mesh);
+
+
+
+    ImGui::End();
+}
+
+void UI::properties_window_transform(Mesh* mesh){
+    ImGui::NewLine();
+    ImGui::Text("Transform");
+    ImGui::Separator(); // ------------------------------------------------------
+
     Transform t = mesh->get_transform();
 
     glm::vec3 t_pos = t.get_position();
     glm::vec3 t_rot = t.get_euler_rotation();
     glm::vec3 t_old_rot = t_rot;
     glm::vec3 t_scl = t.get_scale();
-    
+
     ImGui::Text("Transform");
     ImGui::Separator();
 
-    if(ImGui::DragFloat3("Position:", &t_pos[0],0.1))  t.set_position(t_pos);
-    if(ImGui::DragFloat3("Rotation:", &t_rot[0])) {
+    if (ImGui::DragFloat3("Position:", &t_pos[0], 0.1))  t.set_position(t_pos);
+    if (ImGui::DragFloat3("Rotation:", &t_rot[0])) {
         //std::cout << t_old_rot.x << "\t" << t_old_rot.y << "\t" << t_old_rot.z << " \told\n";
         //std::cout << t_rot.x << "\t" << t_rot.y << "\t" << t_rot.z << " \tnew\n";
         t.set_euler_delta_rotation(t_rot - t_old_rot);
     }
-    if(ImGui::DragFloat3("Scale:", &t_scl[0], 0.1)) t.set_scale(t_scl);
+    if (ImGui::DragFloat3("Scale:", &t_scl[0], 0.1)) t.set_scale(t_scl);
 
 
     //std::cout << t_rot.x << " \tnew\n";
 
     mesh->set_transform(t);
+}
 
-
-
-    // -----
-    // -----
-    // -----
-
-
+void UI::properties_window_material(Mesh* mesh){
     ImGui::NewLine();
     ImGui::Text("Material");
     ImGui::Separator(); // ------------------------------------------------------
@@ -295,13 +304,17 @@ void UI::properties_window()
     // create material
     if (ImGui::Button("Create New Material")) {
         mesh->set_material(MaterialManager::get().create_material());
-        material_selected_item = MaterialManager::get().get_all_materials().size()-1;
+        material_selected_item = MaterialManager::get().get_all_materials().size() - 1;
     }
     // list materials
     auto materials = MaterialManager::get().get_all_materials();
     std::vector<const char*> material_names;
-    for (Material* material : materials) 
-        material_names.push_back(material->get_name().data());   
+    std::vector<MaterialID> material_IDs;
+
+    for (Material* material : materials)
+        material_IDs.push_back(material->get_ID());
+    for (MaterialID& mat_ID : material_IDs)
+        material_names.push_back(mat_ID.name.data());
 
     if (ImGui::Combo("All materials", &material_selected_item, material_names.data(), material_names.size())) {
         mesh->set_material(materials[material_selected_item]);
@@ -314,19 +327,16 @@ void UI::properties_window()
     auto material_info = material->get();
     auto old_material_info = material_info;
 
-    ImGui::Text(material->get_name().c_str());
+    ImGui::Text(material->get_ID().name.c_str());
 
     bool mat_info_control = false;
-    mat_info_control |= ImGui::ColorPicker3("albedo",  &material_info.albedo[0]);
+    mat_info_control |= ImGui::ColorPicker3("albedo", &material_info.albedo[0]);
     mat_info_control |= ImGui::DragFloat("metallic", &material_info.metallic, 0.02, 0, 1);
     mat_info_control |= ImGui::DragFloat("roughness", &material_info.roughness, 0.02, 0, 1);
     mat_info_control |= ImGui::DragFloat("ao", &material_info.ao, 0.02, 0, 1);
 
-    if (mat_info_control) 
+    if (mat_info_control)
         material->set(material_info);
-
-
-    ImGui::End();
 }
 
 void UI::material_window(){

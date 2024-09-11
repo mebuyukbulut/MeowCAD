@@ -5,6 +5,7 @@
 #include "EViewport.h"
 
 struct GLFWwindow;
+class Mesh;
 
 enum class AllWindows {
 	TEXT_EDITOR, TEST, DEMO
@@ -40,6 +41,8 @@ class UI{
 	void outliner_window();
 	void viewport_window();
 	void properties_window();
+	void properties_window_transform(Mesh* mesh);
+	void properties_window_material(Mesh* mesh);
 
 	void material_window();
 
