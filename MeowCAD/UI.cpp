@@ -302,6 +302,13 @@ void UI::properties_window_material(Mesh* mesh){
         mesh->set_material(MaterialManager::get().create_material());
         material_selected_item = MaterialManager::get().get_all_materials().size() - 1;
     }
+    // delete material 
+    if (ImGui::Button("Delete Material")) {
+        MaterialManager::get().destroy_material(mesh->get_material()->get_ID().ID);
+        mesh->set_material(MaterialManager::get().get_default_material());
+        material_selected_item = 0;
+    }
+
     // list materials
     auto material_names = MaterialManager::get().get_names_cchar();
     if (ImGui::Combo("All materials", &material_selected_item, material_names.data(), material_names.size())) {
