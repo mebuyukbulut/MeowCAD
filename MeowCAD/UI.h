@@ -43,6 +43,7 @@ class UI{
 	void properties_window();
 	void properties_window_transform(Mesh* mesh);
 	void properties_window_material(Mesh* mesh);
+	void color_tooltip();
 
 	void material_window();
 

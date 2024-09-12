@@ -87,10 +87,18 @@ private:
     }
 
 public:
+    void set_screen_resolution(glm::vec2 newResolution);
+    glm::vec2 get_screen_resolution();
+
     void exit() {
         glfwSetWindowShouldClose(window, true);
     }
 
+    void set_mouse_position(double x, double y) {
+        mouse_position.x = x;
+        mouse_position.y = y; 
+    }
+    glm::vec2 mouse_position;
 	InputMode input_mode = InputMode::UI;
 
 	Scene scene;
@@ -145,8 +153,8 @@ public:
             if (viewport.is_active())
                 render_viewport();
 
-            glClearColor(0.1, 0.1, 0.1, 1.0);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            //glClearColor(0.1, 0.1, 0.1, 1.0);
+            glClear( GL_DEPTH_BUFFER_BIT);
             ui.render();
 
             // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

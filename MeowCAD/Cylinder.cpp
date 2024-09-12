@@ -83,24 +83,7 @@ void Cylinder::generate(){
         vertices.push_back(v3);
         vertices.push_back(v1);
         vertices.push_back(v6);
-
-
-
-        //n1, n2, n3;
-        //n2, n4, n3;
-
-
-        //
-        //Vertex vertex;
-
-
-
-        //vertices.push_back(vertex);
     }
-
-
-    //for (auto& i : vertices)
-    //    i.set_position(i.get_position() * size);
 
     std::copy(vertices.begin(), vertices.end(), std::back_insert_iterator(data));
 }
