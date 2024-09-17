@@ -44,11 +44,22 @@
 // GLFW CALLBACKS
 // ----------------------------------------------------
 
-
+/// <summary>
+/// This function was called when size of the main window was changed. 
+/// </summary>
+/// <param name="window">GLFWwindow pointer</param>
+/// <param name="width">New width of the window</param>
+/// <param name="height">New height of the window</param>
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
     Engine::get().set_screen_resolution(glm::vec2(width,height));
 }
+/// <summary>
+/// This function was called when mouse cursor move. It is update mouse and camera class according to InputMode
+/// </summary>
+/// <param name="window">GLFWwindow pointer</param>
+/// <param name="xposIn">Horizontal mouse position on screen</param>
+/// <param name="yposIn">Vertical mouse position on screen</param>
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn) {
     Engine::get().mouse.set_position(xposIn, yposIn);
 
@@ -62,6 +73,13 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn) {
     auto offset = Engine::get().mouse.get_offset();
     Engine::get().scene.get_camera().mouse(offset.x, offset.y);
 }
+/// <summary>
+/// This fucntion was called when mouse scrool was moved.
+/// "A normal mouse wheel, being vertical, provides offsets along the Y-axis."
+/// </summary>
+/// <param name="window">GLFWwindow pointer</param>
+/// <param name="xoffset"></param>
+/// <param name="yoffset">Scrool value</param>
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
     if (Engine::get().input_mode == InputMode::UI)
         return;
@@ -74,7 +92,10 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
 // PRIVATE FUNCTIONS
 // ----------------------------------------------------
 
-
+/// <summary>
+/// Read the final color of the pixel on the screen. It takes the position of mouse cursor from the Mouse class.
+/// </summary>
+/// <returns>Returns RGB values in a char array. 1 byte per color -> 3 byte total. Color values are between of 0 and 1 (?) </returns>
 unsigned char* Engine::read_pixel_at_cursor() {
     int nWidth = 1;
     int nHeight = 1;
@@ -92,6 +113,7 @@ unsigned char* Engine::read_pixel_at_cursor() {
     //    << std::endl;
     return pRGB;
 }
+
 void Engine::set_screen_resolution(glm::vec2 newResolution){
     screen_resolution = newResolution;
     // there are too much sequencer log for this 
