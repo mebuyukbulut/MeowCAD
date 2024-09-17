@@ -1,13 +1,18 @@
 #include "Engine.h"
 
+#include "LogUtils.h"
+
+// ----------------------------------------------------
+// GLFW CALLBACKS
+// ----------------------------------------------------
+
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
     Engine::get().set_screen_resolution(glm::vec2(width,height));
-    //Engine::get().scene.get_camera().update_screen_size(width, height);
 }
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn) {
-    Engine::get().set_mouse_position(xposIn, yposIn);
+    Engine::get().mouse.set_position(xposIn, yposIn);
 
     if (Engine::get().input_mode == InputMode::UI)
         return;
@@ -25,10 +30,216 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
     Engine::get().scene.get_camera().zoom(yoffset);
 }
 
+
+
+// ----------------------------------------------------
+// PRIVATE FUNCTIONS
+// ----------------------------------------------------
+
+
+unsigned char* Engine::read_pixel_at_cursor() {
+    int nWidth = 1;
+    int nHeight = 1;
+    unsigned char* pRGB = new unsigned char[3 * nWidth * nHeight];
+    auto mos_pos = mouse.get_position();
+    auto scr_res = get_screen_resolution();
+
+    glReadPixels((int)mos_pos.x, (int)(scr_res.y - mos_pos.y),
+        nWidth, nHeight,
+        GL_RGB, GL_UNSIGNED_BYTE, pRGB);
+    //std::cout << "("
+    //    << (int)pRGB[0] << ", "
+    //    << (int)pRGB[1] << ", "
+    //    << (int)pRGB[2] << ", "
+    //    << std::endl;
+    return pRGB;
+}
 void Engine::set_screen_resolution(glm::vec2 newResolution){
     screen_resolution = newResolution;
+    // there are too much sequencer log for this 
+    std::string message = 
+        "New screen resolution: (" + std::to_string(screen_resolution.x)
+        + ", " + std::to_string(screen_resolution.y) + ")";
+    LogUtils::get().log(message);
 }
 
 glm::vec2 Engine::get_screen_resolution(){
     return screen_resolution;
+}
+
+void Engine::exit() {
+    glfwSetWindowShouldClose(window, true);
+}
+
+//void Engine::set_mouse_position(double x, double y) {
+//    //auto mouse_position = mouse.get_position();
+//    mouse_position.x = x;
+//    mouse_position.y = y;
+//}
+
+void Engine::render_viewport() {
+
+
+    if (viewport.is_dirty()) {
+        auto res = viewport.get_resolution();
+        //if (res.x != 0 || res.y != 0) {
+        std::cout << res.x << "\t" << res.y << std::endl;
+        viewport.rescale_frame_buffer(res);
+        viewport.set_dirty(false);
+        scene.get_camera().update_screen_size(res.x, res.y);
+        //}
+    }
+
+    viewport.bind();
+
+    // draw cube map
+    glDisable(GL_DEPTH_TEST);
+    scene.draw_cubemap();
+
+    // draw scene 
+    glEnable(GL_DEPTH_TEST);
+    scene.draw();
+    viewport.unbind(screen_resolution.x, screen_resolution.y);
+
+
+}
+
+void Engine::render_loop() {
+    while (!glfwWindowShouldClose(window)) {
+        processInput(window);
+
+        if (viewport.is_active())
+            render_viewport();
+
+        //glClearColor(0.1, 0.1, 0.1, 1.0);
+        glClear(GL_DEPTH_BUFFER_BIT);
+        ui.render();
+
+        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+}
+
+void Engine::init() {
+    GlfwInitInfo glfw_init_info{
+        screen_resolution.x,
+        screen_resolution.y,
+        "MeowCAD",
+        //window
+    };
+    window = init::glfw(glfw_init_info);
+    load_app_icon();
+
+    init::glad();
+    my_config();
+
+
+    scene.get_camera().update_screen_size(screen_resolution.x, screen_resolution.y);
+
+
+
+
+    Cube cube(0.3);
+    Shape3D* shape = &cube;
+
+    Texture texture;
+    texture.init("images/image-1.jpg");
+
+
+
+    Transform transform{};
+    scene.init();
+    //scene.add_mesh(my_mesh);
+
+    for (int i = 0; i < 10; i++) {
+        Mesh* new_mesh = new Mesh();
+        new_mesh->set_ID(i); // Every mesh need a unique ID 
+        new_mesh->set_name("mesh " + std::to_string(i));
+
+        new_mesh->set_data(shape->get_data());
+
+
+        auto material = MaterialManager::get().create_material();
+        new_mesh->set_material(material);
+        new_mesh->set_texture(&texture);
+        transform.make_dirty();
+        transform.set_position(glm::vec3(i, i, i));
+        new_mesh->set_transform(transform);
+        scene.add_mesh(new_mesh);
+    }
+
+
+    ui.init_UI(window);
+    viewport.set(800, 600);
+    ui.set_viewport(&viewport);
+    render_loop();
+
+    cleanup();
+}
+
+
+
+// ----------------------------------------------------
+// PRIVATE FUNCTIONS
+// ----------------------------------------------------
+
+
+
+
+void Engine::my_config() {
+    glPointSize(5);
+    glEnable(GL_DEPTH_TEST);
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    //glEnable(GL_FRAMEBUFFER_SRGB); // Gamma correction
+    glEnable(GL_MULTISAMPLE); // MSAA - glfwWindowHint(GLFW_SAMPLES, 4);
+}
+
+void Engine::cleanup() {
+    glfwTerminate();
+}
+
+void Engine::load_app_icon() {
+    GLFWimage images[1];
+    images[0].pixels = stbi_load("images/meow_icon.png", &images[0].width, &images[0].height, 0, 4); //rgba channels 
+    glfwSetWindowIcon(window, 1, images);
+    stbi_image_free(images[0].pixels);
+}
+
+
+/// <summary>
+/// Process keyboard inputs. Set windows X close button, handle input mode and move camera 
+/// </summary>
+void Engine::processInput(GLFWwindow* window) {
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+
+    // tab mode 
+    if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS) {
+        input_mode = (input_mode == InputMode::GAME ? InputMode::UI : InputMode::GAME);
+        glfwSetInputMode(window, GLFW_CURSOR, (input_mode == InputMode::GAME ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL));
+
+        std::cout << "Input mode was changed" << std::endl;
+
+        // disable UI
+        ui.set_disabled(input_mode == InputMode::GAME);
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(300));
+        mouse.reset();
+    }
+
+    if (input_mode == InputMode::UI)
+        return;
+
+    // movement
+    glm::vec3 delta_location{ 0,0,0 }; // x,y,z are dummy 
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) delta_location.x += 1;
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) delta_location.x -= 1;
+
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) delta_location.y -= 1;
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) delta_location.y += 1;
+
+    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) delta_location.z += 1;
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) delta_location.z -= 1;
+    scene.get_camera().move(delta_location, scene.get_time().get_delta_time());
 }

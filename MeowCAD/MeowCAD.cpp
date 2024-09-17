@@ -9,18 +9,11 @@ extern "C" {
 
 
 int main() {
-    Engine::get().main();
+    Engine::get().init();
 }
 
 // ToDo 
-// Improve shape class and add new child classes 
-// - Sphere
-// - Cylinder
-//  
+// 
 // Understand and implement Command pattern
 // https://refactoring.guru/design-patterns/command
 // 
-// 
- 
-
-// Handle mesh, material vb resource correctly !!!

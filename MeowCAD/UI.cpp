@@ -326,23 +326,8 @@ void UI::properties_window_material(Mesh* mesh){
 }
 
 void UI::color_tooltip(){
-    int nWidth = 1;
-    int nHeight = 1;
-    unsigned char* pRGB = new unsigned char[3 * nWidth * nHeight];
-    auto mos_pos = Engine::get().mouse_position;
-    auto scr_res = Engine::get().get_screen_resolution();
-    //auto mos_pos = Engine::get().render_viewport.;
-    //std::cout << mos_pos.x << "\t" << mos_pos.y << std::endl;
-    glReadPixels((int)mos_pos.x, (int)(scr_res.y - mos_pos.y),
-        nWidth, nHeight,
-        GL_RGB, GL_UNSIGNED_BYTE, pRGB);
+    auto pRGB = Engine::get().read_pixel_at_cursor();
 
-
-    //std::cout << "("
-    //    << (int)pRGB[0] << ", "
-    //    << (int)pRGB[1] << ", "
-    //    << (int)pRGB[2] << ", "
-    //    << std::endl;
     float pick_color[3];
     pick_color[0] = pRGB[0] / 255.0f;
     pick_color[1] = pRGB[1] / 255.0f;
@@ -412,8 +397,7 @@ void UI::render() {
     if (is_properties_window_active) properties_window();
     if (is_material_window_active) material_window();
     if (viewport->is_active()) viewport_window();
-
-    color_tooltip();
+    if(is_color_tooltip_active) color_tooltip();
 
 
 

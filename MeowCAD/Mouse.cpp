@@ -1,5 +1,10 @@
 #include "Mouse.h"
 
+/// <summary>
+/// Calculate delta position of mouse cursor
+/// </summary>
+/// <param name="xposIn">New mouse position in horizontal direction</param>
+/// <param name="yposIn">New mouse position in vertical direction</param>
 void Mouse::update(double xposIn, double yposIn) {
     float xpos = static_cast<float>(xposIn);
     float ypos = static_cast<float>(yposIn);
@@ -23,4 +28,16 @@ void Mouse::reset() {
 
 glm::vec2 Mouse::get_offset() {
     return glm::vec2(xoffset, yoffset);
+}
+
+void Mouse::set_position(glm::vec2 newPosition){
+    set_position(newPosition.x, newPosition.y);
+}
+void Mouse::set_position(float x, float y){
+    position.x = x;
+    position.y = y;
+}
+
+glm::vec2 Mouse::get_position(){
+    return position;
 }

@@ -46,10 +46,9 @@ enum class InputMode{
 };
 
 class Engine{
-//
+// ----------------------------------------------------
 //     SINGLETON PATTERN
-//
-    Engine() {}
+// ----------------------------------------------------
 public:
     static Engine& get(){
         static Engine instance; // Guaranteed to be destroyed.
@@ -59,206 +58,41 @@ public:
 
     Engine(Engine const&) = delete;
     void operator=(Engine const&) = delete;
-
-
-//
-//     CLASS
-//
 private:
-	glm::vec2 screen_resolution = glm::vec2(1200, 900);
+    Engine() = default;
 
-    void my_config() {
-        glPointSize(5);
-        glEnable(GL_DEPTH_TEST);
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        //glEnable(GL_FRAMEBUFFER_SRGB); // Gamma correction
-        glEnable(GL_MULTISAMPLE); // MSAA - glfwWindowHint(GLFW_SAMPLES, 4);
-    }
 
-    void cleanup() {
-        glfwTerminate();
-    }
 
-    void load_app_icon() {
-        GLFWimage images[1];
-        images[0].pixels = stbi_load("images/meow_icon.png", &images[0].width, &images[0].height, 0, 4); //rgba channels 
-        glfwSetWindowIcon(window, 1, images);
-        stbi_image_free(images[0].pixels);
-    }
-
+// ----------------------------------------------------
+//     CLASS
+// ----------------------------------------------------
 public:
+	InputMode input_mode = InputMode::UI;
+	Scene scene;
+	GLFWwindow* window{};
+    EViewport viewport;
+	UI ui;
+
+    Mouse mouse = Mouse(screen_resolution);    
+
+    void init();
+    void render_viewport();
+    void render_loop();
+
     void set_screen_resolution(glm::vec2 newResolution);
     glm::vec2 get_screen_resolution();
 
-    void exit() {
-        glfwSetWindowShouldClose(window, true);
-    }
+    unsigned char* read_pixel_at_cursor();
 
-    void set_mouse_position(double x, double y) {
-        mouse_position.x = x;
-        mouse_position.y = y; 
-    }
-    glm::vec2 mouse_position;
-	InputMode input_mode = InputMode::UI;
+    void exit();
 
-	Scene scene;
+private:
+    glm::vec2 screen_resolution = glm::vec2(1200, 900);
 
-    Mouse mouse = Mouse(screen_resolution);
-
-	GLFWwindow* window{};
-	UI ui;
-
-    EViewport viewport;
-    //MaterialManager mat_manager;
-
-
-
-
-    void draw_background() {
-
-    }
-
-    void render_viewport() {
-
-
-        if (viewport.is_dirty()) {
-            auto res = viewport.get_resolution();
-            //if (res.x != 0 || res.y != 0) {
-                std::cout << res.x << "\t" << res.y << std::endl; 
-                viewport.rescale_frame_buffer(res);
-                viewport.set_dirty(false);
-                scene.get_camera().update_screen_size(res.x, res.y);
-            //}
-        }
-
-        viewport.bind();
-
-        // draw cube map
-        glDisable(GL_DEPTH_TEST);
-        scene.draw_cubemap();
-
-        // draw scene 
-        glEnable(GL_DEPTH_TEST);
-        scene.draw();
-        viewport.unbind(screen_resolution.x, screen_resolution.y);
-
-        
-    }
-
-    void render_loop(){
-        
-        while (!glfwWindowShouldClose(window)){
-            processInput(window);
-
-            if (viewport.is_active())
-                render_viewport();
-
-            //glClearColor(0.1, 0.1, 0.1, 1.0);
-            glClear( GL_DEPTH_BUFFER_BIT);
-            ui.render();
-
-            // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-            glfwSwapBuffers(window);
-            glfwPollEvents();
-        }
-    }
-
-
-    void main() {
-        GlfwInitInfo glfw_init_info{
-            screen_resolution.x,
-            screen_resolution.y,
-            "MeowCAD",
-            //window
-        };
-        window = init::glfw(glfw_init_info);
-        load_app_icon();
-
-        init::glad();
-        my_config();
-
-
-        scene.get_camera().update_screen_size(screen_resolution.x, screen_resolution.y);
-
-        
-
-
-        Cube cube(0.3);
-        Shape3D* shape = &cube;
-
-        Texture texture;
-        texture.init("images/image-1.jpg");
-
-
-
-        Transform transform{};
-        scene.init();
-        //scene.add_mesh(my_mesh);
-
-        for (int i = 0; i < 10; i++) {
-            Mesh* new_mesh = new Mesh();
-            new_mesh->set_ID(i); // Every mesh need a unique ID 
-            new_mesh->set_name("mesh " + std::to_string(i));
-
-            new_mesh->set_data(shape->get_data());
-
-
-            auto material = MaterialManager::get().create_material();
-            new_mesh->set_material(material);
-            new_mesh->set_texture(&texture);
-            transform.make_dirty();
-            transform.set_position(glm::vec3(i, i, i));
-            new_mesh->set_transform(transform);
-            scene.add_mesh(new_mesh);
-        }
-
-
-        ui.init_UI(window);
-        viewport.set(800, 600);
-        ui.set_viewport(&viewport);
-        render_loop();
-
-        cleanup();
-    }
-
-
-    // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
-    void processInput(GLFWwindow* window) {
-        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-            glfwSetWindowShouldClose(window, true);
-
-        // tab mode 
-        if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS) {
-            input_mode = (input_mode == InputMode::GAME ? InputMode::UI : InputMode::GAME);
-            glfwSetInputMode(window, GLFW_CURSOR, (input_mode == InputMode::GAME ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL));
-
-            std::cout << "Input mode was changed" << std::endl;
-
-            // disable UI
-            ui.set_disabled(input_mode == InputMode::GAME);
-
-            std::this_thread::sleep_for(std::chrono::milliseconds(300));
-            mouse.reset();
-        }
-
-        if (input_mode == InputMode::UI)
-            return;
-
-
-        glm::vec3 delta_location{ 0,0,0 }; // x,y,z are dummy 
-        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) delta_location.x += 1;
-        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) delta_location.x -= 1;
-
-        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) delta_location.y -= 1;
-        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) delta_location.y += 1;
-
-        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) delta_location.z += 1;
-        if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) delta_location.z -= 1;
-        scene.get_camera().move(delta_location, scene.get_time().get_delta_time());
-    }
-
-
-
+    void load_app_icon();
+    void my_config();
+    void cleanup();
+    void processInput(GLFWwindow* window);
 
 };
 
