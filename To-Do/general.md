@@ -8,7 +8,10 @@
 - Object Picking (with back buffer) 
 - Different ray casting methods
 - Create a general naming rule
-- Data representation in memory of 3D objects 
+- Data representation in memory of 3D objects
+- Create two new class and separate mesh and cubemaps works from Scene class
+  - Create a new class for cubemaps as "CubemapManager.h"
+  - Create a new class for meshes as "MeshManager.h" 
 
 # In progress
 - Scene Graph 
