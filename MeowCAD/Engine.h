@@ -42,8 +42,6 @@ public:
     Mouse mouse = Mouse(screen_resolution);    
 
     void init();
-    void render_viewport();
-    void render_loop();
 
     void set_screen_resolution(glm::vec2 newResolution);
     glm::vec2 get_screen_resolution();
@@ -55,6 +53,8 @@ public:
 private:
     glm::vec2 screen_resolution = glm::vec2(1200, 900);
 
+    void render_viewport();
+    void render_loop();
     void load_app_icon();
     void my_config();
     void cleanup();

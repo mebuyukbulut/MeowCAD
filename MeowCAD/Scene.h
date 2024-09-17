@@ -8,6 +8,7 @@
 #include "VBO.h"
 #include "Shader.h"
 #include "Transform.h"
+#include "SkyBox.h"
 
 class Mesh;
 
@@ -19,8 +20,6 @@ class Scene{
 	VBO vbo;
 
 	Shader shader;
-	Shader cubemap_shader;
-	unsigned int cubemapTexture;
 	std::vector<Mesh*> meshes;
 	std::vector<std::pair<std::string, uint32_t>> mesh_names;
 	Mesh* selected_mesh{};
@@ -31,12 +30,13 @@ class Scene{
 
 	// maybe we need a dirty flag for update 
 public:
+	SkyBox skybox;
 	~Scene();
 
 	void init();
 
-	void load_cube_map();
-	void draw_cubemap();
+	//void load_cube_map();
+	//void draw_cubemap();
 	void draw();
 
 

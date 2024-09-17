@@ -90,7 +90,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
 
 
 // ----------------------------------------------------
-// PRIVATE FUNCTIONS
+// PUBLIC FUNCTIONS
 // ----------------------------------------------------
 
 /// <summary>
@@ -132,55 +132,6 @@ void Engine::exit() {
     glfwSetWindowShouldClose(window, true);
 }
 
-//void Engine::set_mouse_position(double x, double y) {
-//    //auto mouse_position = mouse.get_position();
-//    mouse_position.x = x;
-//    mouse_position.y = y;
-//}
-
-void Engine::render_viewport() {
-
-
-    if (viewport.is_dirty()) {
-        auto res = viewport.get_resolution();
-        //if (res.x != 0 || res.y != 0) {
-        std::cout << res.x << "\t" << res.y << std::endl;
-        viewport.rescale_frame_buffer(res);
-        viewport.set_dirty(false);
-        scene.get_camera().update_screen_size(res.x, res.y);
-        //}
-    }
-
-    viewport.bind();
-
-    // draw cube map
-    glDisable(GL_DEPTH_TEST);
-    scene.draw_cubemap();
-
-    // draw scene 
-    glEnable(GL_DEPTH_TEST);
-    scene.draw();
-    viewport.unbind(screen_resolution.x, screen_resolution.y);
-
-
-}
-
-void Engine::render_loop() {
-    while (!glfwWindowShouldClose(window)) {
-        processInput(window);
-
-        if (viewport.is_active())
-            render_viewport();
-
-        //glClearColor(0.1, 0.1, 0.1, 1.0);
-        glClear(GL_DEPTH_BUFFER_BIT);
-        ui.render();
-
-        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-    }
-}
 
 void Engine::init() {
     GlfwInitInfo glfw_init_info{
@@ -245,6 +196,50 @@ void Engine::init() {
 // PRIVATE FUNCTIONS
 // ----------------------------------------------------
 
+
+void Engine::render_viewport() {
+
+
+    if (viewport.is_dirty()) {
+        auto res = viewport.get_resolution();
+        //if (res.x != 0 || res.y != 0) {
+        std::cout << res.x << "\t" << res.y << std::endl;
+        viewport.rescale_frame_buffer(res);
+        viewport.set_dirty(false);
+        scene.get_camera().update_screen_size(res.x, res.y);
+        //}
+    }
+
+    viewport.bind();
+
+    // draw cube map
+    glDisable(GL_DEPTH_TEST);
+    scene.skybox.draw();
+
+    // draw scene 
+    glEnable(GL_DEPTH_TEST);
+    scene.draw();
+    viewport.unbind(screen_resolution.x, screen_resolution.y);
+
+
+}
+
+void Engine::render_loop() {
+    while (!glfwWindowShouldClose(window)) {
+        processInput(window);
+
+        if (viewport.is_active())
+            render_viewport();
+
+        //glClearColor(0.1, 0.1, 0.1, 1.0);
+        glClear(GL_DEPTH_BUFFER_BIT);
+        ui.render();
+
+        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+}
 
 
 

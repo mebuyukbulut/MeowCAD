@@ -164,6 +164,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Shape3D.cpp" />
+    <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="TextEditor.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Shape3D.h" />
+    <ClInclude Include="SkyBox.h" />
     <ClInclude Include="TextEditor.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Transform.h" />
