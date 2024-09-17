@@ -114,6 +114,9 @@
     <ClCompile Include="SkyBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MeshManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LogUtils.h">
@@ -201,6 +204,9 @@
       <Filter>Header Files\Shapes</Filter>
     </ClInclude>
     <ClInclude Include="SkyBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

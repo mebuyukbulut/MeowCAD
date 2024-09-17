@@ -159,6 +159,7 @@
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="MeowCAD.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MeshManager.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="ObjParser.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="MaterialManager.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshManager.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="ObjParser.h" />
     <ClInclude Include="Scene.h" />

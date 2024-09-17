@@ -214,11 +214,11 @@ void UI::outliner_window() {
         if (ImGui::IsItemClicked())
             std::cout << "root" << std::endl;
 
-        for (auto& i : Engine::get().scene.get_names()) {
+        for (auto& i : Engine::get().scene.mesh_manager.get_names()) {
             if(ImGui::TreeNodeEx(i.first.c_str(), ImGuiTreeNodeFlags_Leaf)) {
                 if (ImGui::IsItemClicked()) {
                     std::cout << i.first << std::endl;
-                    Engine::get().scene.select_mesh(i.second);
+                    Engine::get().scene.mesh_manager.select_mesh(i.second);
                     is_properties_window_active = true;
                 }
                 ImGui::TreePop(); 
@@ -238,7 +238,7 @@ void UI::outliner_window() {
 void UI::properties_window(){
     ImGui::Begin("Properties", &is_properties_window_active);
 
-    Mesh* mesh = Engine::get().scene.get_selected_mesh();
+    Mesh* mesh = Engine::get().scene.mesh_manager.get_selected_mesh();
 
     if (!mesh) {
         ImGui::End();

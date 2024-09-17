@@ -178,7 +178,7 @@ void Engine::init() {
         transform.make_dirty();
         transform.set_position(glm::vec3(i, i, i));
         new_mesh->set_transform(transform);
-        scene.add_mesh(new_mesh);
+        scene.mesh_manager.add_mesh(new_mesh);
     }
 
 

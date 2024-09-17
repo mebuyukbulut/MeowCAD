@@ -7,12 +7,7 @@
 #include <stb_image.h>
 
 void Scene::init() {
-	vao.init();
-	vbo.init();
-	vbo.use();
-	buffer_capacity = 1024 * 1024;
-	vbo.allocate_data(buffer_capacity);
-
+	mesh_manager.init();
 	shader.init("shaders/pbr.vs", "shaders/pbr.fs");
 	shader.use();
 
@@ -38,11 +33,8 @@ void Scene::init() {
 
 
 	// Cubemap 
-
-
-
-	add_mesh(skybox.init(&camera));
-
+	auto cubemap_mesh = skybox.init(&camera);
+	mesh_manager.add_mesh(cubemap_mesh);
 }
 
 void Scene::draw() {
@@ -50,8 +42,8 @@ void Scene::draw() {
 	shader.use();
 	shader.set("time", time.get_elapsed_time());
 
-	for (auto i : meshes) {
-		if (i->get_ID() == meshes[0]->get_ID())
+	for (auto i : mesh_manager.meshes) {
+		if (i->get_ID() == mesh_manager.meshes[0]->get_ID())
 			continue;
 		i->get_material()->use(&shader);
 
@@ -71,61 +63,6 @@ void Scene::draw() {
 		//shader.set();
 		glDrawArrays(GL_TRIANGLES, i->get_vertex_index(), i->get_vertex_count());// i->get_data_index(), i->get_data_size());
 	}
-}
-
-
-
-void Scene::select_mesh(uint32_t ID) {
-	for (auto& mesh : meshes)
-		if (mesh->get_ID() == ID)
-			selected_mesh = mesh;
-}
-void Scene::deselect_mesh() {
-	selected_mesh = nullptr;
-}
-void Scene::add_mesh(Mesh* mesh) {
-	int mesh_vertex_count = mesh->get_data().size();
-	int old_vertex_index = vertex_index;
-	vertex_index += mesh_vertex_count;
-
-	int buffer_size_of_mesh = mesh_vertex_count * sizeof(Vertex);
-	int old_buffer_size = buffer_size;
-	buffer_size += buffer_size_of_mesh;
-
-	if (buffer_size > buffer_capacity) {
-		std::cout << "FATAL: Scene.h \ndata size capacity is not enough" << std::endl;
-		exit(EXIT_FAILURE);
-	}
-
-
-	mesh->set_vertex_index(old_vertex_index);
-	mesh->set_vertex_count(mesh_vertex_count);
-
-
-	vbo.write_data(old_buffer_size, mesh->get_data());
-	vbo.use();
-	meshes.push_back(mesh);
-
-	std::pair<std::string, uint32_t> mp;
-	mp.first = mesh->get_name();
-	mp.second = mesh->get_ID();
-	mesh_names.push_back(mp);
-
-}
-
-//void destroy_mesh();
-Mesh* Scene::get_selected_mesh() {
-	return selected_mesh;
-}
-
-void Scene::mesh_transform(Transform newTransform) {
-	selected_mesh->set_transform(newTransform);
-}
-
-
-
-std::vector<std::pair<std::string, uint32_t>>& Scene::get_names() {
-	return mesh_names;
 }
 
 Camera& Scene::get_camera() { return camera; }

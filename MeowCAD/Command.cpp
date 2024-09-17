@@ -31,7 +31,7 @@ void ExitProgramCommand::execute(){
 
 void AddNewCubeCommand::execute(){
 	Mesh* new_mesh = new Mesh();
-	new_mesh->set_ID(111); // Every mesh need a unique ID 
+	new_mesh->set_ID(112); // Every mesh need a unique ID 
 	new_mesh->set_name("New cube");
 
 	Shape3D* shape = new Cube();
@@ -44,7 +44,7 @@ void AddNewCubeCommand::execute(){
 	transform.make_dirty();
 	transform.set_position(glm::vec3(0, 0, 0));
 	new_mesh->set_transform(transform);
-	Engine::get().scene.add_mesh(new_mesh);
+	Engine::get().scene.mesh_manager.add_mesh(new_mesh);
 }
 
 void AddNewCylinderCommand::execute(){
@@ -62,7 +62,7 @@ void AddNewCylinderCommand::execute(){
 	transform.make_dirty();
 	transform.set_position(glm::vec3(0, 0, 0));
 	new_mesh->set_transform(transform);
-	Engine::get().scene.add_mesh(new_mesh);
+	Engine::get().scene.mesh_manager.add_mesh(new_mesh);
 }
 
 
