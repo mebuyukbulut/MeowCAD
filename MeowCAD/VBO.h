@@ -1,8 +1,8 @@
 #pragma once
-#include <cstdint>
+//#include <cstdint>
 #include <vector>
-
-class Vertex;
+#include "Vertex.h"
+//class Vertex;
 
 class VBO{
 	uint32_t ID{};

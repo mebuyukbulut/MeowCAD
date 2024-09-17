@@ -1,7 +1,7 @@
 #include "VBO.h"
 #include <glad/glad.h>
 #include <iostream>
-#include "Vertex.h"
+//#include "Vertex.h"
 
 VBO::~VBO(){
 	glDeleteBuffers(1, &ID);

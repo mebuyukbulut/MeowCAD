@@ -6,6 +6,7 @@
 #include "Engine.h"
 #include "LogUtils.h"
 #include "MaterialManager.h"
+#include "MeshManager.h"
 
 #include "Transform.h"
 #include "Mesh.h"
@@ -45,8 +46,9 @@ void AddNewCubeCommand::execute(){
 	transform.set_position(glm::vec3(0, 0, 0));
 	new_mesh->set_transform(transform);
 	Engine::get().scene.mesh_manager.add_mesh(new_mesh);
-}
 
+	LogUtils::get().log("A new cube was created");
+}
 void AddNewCylinderCommand::execute(){
 	Mesh* new_mesh = new Mesh();
 	new_mesh->set_ID(111); // Every mesh need a unique ID 
@@ -63,6 +65,9 @@ void AddNewCylinderCommand::execute(){
 	transform.set_position(glm::vec3(0, 0, 0));
 	new_mesh->set_transform(transform);
 	Engine::get().scene.mesh_manager.add_mesh(new_mesh);
+
+
+	LogUtils::get().log("A new cylinder was created");
 }
 
 
@@ -91,4 +96,12 @@ CommandManager::~CommandManager() {
 }
 void CommandManager::exec(CommandID commandID) {
 	commands[static_cast<int>(commandID)]->execute();
+}
+
+void DeleteSelectedMeshCommand::init(MeshManager* meshman){
+	this->meshman = meshman;
+}
+
+void DeleteSelectedMeshCommand::execute(){
+	meshman->destroy_mesh();
 }

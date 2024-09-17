@@ -43,6 +43,7 @@ void Scene::draw() {
 	shader.set("time", time.get_elapsed_time());
 
 	for (auto i : mesh_manager.meshes) {
+		if (!i) continue;
 		if (i->get_ID() == mesh_manager.meshes[0]->get_ID())
 			continue;
 		i->get_material()->use(&shader);

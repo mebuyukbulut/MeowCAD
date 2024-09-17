@@ -46,6 +46,13 @@ public:
 	void execute();
 };
 
+class DeleteSelectedMeshCommand : public Command {
+	class MeshManager* meshman;
+public:
+	void init(MeshManager* meshman);
+	void execute();
+};
+
 
 class CommandManager { // probably we should implement skeleton pattern
 	std::vector<Command*> commands;

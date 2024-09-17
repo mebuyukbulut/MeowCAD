@@ -245,6 +245,15 @@ void UI::properties_window(){
         return;
     }
 
+    if (ImGui::Button("Delete Mesh")) {
+        DeleteSelectedMeshCommand dsmc;
+        dsmc.init(&Engine::get().scene.mesh_manager);
+        dsmc.execute();
+
+        ImGui::End();
+        return;
+    }
+
     properties_window_transform(mesh);
     properties_window_material(mesh);
 
