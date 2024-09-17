@@ -1,17 +1,15 @@
 #pragma once
 
+#include <vector>
+
 #include "Camera.h"
+#include "ETime.h"
 #include "VAO.h"
 #include "VBO.h"
-#include "Mesh.h"
 #include "Shader.h"
-#include "ETime.h"
+#include "Transform.h"
 
-#include <vector>
-#include <glad/glad.h>
-
-#include "Cube.h"
-#include <stb_image.h>
+class Mesh;
 
 class Scene{
 	ETime time;
@@ -33,12 +31,14 @@ class Scene{
 
 	// maybe we need a dirty flag for update 
 public:
+	~Scene();
 
 	void init();
 
 	void load_cube_map();
 	void draw_cubemap();
 	void draw();
+
 
 	void select_mesh(uint32_t ID);
 	void deselect_mesh();
@@ -51,6 +51,5 @@ public:
 	std::vector<std::pair<std::string, uint32_t>>& get_names();
 	Camera& get_camera();
 	ETime& get_time();
-	~Scene();
 };
 

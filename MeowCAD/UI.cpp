@@ -18,6 +18,7 @@
 
 #include "Shape3D.h"
 #include "Transform.h"
+#include "Mesh.h"
 
 void UI::menu_bar() {
     if (ImGui::BeginMainMenuBar()) {

@@ -1,4 +1,11 @@
 #include "Scene.h"
+#include "Mesh.h"
+
+#include <glad/glad.h>
+
+#include "Cube.h"
+#include <stb_image.h>
+
 
 void Scene::init() {
 	vao.init();

@@ -37,6 +37,7 @@
 
 #include "Shape3D.h"
 #include "Cube.h"
+#include "Mesh.h"
 
 
 

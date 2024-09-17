@@ -7,6 +7,9 @@
 #include "LogUtils.h"
 #include "MaterialManager.h"
 
+#include "Transform.h"
+#include "Mesh.h"
+#include "Cube.h"
 #include "Cylinder.h"
 
 void PolygonModeFillCommand::execute(){
