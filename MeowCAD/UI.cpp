@@ -14,6 +14,7 @@
 
 #include "LogUtils.h"
 #include "Engine.h"
+#include "MaterialManager.h"
 
 #include "Shape3D.h"
 #include "Transform.h"

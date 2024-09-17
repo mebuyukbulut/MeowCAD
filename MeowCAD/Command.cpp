@@ -5,6 +5,7 @@
 
 #include "Engine.h"
 #include "LogUtils.h"
+#include "MaterialManager.h"
 
 #include "Cylinder.h"
 
