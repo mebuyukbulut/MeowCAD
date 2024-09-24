@@ -8,6 +8,8 @@
 
 void Scene::init() {
 	mesh_manager.init();
+	mesh_selector.init(&camera, &mesh_manager);
+
 	shader.init("shaders/pbr.vs", "shaders/pbr.fs");
 	shader.use();
 
@@ -38,7 +40,6 @@ void Scene::init() {
 }
 
 void Scene::draw() {
-	time.update();
 	shader.use();
 	shader.set("time", time.get_elapsed_time());
 

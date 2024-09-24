@@ -160,6 +160,7 @@
     <ClCompile Include="MeowCAD.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshManager.cpp" />
+    <ClCompile Include="MeshSelector.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="ObjParser.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshManager.h" />
+    <ClInclude Include="MeshSelector.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="ObjParser.h" />
     <ClInclude Include="Scene.h" />
@@ -208,6 +210,8 @@
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="mesh_selector.fs" />
+    <None Include="mesh_selector.vs" />
     <None Include="shaders\base.frag" />
     <None Include="shaders\base.vert" />
     <None Include="shaders\material.frag" />

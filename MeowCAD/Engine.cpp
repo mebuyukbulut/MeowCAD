@@ -123,15 +123,14 @@ void Engine::set_screen_resolution(glm::vec2 newResolution){
         + ", " + std::to_string(screen_resolution.y) + ")";
     LogUtils::get().log(message);
 }
-
 glm::vec2 Engine::get_screen_resolution(){
     return screen_resolution;
 }
 
+
 void Engine::exit() {
     glfwSetWindowShouldClose(window, true);
 }
-
 
 void Engine::init() {
     GlfwInitInfo glfw_init_info{
@@ -199,7 +198,6 @@ void Engine::init() {
 
 void Engine::render_viewport() {
 
-
     if (viewport.is_dirty()) {
         auto res = viewport.get_resolution();
         //if (res.x != 0 || res.y != 0) {
@@ -212,13 +210,24 @@ void Engine::render_viewport() {
 
     viewport.bind();
 
-    // draw cube map
-    glDisable(GL_DEPTH_TEST);
-    scene.skybox.draw();
+    // mesh selector 
+    scene.mesh_selector.draw();
+    //std::cout << 
+    //    (int)read_pixel_at_cursor()[0] << 
+    //    (int)read_pixel_at_cursor()[1] << 
+    //    (int)read_pixel_at_cursor()[2] << std::endl;
 
-    // draw scene 
-    glEnable(GL_DEPTH_TEST);
-    scene.draw();
+
+
+    //// draw cube map
+    //glDisable(GL_DEPTH_TEST);
+    //scene.skybox.draw();
+
+    //// draw scene 
+    scene.time.update(); // we should carry this thing to Engine class
+    //glEnable(GL_DEPTH_TEST);
+    //scene.draw();
+
     viewport.unbind(screen_resolution.x, screen_resolution.y);
 
 

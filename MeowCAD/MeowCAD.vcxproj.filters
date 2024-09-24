@@ -117,6 +117,9 @@
     <ClCompile Include="MeshManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MeshSelector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LogUtils.h">
@@ -209,6 +212,9 @@
     <ClInclude Include="MeshManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MeshSelector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\base.frag">
@@ -235,5 +241,7 @@
     <None Include="shaders\pbr.vs">
       <Filter>Resource Files\Shaders</Filter>
     </None>
+    <None Include="mesh_selector.vs" />
+    <None Include="mesh_selector.fs" />
   </ItemGroup>
 </Project>

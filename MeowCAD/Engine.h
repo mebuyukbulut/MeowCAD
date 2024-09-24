@@ -59,7 +59,6 @@ private:
     void my_config();
     void cleanup();
     void processInput(GLFWwindow* window);
-
 };
 
 
