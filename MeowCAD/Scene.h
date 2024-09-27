@@ -11,18 +11,16 @@
 #include "SkyBox.h"
 #include "MeshManager.h"
 #include "MeshSelector.h"
+
 class Mesh;
 
 class Scene{
-	//ETime time;
 	Camera camera;
 	Shader shader;
-
+	ETime time;
 
 	// maybe we need a dirty flag for update 
 public:
-	ETime time;
-
 	SkyBox skybox;
 	MeshManager mesh_manager; 
 	MeshSelector mesh_selector;
@@ -30,8 +28,6 @@ public:
 
 	void init();
 	void draw();
-
-
 
 
 	Camera& get_camera();

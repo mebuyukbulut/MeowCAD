@@ -68,6 +68,7 @@ void Scene::draw() {
 }
 
 Camera& Scene::get_camera() { return camera; }
+
 ETime& Scene::get_time() { return time; }
 Scene::~Scene() {
 	// Delete meshes 

@@ -42,7 +42,7 @@ public:
 	GLFWwindow* window{};
     EViewport viewport;
 	UI ui;
-    Mouse mouse = Mouse(screen_resolution);    
+    Mouse mouse = Mouse(screen_resolution);
 
     void init();
 

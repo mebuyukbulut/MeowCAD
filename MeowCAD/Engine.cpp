@@ -236,8 +236,7 @@ void Engine::render_viewport() {
     scene.skybox.draw();
 
     // draw scene 
-    glClear(GL_DEPTH_BUFFER_BIT);
-    scene.time.update(); // we should carry this thing to Engine class
+    glClear(GL_DEPTH_BUFFER_BIT);   
     glEnable(GL_DEPTH_TEST);
     scene.draw();
 
@@ -248,7 +247,8 @@ void Engine::render_viewport() {
 
 void Engine::render_loop() {
     while (!glfwWindowShouldClose(window)) {
-        processInput(window);
+        processInput(window);         
+        scene.get_time().update();
 
         if (viewport.is_active())
             render_viewport();
