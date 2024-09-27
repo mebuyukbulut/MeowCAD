@@ -34,6 +34,9 @@ private:
 //     CLASS
 // ----------------------------------------------------
 public:
+    int selected_mesh_index = 0;
+
+
 	InputMode input_mode = InputMode::UI;
 	Scene scene;
 	GLFWwindow* window{};

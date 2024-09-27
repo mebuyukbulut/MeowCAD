@@ -218,15 +218,28 @@ void Engine::render_viewport() {
     //    (int)read_pixel_at_cursor()[2] << std::endl;
 
 
+    int pixel_at_loc = (int)read_pixel_at_cursor()[0];
 
-    //// draw cube map
-    //glDisable(GL_DEPTH_TEST);
-    //scene.skybox.draw();
+    if (pixel_at_loc % 5 == 0 && pixel_at_loc != 205) {
+        selected_mesh_index = pixel_at_loc / 5;
 
-    //// draw scene 
+        //std::cout << pixel_at_loc << std::endl;
+        //std::cout << selected_mesh_index << std::endl;
+    }
+    else
+        selected_mesh_index = -1; 
+
+
+
+    // draw cube map
+    glDisable(GL_DEPTH_TEST);
+    scene.skybox.draw();
+
+    // draw scene 
+    glClear(GL_DEPTH_BUFFER_BIT);
     scene.time.update(); // we should carry this thing to Engine class
-    //glEnable(GL_DEPTH_TEST);
-    //scene.draw();
+    glEnable(GL_DEPTH_TEST);
+    scene.draw();
 
     viewport.unbind(screen_resolution.x, screen_resolution.y);
 
@@ -278,6 +291,15 @@ void Engine::load_app_icon() {
 void Engine::processInput(GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+
+    if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT)) {
+        int selected = Engine::get().selected_mesh_index;
+        if ( selected != -1) {
+            Engine::get().scene.mesh_manager.select_mesh(selected);
+            //std::cout << selected << std::endl;
+        }
+    }
+
 
     // tab mode 
     if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS) {
