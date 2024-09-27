@@ -8,10 +8,12 @@
 #include "VAO.h"
 #include "VBO.h"
 #include "Vertex.h"
+#include "IDGen.h"
 
 class MeshManager{
 	VAO vao;
 	VBO vbo;
+	IDGen idgen;
 
 	int buffer_size{};
 	int buffer_capacity{};

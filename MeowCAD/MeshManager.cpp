@@ -26,6 +26,9 @@ void MeshManager::deselect_mesh() {
 }
 
 void MeshManager::add_mesh(Mesh* mesh) {
+	mesh->set_ID(idgen.current_ID());
+	idgen.next_ID();
+
 	int mesh_vertex_count = mesh->get_data().size();
 	int old_vertex_index = vertex_index;
 	vertex_index += mesh_vertex_count;
