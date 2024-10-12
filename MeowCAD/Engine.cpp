@@ -115,6 +115,10 @@ unsigned char* Engine::read_pixel_at_cursor() {
     return pRGB;
 }
 
+/// <summary>
+/// Set screen resolution of entire application. 
+/// </summary>
+/// <param name="newResolution"></param>
 void Engine::set_screen_resolution(glm::vec2 newResolution){
     screen_resolution = newResolution;
     // there are too much sequencer log for this 
@@ -123,14 +127,22 @@ void Engine::set_screen_resolution(glm::vec2 newResolution){
         + ", " + std::to_string(screen_resolution.y) + ")";
     LogUtils::get().log(message);
 }
+
+/// <summary>
+/// Get screen resolution of entire application 
+/// </summary>
+/// <returns></returns>
 glm::vec2 Engine::get_screen_resolution(){
     return screen_resolution;
 }
 
-
+/// <summary>
+/// Finish application
+/// </summary>
 void Engine::exit() {
     glfwSetWindowShouldClose(window, true);
 }
+
 
 void Engine::init() {
     GlfwInitInfo glfw_init_info{
@@ -277,6 +289,10 @@ void Engine::cleanup() {
     glfwTerminate();
 }
 
+
+/// <summary>
+/// Load MeowCAD window icon 
+/// </summary>
 void Engine::load_app_icon() {
     GLFWimage images[1];
     images[0].pixels = stbi_load("images/meow_icon.png", &images[0].width, &images[0].height, 0, 4); //rgba channels 

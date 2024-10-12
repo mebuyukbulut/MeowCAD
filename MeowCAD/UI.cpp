@@ -297,7 +297,7 @@ void UI::properties_window_material(Mesh* mesh){
     ImGui::Separator(); // ------------------------------------------------------
 
 
-    // this is not a good approach for showing materials. 
+    // this is not a good approach for showing materials on dropdown menu. 
     static int material_selected_item = 0; // it should show material of selected mesh 
 
     // create material
@@ -330,7 +330,7 @@ void UI::properties_window_material(Mesh* mesh){
     ImGui::Text(material->get_ID().name.c_str());
 
     bool mat_info_control = false;
-    mat_info_control |= ImGui::ColorPicker3("albedo", &material_info.albedo[0]);
+    mat_info_control |= ImGui::ColorPicker3("albedo", &material_info.albedo[0],ImGuiColorEditFlags_PickerHueWheel);
     mat_info_control |= ImGui::DragFloat("metallic", &material_info.metallic, 0.02, 0, 1);
     mat_info_control |= ImGui::DragFloat("roughness", &material_info.roughness, 0.02, 0, 1);
     mat_info_control |= ImGui::DragFloat("ao", &material_info.ao, 0.02, 0, 1);
@@ -338,6 +338,8 @@ void UI::properties_window_material(Mesh* mesh){
     if (mat_info_control)
         material->set(material_info);
 }
+
+
 
 void UI::color_tooltip(){
     auto pRGB = Engine::get().read_pixel_at_cursor();

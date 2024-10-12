@@ -29,7 +29,7 @@ class UI{
 	bool is_properties_window_active = true;
 	bool is_material_window_active = false;
 	//bool is_viewport_window_active = true;
-	bool is_color_tooltip_active = true; 
+	bool is_color_tooltip_active = false; 
 	
 	
 
