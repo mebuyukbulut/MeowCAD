@@ -331,6 +331,12 @@ void Engine::processInput(GLFWwindow* window) {
         mouse.reset();
     }
 
+    if (glfwGetKey(window, GLFW_KEY_KP_DECIMAL) == GLFW_PRESS)
+        if (Mesh* selected_mesh = scene.mesh_manager.get_selected_mesh()) {
+            auto new_pos = selected_mesh->get_transform().get_position();
+            scene.get_camera().focus(new_pos);
+        }
+
     if (input_mode == InputMode::UI)
         return;
 
@@ -345,4 +351,7 @@ void Engine::processInput(GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) delta_location.z += 1;
     if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) delta_location.z -= 1;
     scene.get_camera().move(delta_location, scene.get_time().get_delta_time());
+
+
+    
 }

@@ -30,11 +30,19 @@ void Camera::mouse(float xoffset, float yoffset) {
 }
 
 void Camera::zoom(float value) {
-    fov -= (float)value;
-    if (fov < 1.0f)
-        fov = 1.0f;
-    if (fov > 45.0f)
-        fov = 45.0f;
+    cameraArmLength += value;
+    if (cameraArmLength < 1)
+        cameraArmLength = 1;
+    //fov -= (float)value;
+    //if (fov < 1.0f)
+    //    fov = 1.0f;
+    //if (fov > 45.0f)
+    //    fov = 45.0f;
+}
+
+void Camera::focus(glm::vec3 focusPoint){
+    cameraPos = focusPoint;
+    cameraArmLength = 10;
 }
 
 void Camera::move(glm::vec3 deltaLocation, float deltaTime) {
@@ -60,7 +68,7 @@ glm::mat4 Camera::get_projection() {
 }
 
 glm::mat4 Camera::get_view() {
-    return glm::lookAt(cameraPos, cameraPos + cameraFront, worldUp);
+    return glm::lookAt(cameraPos - cameraFront*glm::vec3(cameraArmLength), cameraPos + cameraFront, worldUp);
 }
 
 glm::vec3 Camera::get_position() {

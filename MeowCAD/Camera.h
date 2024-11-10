@@ -4,6 +4,7 @@
 class Camera{
 	// camera
 	glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+    float cameraArmLength = 10;
 	glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
@@ -22,6 +23,7 @@ public:
     void mouse(float xoffset, float yoffset);
     void zoom(float value);
     
+    void focus(glm::vec3 focusPoint);
     void move(glm::vec3 deltaLocation, float deltaTime);
     void update_screen_size(glm::ivec2 resolution);
     void update_screen_size(unsigned int width, unsigned int height);
