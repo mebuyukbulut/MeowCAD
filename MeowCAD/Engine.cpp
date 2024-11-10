@@ -308,7 +308,7 @@ void Engine::processInput(GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
-    if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT)) {
+    if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) && input_mode == InputMode::UI) {
         int selected = Engine::get().selected_mesh_index;
         if ( selected != -1) {
             Engine::get().scene.mesh_manager.select_mesh(selected);
@@ -318,14 +318,27 @@ void Engine::processInput(GLFWwindow* window) {
 
 
     // tab mode 
-    if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS) {
-        input_mode = (input_mode == InputMode::GAME ? InputMode::UI : InputMode::GAME);
+    if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_PRESS && input_mode == InputMode::UI) {
+        input_mode = InputMode::GAME;
         glfwSetInputMode(window, GLFW_CURSOR, (input_mode == InputMode::GAME ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL));
 
-        std::cout << "Input mode was changed" << std::endl;
+        std::cout << "InputMode::GAME" << std::endl;
 
         // disable UI
-        ui.set_disabled(input_mode == InputMode::GAME);
+        ui.set_disabled(true);
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(300));
+        mouse.reset();
+    }
+    if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_RELEASE && input_mode == InputMode::GAME) {
+        
+        input_mode = InputMode::UI;
+        glfwSetInputMode(window, GLFW_CURSOR, (input_mode == InputMode::GAME ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL));
+
+        std::cout << "InputMode::UI" << std::endl;
+
+        // disable UI
+        ui.set_disabled(false);
 
         std::this_thread::sleep_for(std::chrono::milliseconds(300));
         mouse.reset();
@@ -351,6 +364,8 @@ void Engine::processInput(GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) delta_location.z += 1;
     if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) delta_location.z -= 1;
     scene.get_camera().move(delta_location, scene.get_time().get_delta_time());
+
+
 
 
     
