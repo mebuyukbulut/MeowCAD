@@ -82,8 +82,9 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn) {
 /// <param name="xoffset"></param>
 /// <param name="yoffset">Scrool value</param>
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
-    if (Engine::get().input_mode == InputMode::UI)
-        return;
+    //if (Engine::get().input_mode == InputMode::UI)
+    //    return;
+    // Instead of using Input mode we need to find is mouse inside viewport?
     Engine::get().scene.get_camera().zoom(yoffset);
 }
 
@@ -353,7 +354,7 @@ void Engine::processInput(GLFWwindow* window) {
     if (input_mode == InputMode::UI)
         return;
 
-    // movement
+    // movement // we should change this thing
     glm::vec3 delta_location{ 0,0,0 }; // x,y,z are dummy 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) delta_location.x += 1;
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) delta_location.x -= 1;
