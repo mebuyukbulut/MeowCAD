@@ -6,20 +6,15 @@
 /// <param name="xposIn">New mouse position in horizontal direction</param>
 /// <param name="yposIn">New mouse position in vertical direction</param>
 void Mouse::update() {
-    float xpos = position.x;
-    float ypos = position.y;
-
     if (firstMouse) {
-        lastX = xpos;
-        lastY = ypos;
+        lastPos = position;
         firstMouse = false;
     }
 
-    xoffset = xpos - lastX;
-    yoffset = lastY - ypos; 
-    // reversed since y-coordinates go from bottom to top
-    lastX = xpos;
-    lastY = ypos;
+    offset.x = position.x - lastPos.x;
+    offset.y = lastPos.y - position.y; // reversed since y-coordinates go from bottom to top
+    
+    lastPos = position;
 }
 
 void Mouse::reset() {
@@ -27,11 +22,10 @@ void Mouse::reset() {
 }
 
 glm::vec2 Mouse::get_offset() {
-    return glm::vec2(xoffset, yoffset);
+    return offset;
 }
 void Mouse::reset_offset() {
-    xoffset = 0;
-    yoffset = 0;
+    offset = glm::vec2(0.0f);
 }
 
 
@@ -39,8 +33,7 @@ void Mouse::set_position(glm::vec2 newPosition){
     position = newPosition;
 }
 void Mouse::set_position(float x, float y){
-    position.x = x;
-    position.y = y;
+    position = glm::vec2(x,y);
 }
 
 glm::vec2 Mouse::get_position(){

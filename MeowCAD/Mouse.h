@@ -3,17 +3,15 @@
 
 class Mouse{
     bool firstMouse{ true };
-	float lastX{};
-	float lastY{};
 
-    float xoffset{};
-    float yoffset{};
 
+    glm::vec2 lastPos;
+    glm::vec2 offset;
     glm::vec2 position;
 public:
     Mouse(glm::vec2 screenResolution) {
-        lastX = screenResolution.x / 2.0;
-        lastY = screenResolution.y / 2.0;
+        lastPos.x = screenResolution.x / 2.0;
+        lastPos.y = screenResolution.y / 2.0;
     }
 
     void update();
