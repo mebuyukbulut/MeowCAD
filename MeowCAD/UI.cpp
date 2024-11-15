@@ -185,10 +185,12 @@ void UI::credits_window(){
 
 
 void UI::viewport_window(){
+    
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-    ImGui::Begin("Viewport", &viewport->get_active());	
-
-    auto t_size = ImGui::GetWindowSize();
+    //ImGui::PushStyleVar(ImGuiCol_TitleBgCollapsed, ImVec2(0.0f, 0.0f));
+    ImGui::Begin("Viewport", &viewport->get_active()); //ImGuiWindowFlags_NoTitleBar| ImGuiWindowFlags_UnsavedDocument
+    //std::cout<<ImGui::GetContentRegionAvail().x<<"\t" << ImGui::GetContentRegionAvail().y<<std::endl;
+    auto t_size = ImGui::GetContentRegionAvail();//ImGui::GetWindowSize();
     glm::ivec2 window_size{ t_size.x, t_size.y};
 
     if (window_size != viewport->get_resolution()) {
@@ -204,6 +206,7 @@ void UI::viewport_window(){
     ImGui::End();
 
     ImGui::PopStyleVar();
+    //ImGui::PopStyleVar();
 }
 
 void UI::outliner_window() {
