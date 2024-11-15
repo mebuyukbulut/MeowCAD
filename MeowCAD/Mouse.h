@@ -19,6 +19,7 @@ public:
     void update(double xposIn, double yposIn);
     void reset();
     glm::vec2 get_offset();
+    void reset_offset();
 
 
     void set_position(glm::vec2 newPosition);

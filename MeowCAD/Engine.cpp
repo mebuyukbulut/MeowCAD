@@ -71,8 +71,8 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn) {
 
     Engine::get().mouse.update(xposIn, yposIn);
 
-    auto offset = Engine::get().mouse.get_offset();
-    Engine::get().scene.get_camera().mouse(offset.x, offset.y);
+    //auto offset = Engine::get().mouse.get_offset();
+    //Engine::get().scene.get_camera().mouse(offset.x, offset.y);
 }
 /// <summary>
 /// This fucntion was called when mouse scrool was moved.
@@ -270,6 +270,8 @@ void Engine::render_loop() {
         glClear(GL_DEPTH_BUFFER_BIT);
         ui.render();
 
+        mouse.reset_offset();
+
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -354,17 +356,16 @@ void Engine::processInput(GLFWwindow* window) {
     if (input_mode == InputMode::UI)
         return;
 
-    // movement // we should change this thing
-    glm::vec3 delta_location{ 0,0,0 }; // x,y,z are dummy 
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) delta_location.x += 1;
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) delta_location.x -= 1;
-
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) delta_location.y -= 1;
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) delta_location.y += 1;
-
-    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) delta_location.z += 1;
-    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) delta_location.z -= 1;
-    scene.get_camera().move(delta_location, scene.get_time().get_delta_time());
+    // movement 
+    if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+        auto offset = mouse.get_offset();
+        glm::vec3 delta_location{ 0, offset.x,offset.y }; // x,y,z are dummy 
+        scene.get_camera().move(delta_location, scene.get_time().get_delta_time());
+    }
+    else {
+        auto offset = mouse.get_offset();
+        scene.get_camera().mouse(offset.x, offset.y);
+    }
 
 
 
