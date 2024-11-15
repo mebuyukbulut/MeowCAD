@@ -15,8 +15,12 @@ uniform vec3 lightPositions[4];
 uniform vec3 lightColors[4];
 
 uniform vec3 camPos;
+uniform float modeFlag;
 
 const float PI = 3.14159265359;
+
+
+
 // ----------------------------------------------------------------------------
 float DistributionGGX(vec3 N, vec3 H, float roughness)
 {
@@ -59,7 +63,12 @@ vec3 fresnelSchlick(float cosTheta, vec3 F0)
 }
 // ----------------------------------------------------------------------------
 void main()
-{		
+{
+    if(modeFlag > 0.5){    
+        FragColor = vec4(1,165./255.,0, 0.3);
+        return;
+    }  
+
     vec3 N = normalize(Normal);
     vec3 V = normalize(camPos - WorldPos);
 
@@ -97,7 +106,7 @@ void main()
         // multiply kD by the inverse metalness such that only non-metals 
         // have diffuse lighting, or a linear blend if partly metal (pure metals
         // have no diffuse light).
-        kD *= 1.0 - metallic;	  
+        kD *= 1.0 - metallic;  
 
         // scale light by NdotL
         float NdotL = max(dot(N, L), 0.0);        
@@ -116,6 +125,7 @@ void main()
     color = color / (color + vec3(1.0));
     // gamma correct
     color = pow(color, vec3(1.0/2.2)); 
-
+    
     FragColor = vec4(color, 1.0);
+    //FragColor = vec4(1,1,1, 1.0);
 }

@@ -92,6 +92,10 @@ void Shader::set(std::string uniform_name, float value) {
     glUseProgram(ID);
     glUniform1f(get_loc(uniform_name), value);
 }
+//void Shader::set(std::string uniform_name, int value) {
+//    glUseProgram(ID);
+//    glUniform1i(get_loc(uniform_name), value);
+//}
 
 void Shader::set(std::string uniform_name, glm::vec3 value) {
     glUseProgram(ID);

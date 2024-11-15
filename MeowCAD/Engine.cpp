@@ -67,12 +67,7 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn) {
     if (Engine::get().input_mode == InputMode::UI)
         return;
 
-
-
-    Engine::get().mouse.update(xposIn, yposIn);
-
-    //auto offset = Engine::get().mouse.get_offset();
-    //Engine::get().scene.get_camera().mouse(offset.x, offset.y);
+    Engine::get().mouse.update();
 }
 /// <summary>
 /// This fucntion was called when mouse scrool was moved.

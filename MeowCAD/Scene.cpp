@@ -6,6 +6,9 @@
 #include "Cube.h"
 #include <stb_image.h>
 
+
+#include <glm/gtc/matrix_transform.hpp>
+
 void Scene::init() {
 	mesh_manager.init();
 	mesh_selector.init(&camera, &mesh_manager);
@@ -41,7 +44,32 @@ void Scene::init() {
 
 void Scene::draw() {
 	shader.use();
-	shader.set("time", time.get_elapsed_time());
+	shader.set("time", (float)time.get_elapsed_time());
+
+	shader.set("modeFlag", 0);
+	if (auto m = mesh_manager.get_selected_mesh()) {
+		shader.set("modeFlag", 1.0);
+
+		m->get_material()->use(&shader);
+
+		glm::mat4 model = m->get_transform().get_model_matrix() * glm::scale(glm::mat4(1.0f), glm::vec3(1.1));
+		glm::mat4 projection = camera.get_projection();
+		glm::mat4 view = camera.get_view();
+
+
+		shader.set("model", model);
+		shader.set("view", view);
+		shader.set("projection", projection);
+		shader.set("normalMatrix", glm::transpose(glm::inverse(glm::mat3(model))));
+
+		shader.set("camPos", camera.get_position());
+
+		glDrawArrays(GL_TRIANGLES, m->get_vertex_index(), m->get_vertex_count());
+		glClear(GL_DEPTH_BUFFER_BIT);
+
+		shader.set("modeFlag", 0);
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
 
 	for (auto i : mesh_manager.meshes) {
 		if (!i) continue;

@@ -16,7 +16,7 @@ public:
         lastY = screenResolution.y / 2.0;
     }
 
-    void update(double xposIn, double yposIn);
+    void update();
     void reset();
     glm::vec2 get_offset();
     void reset_offset();

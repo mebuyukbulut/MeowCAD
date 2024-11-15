@@ -5,9 +5,9 @@
 /// </summary>
 /// <param name="xposIn">New mouse position in horizontal direction</param>
 /// <param name="yposIn">New mouse position in vertical direction</param>
-void Mouse::update(double xposIn, double yposIn) {
-    float xpos = static_cast<float>(xposIn);
-    float ypos = static_cast<float>(yposIn);
+void Mouse::update() {
+    float xpos = position.x;
+    float ypos = position.y;
 
     if (firstMouse) {
         lastX = xpos;
@@ -34,10 +34,9 @@ void Mouse::reset_offset() {
     yoffset = 0;
 }
 
-// why we use update and set_position ? 
-// maybe we can combine this variables ? 
+
 void Mouse::set_position(glm::vec2 newPosition){
-    set_position(newPosition.x, newPosition.y);
+    position = newPosition;
 }
 void Mouse::set_position(float x, float y){
     position.x = x;
