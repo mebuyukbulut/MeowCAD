@@ -187,9 +187,11 @@ void UI::credits_window(){
 void UI::viewport_window(){
     
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-    //ImGui::PushStyleVar(ImGuiCol_TitleBgCollapsed, ImVec2(0.0f, 0.0f));
     ImGui::Begin("Viewport", &viewport->get_active()); //ImGuiWindowFlags_NoTitleBar| ImGuiWindowFlags_UnsavedDocument
-    //std::cout<<ImGui::GetContentRegionAvail().x<<"\t" << ImGui::GetContentRegionAvail().y<<std::endl;
+    
+    viewport->set_hovered(ImGui::IsWindowHovered());
+    //std::cout << ImGui::IsWindowHovered() << std::endl;
+
     auto t_size = ImGui::GetContentRegionAvail();//ImGui::GetWindowSize();
     glm::ivec2 window_size{ t_size.x, t_size.y};
 
@@ -206,7 +208,6 @@ void UI::viewport_window(){
     ImGui::End();
 
     ImGui::PopStyleVar();
-    //ImGui::PopStyleVar();
 }
 
 void UI::outliner_window() {
@@ -225,6 +226,9 @@ void UI::outliner_window() {
 
         for (int i{}; i < meshes.size(); i++) {
             Mesh* mesh = meshes[i];
+            
+            // maybe this code not correct. But it works for now
+            if (!mesh) continue;
 
             ImGuiTreeNodeFlags flag = ImGuiTreeNodeFlags_Leaf;
             if (mesh == selected_mesh)

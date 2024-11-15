@@ -10,6 +10,7 @@ class EViewport{
 
 	bool is_viewport_window_active{true};
 	bool dirty{};
+	bool hovered{};
 
 	glm::ivec2 resolution{ 0,0 };
 	GLuint renderedTexture;
@@ -65,6 +66,12 @@ public:
 	}
 	void set_resolution(glm::ivec2 resolution) {
 		this->resolution = resolution;
+	}
+	bool is_hovered() {
+		return hovered;
+	}
+	void set_hovered(const bool& hovered) {
+		this->hovered = hovered;
 	}
 	void set(uint32_t texture_width, uint32_t texture_height) {
 		resolution.x = texture_width;

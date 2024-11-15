@@ -77,10 +77,8 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn) {
 /// <param name="xoffset"></param>
 /// <param name="yoffset">Scrool value</param>
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
-    //if (Engine::get().input_mode == InputMode::UI)
-    //    return;
-    // Instead of using Input mode we need to find is mouse inside viewport?
-    Engine::get().scene.get_camera().zoom(yoffset);
+    if(Engine::get().viewport.is_hovered())
+        Engine::get().scene.get_camera().zoom(yoffset);
 }
 
 
@@ -312,6 +310,10 @@ void Engine::processInput(GLFWwindow* window) {
             Engine::get().scene.mesh_manager.select_mesh(selected);
             //std::cout << selected << std::endl;
         }
+        else if(viewport.is_hovered()){
+            Engine::get().scene.mesh_manager.deselect_mesh();
+        }
+
     }
 
 
