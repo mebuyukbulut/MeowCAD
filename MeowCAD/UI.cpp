@@ -211,6 +211,7 @@ void UI::viewport_window(){
 }
 
 void UI::outliner_window() {
+    // We need a better solution for disable mouse input inside game mode
     ImGui::Begin("Outliner", &is_outliner_window_active, disabled ? ImGuiWindowFlags_NoInputs : ImGuiWindowFlags_None);
 
     ImGuiTreeNodeFlags flag = ImGuiTreeNodeFlags_DefaultOpen;
@@ -255,7 +256,7 @@ void UI::outliner_window() {
 
 
 void UI::properties_window(){
-    ImGui::Begin("Properties", &is_properties_window_active);
+    ImGui::Begin("Properties", &is_properties_window_active, disabled ? ImGuiWindowFlags_NoInputs : ImGuiWindowFlags_None);
 
     Mesh* mesh = Engine::get().scene.mesh_manager.get_selected_mesh();
 
@@ -414,13 +415,15 @@ void UI::init_imgui() {
 
 
 void UI::render() {
+    
+
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
     // dock directly to main window
     ImGuiID dockspace_id = ImGui::DockSpaceOverViewport();
-
+    
 
     menu_bar();
 
