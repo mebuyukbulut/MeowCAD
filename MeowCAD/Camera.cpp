@@ -68,9 +68,11 @@ glm::mat4 Camera::get_projection() {
 }
 
 glm::mat4 Camera::get_view() {
-    return glm::lookAt(cameraPos - cameraFront*glm::vec3(cameraArmLength), cameraPos + cameraFront, worldUp);
+    auto camPos = cameraPos - cameraFront * cameraArmLength;
+    return glm::lookAt(camPos, camPos + cameraFront, worldUp);
 }
 
 glm::vec3 Camera::get_position() {
-    return cameraPos;
+    return cameraPos - cameraFront * cameraArmLength;
+    //return cameraPos;
 }

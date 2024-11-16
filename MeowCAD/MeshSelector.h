@@ -9,6 +9,10 @@
 #include "MeshManager.h"
 #include <bitset>
 
+/// <summary>
+/// This class draw objects by IDs' colors. 
+/// So we can select 3D object by color (like old atari style)
+/// </summary>
 
 class MeshSelector{
 
