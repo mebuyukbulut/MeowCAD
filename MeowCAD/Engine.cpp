@@ -356,7 +356,9 @@ void Engine::processInput(GLFWwindow* window) {
     // movement 
     if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
         auto offset = mouse.get_offset();
+        float speed = 0.3; // We should make this variable config. 
         glm::vec3 delta_location{ 0, offset.x,offset.y }; // x,y,z are dummy 
+        delta_location *= -speed; 
         scene.get_camera().move(delta_location, scene.get_time().get_delta_time());
     }
     else {
