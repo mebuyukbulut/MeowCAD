@@ -33,22 +33,10 @@ public:
 	void set_euler_delta_rotation(glm::vec3 delta_rotation) {
 		make_dirty();
 
-		this->rotation = glm::rotate(this->rotation, delta_rotation.x, glm::vec3(1, 0, 0));
-		this->rotation = glm::rotate(this->rotation, delta_rotation.y, glm::vec3(0, 1, 0));
-		this->rotation = glm::rotate(this->rotation, delta_rotation.z, glm::vec3(0, 0, 1));
-
-		//this->rotation.
-		//rotation.x = glm::radians(rotation.x);
-		//rotation.y = glm::radians(rotation.y);
-		//rotation.z = glm::radians(rotation.z);
-
-		//glm::quat QuatAroundX = glm::quat(rotation.x, glm::vec3(1.0, 0.0, 0.0));
-		//glm::quat QuatAroundY = glm::quat(rotation.y, glm::vec3(0.0, 1.0, 0.0));
-		//glm::quat QuatAroundZ = glm::quat(rotation.z, glm::vec3(0.0, 0.0, 1.0));
-		//glm::quat finalOrientation = QuatAroundX * QuatAroundY * QuatAroundZ;
-
-		////this->rotation = glm::quat(rotation);
-		//this->rotation = glm::quat(glm::orient3(rotation));
+		// It works for local rotation 
+		this->rotation = glm::rotate(this->rotation, glm::radians(delta_rotation.x), glm::vec3(1, 0, 0));
+		this->rotation = glm::rotate(this->rotation, glm::radians(delta_rotation.y), glm::vec3(0, 1, 0));
+		this->rotation = glm::rotate(this->rotation, glm::radians(delta_rotation.z), glm::vec3(0, 0, 1));
 
 	}
 	void set_scale(glm::vec3 scale) {
