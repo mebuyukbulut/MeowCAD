@@ -36,7 +36,7 @@ public:
 
 	void destroy_mesh();
 	Mesh* get_selected_mesh();
-	void mesh_transform(Transform newTransform);
+	//void mesh_transform(Transform newTransform);
 	std::vector<std::pair<std::string, uint32_t>>& get_names();
 
 };

@@ -75,9 +75,9 @@ Mesh* MeshManager::get_selected_mesh() {
 	return selected_mesh;
 }
 
-void MeshManager::mesh_transform(Transform newTransform) {
-	selected_mesh->set_transform(newTransform);
-}
+//void MeshManager::mesh_transform(Transform newTransform) {
+//	selected_mesh->set_transform(newTransform);
+//}
 
 std::vector<std::pair<std::string, uint32_t>>& MeshManager::get_names() {
 	if (dirty) {
