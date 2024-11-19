@@ -33,11 +33,6 @@ void Camera::zoom(float value) {
     cameraArmLength += value;
     if (cameraArmLength < 1)
         cameraArmLength = 1;
-    //fov -= (float)value;
-    //if (fov < 1.0f)
-    //    fov = 1.0f;
-    //if (fov > 45.0f)
-    //    fov = 45.0f;
 }
 
 void Camera::focus(glm::vec3 focusPoint){
@@ -46,14 +41,14 @@ void Camera::focus(glm::vec3 focusPoint){
 }
 
 void Camera::move(glm::vec3 deltaLocation, float deltaTime) {
-    float cameraSpeed = static_cast<float>(5 * deltaTime);
+    float speed = - prefs.camera_speed * deltaTime;
 
     if (fabs(deltaLocation.x) > 0.1)
-        cameraPos += deltaLocation.x * cameraSpeed * cameraFront;
+        cameraPos += deltaLocation.x * speed * cameraFront;
     if (fabs(deltaLocation.y) > 0.1)
-        cameraPos += deltaLocation.y * glm::normalize(glm::cross(cameraFront, worldUp)) * cameraSpeed;
+        cameraPos += deltaLocation.y * speed * glm::normalize(glm::cross(cameraFront, worldUp));
     if (fabs(deltaLocation.z) > 0.1)
-        cameraPos += deltaLocation.z * cameraSpeed * cameraUp;
+        cameraPos += deltaLocation.z * speed * cameraUp;
 }
 void Camera::update_screen_size(glm::ivec2 resolution) {
     update_screen_size(resolution.x, resolution.y);
@@ -64,7 +59,7 @@ void Camera::update_screen_size(unsigned int width, unsigned int height) {
 }
 
 glm::mat4 Camera::get_projection() {
-    return glm::perspective(glm::radians(fov), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+    return glm::perspective(glm::radians(prefs.fov), (float)SCR_WIDTH / (float)SCR_HEIGHT, prefs.clip_start, prefs.clip_end);
 }
 
 glm::mat4 Camera::get_view() {

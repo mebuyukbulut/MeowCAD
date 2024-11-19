@@ -20,6 +20,8 @@
 #include "Transform.h"
 #include "Mesh.h"
 
+//#include "Camera.h"
+
 void UI::menu_bar() {
     if (ImGui::BeginMainMenuBar()) {
         if (ImGui::BeginMenu("File")) {
@@ -41,8 +43,21 @@ void UI::menu_bar() {
             }
             ImGui::EndMenu();
         }
-
         if (ImGui::BeginMenu("View")) {
+
+            if (ImGui::MenuItem("Camera Settings", "", &is_camera_preferences_active));
+            //ImGui::Separator();
+            ImGui::SeparatorText("OGL");
+            if (ImGui::BeginMenu("Polygon Mode")) {
+                if (ImGui::MenuItem("Fill")) CM.exec(CommandID::PolygonModeFill);
+                if (ImGui::MenuItem("Line")) CM.exec(CommandID::PolygonModeLine);
+                if (ImGui::MenuItem("Point")) CM.exec(CommandID::PolygonModePoint);
+                ImGui::EndMenu();
+            }
+
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("window")) {
             // we can implement this things with commands 
             if (ImGui::MenuItem("Text Editor", "", &is_text_editor_window_active)) {}
             if (ImGui::MenuItem("Show Test", "", &is_test_window_active)) {}
@@ -55,15 +70,7 @@ void UI::menu_bar() {
             ImGui::EndMenu();
         }
 
-        if (ImGui::BeginMenu("OGL")) {
-            if(ImGui::BeginMenu("Polygon Mode")){
-                if (ImGui::MenuItem("Fill")) CM.exec(CommandID::PolygonModeFill);                
-                if (ImGui::MenuItem("Line")) CM.exec(CommandID::PolygonModeLine);                
-                if (ImGui::MenuItem("Point")) CM.exec(CommandID::PolygonModePoint);                
-                ImGui::EndMenu();
-            }
-            ImGui::EndMenu();
-        }
+
 
         ImGui::EndMainMenuBar();
     }
@@ -370,6 +377,23 @@ void UI::color_tooltip(){
 
 }
 
+void UI::camera_preferences_window(){
+    ImGui::Begin("Camera Preference", &is_camera_preferences_active);
+    CameraPreferences prefs = Engine::get().scene.get_camera().get_preference();
+    bool control = 
+    ImGui::DragFloat("FOV:", &prefs.fov, 1, 3, 150)||
+    ImGui::DragFloat("Clip Start:", &prefs.clip_start, 10, 0, 100'000) ||
+    ImGui::DragFloat("Clip End:", &prefs.clip_end, 10, 18, 100'000) ||
+    ImGui::DragFloat("Speed:", &prefs.camera_speed, 0.1, 0.0, 10);
+    ImGui::End();
+
+    if (!control)
+        return;
+
+
+    Engine::get().scene.get_camera().set_preference(prefs);
+}
+
 void UI::material_window(){
     ImGui::Begin("Materials", &is_properties_window_active);
 
@@ -414,6 +438,14 @@ void UI::init_imgui() {
 }
 
 
+bool UI::is_disabled() {
+    return disabled;
+}
+
+void UI::set_disabled(bool value) {
+    disabled = value;
+}
+
 void UI::render() {
     
 
@@ -427,7 +459,7 @@ void UI::render() {
 
     menu_bar();
 
-
+    // I dont like this structure
     if (is_text_editor_window_active) text_editor_window();
     if (is_test_window_active) test_window();
     if (is_demo_window_active) demo_window();
@@ -437,7 +469,8 @@ void UI::render() {
     if (is_properties_window_active) properties_window();
     if (is_material_window_active) material_window();
     if (viewport->is_active()) viewport_window();
-    if(is_color_tooltip_active) color_tooltip();
+    if (is_color_tooltip_active) color_tooltip();
+    if (is_camera_preferences_active) camera_preferences_window();
 
 
 
@@ -450,4 +483,8 @@ void UI::init_UI(GLFWwindow* window) {
     this->window = window;
     init_imgui();
 
+}
+
+void UI::set_viewport(EViewport* viewport) {
+    this->viewport = viewport;
 }

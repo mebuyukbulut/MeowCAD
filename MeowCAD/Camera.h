@@ -1,6 +1,14 @@
 #pragma once
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
+
+struct CameraPreferences {
+    float fov = 45.0f;
+    float clip_start = 0.1f;
+    float clip_end = 1000.f;
+    float camera_speed = 1;
+};
+
 class Camera{
 	// camera
 	glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
@@ -13,7 +21,8 @@ class Camera{
 
 	float yaw = -90.0f;	// yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
 	float pitch = 0.0f;
-	float fov = 45.0f;
+
+    CameraPreferences prefs{};
 
     unsigned int SCR_WIDTH{};
     unsigned int SCR_HEIGHT{};
@@ -32,6 +41,21 @@ public:
     glm::mat4 get_view();
     glm::vec3 get_position();
 
+    CameraPreferences get_preference() {
+        return prefs;
+    }
+    void set_preference(CameraPreferences prefs) {
+        // we should add check for these prefs.
+
+        if (prefs.clip_start < .1f)
+            prefs.clip_start = .1f;
+
+        if (prefs.clip_end < prefs.clip_start)
+            prefs.clip_end = prefs.clip_start + .1;
+
+
+        this->prefs = prefs;
+    }
 
 };
 
