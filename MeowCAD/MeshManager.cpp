@@ -19,11 +19,6 @@ void MeshManager::select_mesh(uint32_t ID) {
 	if (m != meshes.end()) {
 		selected_mesh = (*m).second;
 	}
-
-	//for (auto& mesh : meshes)
-	//	if(mesh)
-	//		if (mesh->get_ID() == ID)
-	//			selected_mesh = mesh;
 }
 
 void MeshManager::deselect_mesh() {
@@ -47,19 +42,16 @@ void MeshManager::add_mesh(Mesh* mesh) {
 		exit(EXIT_FAILURE);
 	}
 
-
+	// why we use old_vertex_index
 	mesh->set_vertex_index(old_vertex_index);
 	mesh->set_vertex_count(mesh_vertex_count);
 
 
 	vbo.write_data(old_buffer_size, mesh->get_data());
 	vbo.use();
-	meshes[mesh->get_ID()] = mesh;
 
-	std::pair<std::string, uint32_t> mp;
-	mp.first = mesh->get_name();
-	mp.second = mesh->get_ID();
-	mesh_names.push_back(mp);
+	meshes[mesh->get_ID()] = mesh;
+	mesh_names[mesh->get_ID()] = mesh->get_name();
 
 }
 
@@ -68,10 +60,6 @@ void MeshManager::destroy_mesh(){
 
 	meshes.erase(selected_mesh->get_ID());
 
-	//for (auto& mesh : meshes)
-	//	if(mesh)
-	//		if (mesh->get_ID() == selected_mesh->get_ID())
-	//			mesh = nullptr;
 	delete selected_mesh;
 	selected_mesh = nullptr;
 
@@ -82,21 +70,14 @@ Mesh* MeshManager::get_selected_mesh() {
 	return selected_mesh;
 }
 
-//void MeshManager::mesh_transform(Transform newTransform) {
-//	selected_mesh->set_transform(newTransform);
-//}
-
-std::vector<std::pair<std::string, uint32_t>>& MeshManager::get_names() {
+std::map<uint32_t, std::string>& MeshManager::get_names() {
 	if (dirty) {
 		dirty = false; 
 
 		mesh_names.clear();
 
 		for (const auto& mesh : meshes){
-			std::pair<std::string, uint32_t> mp;
-			mp.first = mesh.second->get_name();
-			mp.second = mesh.second->get_ID();
-			mesh_names.push_back(mp);
+			mesh_names[mesh.first] = mesh.second->get_name();
 		}
 		
 	}

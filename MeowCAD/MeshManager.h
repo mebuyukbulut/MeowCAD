@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iostream>
-#include <vector>
+//#include <vector>
 #include <map>
 
 #include "Mesh.h"
@@ -22,9 +22,8 @@ class MeshManager{
 
 	bool dirty = true;
 
-	std::vector<std::pair<std::string, uint32_t>> mesh_names;
+	std::map<uint32_t, std::string> mesh_names;
 public:
-	// we need a better approach instead of using std::vector
 	std::map<uint32_t, Mesh*> meshes;
 	Mesh* selected_mesh{};
 
@@ -37,8 +36,7 @@ public:
 
 	void destroy_mesh();
 	Mesh* get_selected_mesh();
-	//void mesh_transform(Transform newTransform);
-	std::vector<std::pair<std::string, uint32_t>>& get_names();
+	std::map<uint32_t, std::string>& get_names();
 
 };
 
