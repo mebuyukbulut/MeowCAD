@@ -20,8 +20,6 @@ class MeshManager{
 	int buffer_capacity{};
 	int vertex_index{};
 
-	bool dirty = true;
-
 	std::map<uint32_t, std::string> mesh_names;
 public:
 	std::map<uint32_t, Mesh*> meshes;

@@ -59,11 +59,10 @@ void MeshManager::destroy_mesh(){
 	if (!selected_mesh) return;
 
 	meshes.erase(selected_mesh->get_ID());
+	mesh_names.erase(selected_mesh->get_ID());
 
 	delete selected_mesh;
 	selected_mesh = nullptr;
-
-	dirty = true;
 }
 
 Mesh* MeshManager::get_selected_mesh() {
@@ -71,16 +70,5 @@ Mesh* MeshManager::get_selected_mesh() {
 }
 
 std::map<uint32_t, std::string>& MeshManager::get_names() {
-	if (dirty) {
-		dirty = false; 
-
-		mesh_names.clear();
-
-		for (const auto& mesh : meshes){
-			mesh_names[mesh.first] = mesh.second->get_name();
-		}
-		
-	}
-
 	return mesh_names;
 }
