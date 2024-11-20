@@ -15,10 +15,15 @@ void MeshManager::init() {
 }
 
 void MeshManager::select_mesh(uint32_t ID) {
-	for (auto& mesh : meshes)
-		if(mesh)
-			if (mesh->get_ID() == ID)
-				selected_mesh = mesh;
+	auto m = meshes.find(ID);
+	if (m != meshes.end()) {
+		selected_mesh = (*m).second;
+	}
+
+	//for (auto& mesh : meshes)
+	//	if(mesh)
+	//		if (mesh->get_ID() == ID)
+	//			selected_mesh = mesh;
 }
 
 void MeshManager::deselect_mesh() {
@@ -49,7 +54,7 @@ void MeshManager::add_mesh(Mesh* mesh) {
 
 	vbo.write_data(old_buffer_size, mesh->get_data());
 	vbo.use();
-	meshes.push_back(mesh);
+	meshes[mesh->get_ID()] = mesh;
 
 	std::pair<std::string, uint32_t> mp;
 	mp.first = mesh->get_name();
@@ -61,10 +66,12 @@ void MeshManager::add_mesh(Mesh* mesh) {
 void MeshManager::destroy_mesh(){
 	if (!selected_mesh) return;
 
-	for (auto& mesh : meshes)
-		if(mesh)
-			if (mesh->get_ID() == selected_mesh->get_ID())
-				mesh = nullptr;
+	meshes.erase(selected_mesh->get_ID());
+
+	//for (auto& mesh : meshes)
+	//	if(mesh)
+	//		if (mesh->get_ID() == selected_mesh->get_ID())
+	//			mesh = nullptr;
 	delete selected_mesh;
 	selected_mesh = nullptr;
 
@@ -85,13 +92,12 @@ std::vector<std::pair<std::string, uint32_t>>& MeshManager::get_names() {
 
 		mesh_names.clear();
 
-		for (auto& mesh : meshes)
-			if (mesh) {
-				std::pair<std::string, uint32_t> mp;
-				mp.first = mesh->get_name();
-				mp.second = mesh->get_ID();
-				mesh_names.push_back(mp);
-			}
+		for (const auto& mesh : meshes){
+			std::pair<std::string, uint32_t> mp;
+			mp.first = mesh.second->get_name();
+			mp.second = mesh.second->get_ID();
+			mesh_names.push_back(mp);
+		}
 		
 	}
 

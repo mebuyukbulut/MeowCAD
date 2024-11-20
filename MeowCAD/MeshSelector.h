@@ -33,7 +33,8 @@ public:
 	void draw() {
 		shader.use();
 
-		for (auto i : mesh_manager->meshes) {
+		for (auto m : mesh_manager->meshes) {
+			auto i = m.second;
 			if (!i) continue;
 			if (i->get_ID() == mesh_manager->meshes[0]->get_ID())
 				continue;

@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 
 #include "Mesh.h"
 #include "Transform.h"
@@ -24,7 +25,7 @@ class MeshManager{
 	std::vector<std::pair<std::string, uint32_t>> mesh_names;
 public:
 	// we need a better approach instead of using std::vector
-	std::vector<Mesh*> meshes;
+	std::map<uint32_t, Mesh*> meshes;
 	Mesh* selected_mesh{};
 
 
