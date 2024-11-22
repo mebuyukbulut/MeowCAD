@@ -21,9 +21,11 @@ class MeshManager{
 	int vertex_index{};
 
 	std::map<uint32_t, std::string> mesh_names;
+
 public:
 	std::map<uint32_t, Mesh*> meshes;
 	Mesh* selected_mesh{};
+	std::map<uint32_t, Mesh*> selected_meshes;
 
 
 	void init();
@@ -34,6 +36,7 @@ public:
 
 	void destroy_mesh();
 	Mesh* get_selected_mesh();
+	std::map<uint32_t, Mesh*> get_selected_meshes();
 	std::map<uint32_t, std::string>& get_names();
 
 };

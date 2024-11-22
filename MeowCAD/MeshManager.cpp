@@ -18,11 +18,13 @@ void MeshManager::select_mesh(uint32_t ID) {
 	auto m = meshes.find(ID);
 	if (m != meshes.end()) {
 		selected_mesh = (*m).second;
+		selected_meshes[(*m).first] = (*m).second;
 	}
 }
 
 void MeshManager::deselect_mesh() {
 	selected_mesh = nullptr;
+	selected_meshes.clear();
 }
 
 void MeshManager::add_mesh(Mesh* mesh) {
@@ -61,12 +63,22 @@ void MeshManager::destroy_mesh(){
 	meshes.erase(selected_mesh->get_ID());
 	mesh_names.erase(selected_mesh->get_ID());
 
+
+	uint32_t selected_mesh_ID;
+	selected_mesh_ID = selected_mesh->get_ID();
 	delete selected_mesh;
 	selected_mesh = nullptr;
+
+	selected_meshes.erase(selected_mesh_ID);
 }
 
 Mesh* MeshManager::get_selected_mesh() {
 	return selected_mesh;
+}
+
+std::map<uint32_t, Mesh*> MeshManager::get_selected_meshes()
+{
+	return selected_meshes;
 }
 
 std::map<uint32_t, std::string>& MeshManager::get_names() {

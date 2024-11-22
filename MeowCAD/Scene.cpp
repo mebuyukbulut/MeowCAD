@@ -47,12 +47,12 @@ void Scene::draw() {
 	shader.set("time", (float)time.get_elapsed_time());
 
 	shader.set("modeFlag", 0);
-	if (auto m = mesh_manager.get_selected_mesh()) {
+	for (auto m : mesh_manager.get_selected_meshes()) {
 		shader.set("modeFlag", 1.0);
 
-		m->get_material()->use(&shader);
+		//m->get_material()->use(&shader);
 
-		glm::mat4 model = m->get_transform().get_model_matrix() * glm::scale(glm::mat4(1.0f), glm::vec3(1.1));
+		glm::mat4 model = m.second->get_transform().get_model_matrix() * glm::scale(glm::mat4(1.0f), glm::vec3(1.1));
 		glm::mat4 projection = camera.get_projection();
 		glm::mat4 view = camera.get_view();
 
@@ -64,7 +64,7 @@ void Scene::draw() {
 
 		shader.set("camPos", camera.get_position());
 
-		glDrawArrays(GL_TRIANGLES, m->get_vertex_index(), m->get_vertex_count());
+		glDrawArrays(GL_TRIANGLES, m.second->get_vertex_index(), m.second->get_vertex_count());
 		glClear(GL_DEPTH_BUFFER_BIT);
 
 		shader.set("modeFlag", 0);
