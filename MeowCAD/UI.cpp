@@ -229,7 +229,7 @@ void UI::outliner_window() {
         if (ImGui::IsItemClicked())
             std::cout << "root" << std::endl;
 
-        Mesh* selected_mesh = Engine::get().scene.mesh_manager.get_selected_mesh();
+        auto selected_meshes = Engine::get().scene.mesh_manager.get_selected_meshes();
         auto& meshes = Engine::get().scene.mesh_manager.meshes;
 
         for (const auto& mesh : meshes)//(int i{}; i < meshes.size(); i++) 
@@ -240,7 +240,7 @@ void UI::outliner_window() {
             //if (!mesh) continue;
 
             ImGuiTreeNodeFlags flag = ImGuiTreeNodeFlags_Leaf;
-            if (mesh.second == selected_mesh)
+            if (selected_meshes.find(mesh.first) != selected_meshes.end())
                 flag = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_Selected;
 
             if(ImGui::TreeNodeEx(mesh.second->get_name().c_str(), flag)) {
