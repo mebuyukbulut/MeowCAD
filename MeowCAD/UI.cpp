@@ -234,6 +234,7 @@ void UI::outliner_window() {
 
         for (const auto& mesh : meshes)//(int i{}; i < meshes.size(); i++) 
         {
+            if (mesh.first == 0) continue;
             //Mesh* mesh = meshes[i];
             //
             //// maybe this code not correct. But it works for now
@@ -349,6 +350,7 @@ void UI::properties_window_material(Mesh* mesh){
 
 
     auto material = mesh->get_material();
+    if (!material) return;
     auto material_info = material->get();
     auto old_material_info = material_info;
 

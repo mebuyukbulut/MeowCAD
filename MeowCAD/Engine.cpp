@@ -227,7 +227,8 @@ void Engine::render_viewport() {
     int pixel_at_loc = (int)read_pixel_at_cursor()[0];
 
     if (pixel_at_loc % 5 == 0 && pixel_at_loc != 205) {
-        selected_mesh_index = pixel_at_loc / 5;
+        if(pixel_at_loc / 5)
+            selected_mesh_index = pixel_at_loc / 5;
 
         //std::cout << pixel_at_loc << std::endl;
         //std::cout << selected_mesh_index << std::endl;
