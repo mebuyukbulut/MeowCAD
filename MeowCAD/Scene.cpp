@@ -10,6 +10,11 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 void Scene::init() {
+	albedo.init("images/albedo.png");
+	arm.init("images/arm.png");
+	normal.init("images/gl_normal.png");
+	brdf_lut.init("images/ibl_brdf_lut.png");
+
 	mesh_manager.init();
 	mesh_selector.init(&camera, &mesh_manager);
 
@@ -23,10 +28,10 @@ void Scene::init() {
 		glm::vec3(10.0f, -10.0f, 10.0f),
 	};
 	glm::vec3 lightColors[] = {
-		glm::vec3(300.0f, 300.0f, 300.0f),
-		glm::vec3(300.0f, 300.0f, 300.0f),
-		glm::vec3(300.0f, 300.0f, 300.0f),
-		glm::vec3(300.0f, 300.0f, 300.0f)
+		glm::vec3(600),
+		glm::vec3(600),
+		glm::vec3(600),
+		glm::vec3(600)
 	};
 
 	for (unsigned int i = 0; i < sizeof(lightPositions) / sizeof(lightPositions[0]); ++i)	{
@@ -57,6 +62,7 @@ void Scene::draw() {
 		glm::mat4 view = camera.get_view();
 
 
+
 		shader.set("model", model);
 		shader.set("view", view);
 		shader.set("projection", projection);
@@ -71,12 +77,19 @@ void Scene::draw() {
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 
+
+	albedo.use(GL_TEXTURE3);
+	arm.use(GL_TEXTURE4);
+	normal.use(GL_TEXTURE5);
+
+	brdf_lut.use(GL_TEXTURE6);
+
 	for (auto m : mesh_manager.meshes) {
 		auto i = m.second;
 		if (!i) continue;
 		if (i->get_ID() == mesh_manager.meshes[0]->get_ID())
 			continue;
-		i->get_material()->use(&shader);
+		//i->get_material()->use(&shader);
 
 		glm::mat4 model = i->get_transform().get_model_matrix();
 		glm::mat4 projection = camera.get_projection();

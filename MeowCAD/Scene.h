@@ -21,6 +21,7 @@ class Scene{
 	Shader shader;
 	ETime time;
 
+	Texture albedo, arm, normal, brdf_lut;
 	// maybe we need a dirty flag for update 
 public:
 	SkyBox skybox;

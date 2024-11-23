@@ -235,13 +235,13 @@
     <None Include="shaders\skybox.vs">
       <Filter>Resource Files\Shaders</Filter>
     </None>
+    <None Include="mesh_selector.vs" />
+    <None Include="mesh_selector.fs" />
     <None Include="shaders\pbr.fs">
       <Filter>Resource Files\Shaders</Filter>
     </None>
     <None Include="shaders\pbr.vs">
       <Filter>Resource Files\Shaders</Filter>
     </None>
-    <None Include="mesh_selector.vs" />
-    <None Include="mesh_selector.fs" />
   </ItemGroup>
 </Project>

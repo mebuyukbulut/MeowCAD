@@ -254,6 +254,7 @@ void Engine::render_viewport() {
 
 void Engine::render_loop() {
     while (!glfwWindowShouldClose(window)) {
+
         processInput(window);         
         scene.get_time().update();
 
