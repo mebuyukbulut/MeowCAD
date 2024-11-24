@@ -10,7 +10,7 @@
 
 class Texture{
 	uint32_t ID{};
-	unsigned char* data{};
+	//unsigned char* data{}; // Are we need data after load to GPU
 public:
 	~Texture();
 

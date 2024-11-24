@@ -97,6 +97,7 @@ unsigned char* Engine::read_pixel_at_cursor() {
     unsigned char* pRGB = new unsigned char[3 * nWidth * nHeight];
     auto mos_pos = mouse.get_position();
     auto scr_res = get_screen_resolution();
+    //std::cout << scr_res.y << std::endl;
 
     glReadPixels((int)mos_pos.x, (int)(scr_res.y - mos_pos.y),
         nWidth, nHeight,
@@ -206,12 +207,11 @@ void Engine::render_viewport() {
 
     if (viewport.is_dirty()) {
         auto res = viewport.get_resolution();
-        //if (res.x != 0 || res.y != 0) {
-        std::cout << res.x << "\t" << res.y << std::endl;
+        //std::cout << res.x << "\t" << res.y << std::endl;
         viewport.rescale_frame_buffer(res);
         viewport.set_dirty(false);
         scene.get_camera().update_screen_size(res.x, res.y);
-        //}
+        
     }
 
     viewport.bind();

@@ -2,7 +2,7 @@
 
 #include <glad/glad.h>
 #include <iostream>
-
+#include "LogUtils.h"
 
 #ifndef STB_IMAGE_IMPLEMENTATION
 	#define STB_IMAGE_IMPLEMENTATION
@@ -14,6 +14,10 @@ Texture::~Texture(){
     glDeleteBuffers(1, &ID);
 }
 
+/// <summary>
+/// This function loads 2d textures 
+/// </summary>
+/// <param name="file"></param>
 void Texture::init(const std::string& file){
     //unsigned int texture;
     glGenTextures(1, &ID);
@@ -28,7 +32,7 @@ void Texture::init(const std::string& file){
     // load and generate the texture
     int width, height, nrChannels;
     stbi_set_flip_vertically_on_load(true);
-    data = stbi_load(file.c_str(), &width, &height, &nrChannels, 0);
+    unsigned char* data = stbi_load(file.c_str(), &width, &height, &nrChannels, 0);
     if (data){
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
@@ -53,14 +57,13 @@ void Texture::init(std::vector<std::string> faces){
     int width, height, nrChannels;
     for (unsigned int i = 0; i < faces.size(); i++) {
         unsigned char* data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
-        if (data) {
+        if (data)
             glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-            stbi_image_free(data);
-        }
-        else {
-            std::cout << "Cubemap texture failed to load at path: " << faces[i] << std::endl;
-            stbi_image_free(data);
-        }
+        else
+            LogUtils::get().log("Cubemap texture failed to load at path: " + faces[i], LogType::error);
+            //std::cout << "Cubemap texture failed to load at path: " << faces[i] << std::endl;
+        
+        stbi_image_free(data);
 
     }
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -73,6 +76,11 @@ void Texture::init(std::vector<std::string> faces){
     ID = textureID;
 }
 
+/// <summary>
+/// Bind the texture to given target. 
+/// </summary>
+/// <param name="textureUnit">GL_TEXTURE0, GL_TEXTURE1, ...</param>
+/// <param name="textureType">GL_TEXTURE_2D, GL_TEXTURE_CUBE_MAP, ...</param>
 void Texture::use(uint32_t textureUnit, uint32_t textureType){
     // bind Texture
     glActiveTexture(textureUnit);

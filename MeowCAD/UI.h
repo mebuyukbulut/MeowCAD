@@ -23,7 +23,7 @@ class UI{
 	bool is_text_editor_window_active = false;
 	bool is_test_window_active = false;
 	bool is_demo_window_active = false;
-	bool is_log_window_active = false;
+	bool is_log_window_active = true;
 	bool is_credits_window_active = false;
 	bool is_outliner_window_active = true;
 	bool is_properties_window_active = true;

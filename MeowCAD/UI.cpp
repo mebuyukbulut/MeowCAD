@@ -160,6 +160,7 @@ void UI::demo_window() {
 void UI::log_window(){
     // Create a window called "My First Tool", with a menu bar.
     ImGui::Begin("LOG", &is_log_window_active, ImGuiWindowFlags_MenuBar);
+  
     if (ImGui::BeginMenuBar()){
         if (ImGui::BeginMenu("File"))
         {
@@ -203,6 +204,8 @@ void UI::viewport_window(){
     glm::ivec2 window_size{ t_size.x, t_size.y};
 
     if (window_size != viewport->get_resolution()) {
+        std::string res = "("+std::to_string(window_size.x)+", "+ std::to_string(window_size.y)+")";
+        LogUtils::get().log("New window size: " + res);
         viewport->set_resolution(window_size);
         viewport->set_dirty(true);
     }

@@ -3,12 +3,17 @@
 #include <string>
 
 class Shader;
+class Texture;
 
 struct MaterialInfo {
     glm::vec3 albedo{1,1,1};
     float metallic{};
     float roughness{0.3};
     float ao{0.1};
+
+    Texture* albedo_tex{};
+    Texture* arm_tex{};
+    Texture* normal_tex{};
 
     bool operator !=(MaterialInfo lhs) {
         return
