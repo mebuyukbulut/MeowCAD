@@ -309,6 +309,8 @@ void Engine::processInput(GLFWwindow* window) {
     if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) && input_mode == InputMode::UI) {
         int selected = Engine::get().selected_mesh_index;
         if ( selected != -1) {
+            if (!(glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS))
+                Engine::get().scene.mesh_manager.deselect_mesh();
             Engine::get().scene.mesh_manager.select_mesh(selected);
             //std::cout << selected << std::endl;
         }
