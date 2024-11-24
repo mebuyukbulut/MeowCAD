@@ -23,6 +23,8 @@ uniform vec3 lightPositions[4];
 uniform vec3 lightColors[4];
 
 uniform vec3 camPos;
+uniform float modeFlag;
+
 
 const float PI = 3.14159265359;
 // ----------------------------------------------------------------------------
@@ -94,6 +96,11 @@ vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness)
 // ----------------------------------------------------------------------------
 void main()
 {
+    if(modeFlag > 0.5){    
+        FragColor = vec4(1,165./255.,0, 0.3);
+        return;
+    }  
+
     // material properties
     vec3 albedo = pow(texture(albedoMap, TexCoords).rgb, vec3(2.2));
     float metallic = texture(armMap, TexCoords).b;
