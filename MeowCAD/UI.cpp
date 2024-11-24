@@ -249,7 +249,9 @@ void UI::outliner_window() {
 
             if(ImGui::TreeNodeEx(mesh.second->get_name().c_str(), flag)) {
                 if (ImGui::IsItemClicked()) {
-                    std::cout << mesh.second->get_name().c_str() << std::endl;
+                    //std::cout << mesh.second->get_name().c_str() << std::endl;
+                    if (!(glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS))
+                        Engine::get().scene.mesh_manager.deselect_mesh();
                     Engine::get().scene.mesh_manager.select_mesh(mesh.first);
                     is_properties_window_active = true;
                 }
