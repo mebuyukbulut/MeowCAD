@@ -11,6 +11,7 @@
 #include "Transform.h"
 
 #include "SkyBox.h"
+#include "TextureManager.h"
 #include "MeshManager.h"
 #include "MeshSelector.h"
 
@@ -21,10 +22,12 @@ class Scene{
 	Shader shader;
 	ETime time;
 
+	TextureManager texture_manager;
 	Texture albedo, arm, normal, brdf_lut;
 	// maybe we need a dirty flag for update 
 public:
 	SkyBox skybox;
+
 	MeshManager mesh_manager; 
 	MeshSelector mesh_selector;
 	~Scene();

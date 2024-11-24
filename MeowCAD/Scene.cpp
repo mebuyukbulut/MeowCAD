@@ -43,6 +43,8 @@ void Scene::init() {
 
 
 	// Cubemap 
+	texture_manager.init_skybox("images/skybox/ocean/");
+	texture_manager.use_skybox();
 	auto cubemap_mesh = skybox.init(&camera);
 	mesh_manager.add_mesh(cubemap_mesh);
 }

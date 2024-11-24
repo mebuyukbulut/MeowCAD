@@ -169,6 +169,7 @@
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="TextEditor.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="VAO.cpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="TextEditor.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="VAO.h" />
