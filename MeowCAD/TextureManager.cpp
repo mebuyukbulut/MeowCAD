@@ -30,3 +30,12 @@ void TextureManager::use_skybox(){
 	radiance.use(GL_TEXTURE1, GL_TEXTURE_CUBE_MAP);
 	irradiance.use(GL_TEXTURE2, GL_TEXTURE_CUBE_MAP);
 }
+
+void TextureManager::use_material(Texture* albedo, Texture* arm, Texture* normal){
+	if(albedo)
+		albedo->use(GL_TEXTURE3);
+	if(arm)
+		arm->use(GL_TEXTURE4);
+	if(normal)
+		normal->use(GL_TEXTURE5);
+}

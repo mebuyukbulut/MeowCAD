@@ -170,6 +170,14 @@ void Engine::init() {
     scene.init();
     //scene.add_mesh(my_mesh);
 
+    Texture* albedo, * arm, * normal;
+    albedo = new Texture();
+    arm = new Texture();
+    normal = new Texture();
+    albedo->init("images/albedo.png");
+    arm->init("images/arm.png");
+    normal->init("images/gl_normal.png");
+
     for (int i = 0; i < 10; i++) {
         Mesh* new_mesh = new Mesh();
         new_mesh->set_ID(i); // Every mesh need a unique ID 
@@ -179,8 +187,11 @@ void Engine::init() {
 
 
         auto material = MaterialManager::get().create_material();
+        material->material_info.albedo_tex = albedo;
+        material->material_info.arm_tex = arm;
+        material->material_info.normal_tex = normal;
         new_mesh->set_material(material);
-        new_mesh->set_texture(&texture);
+        new_mesh->set_texture(&texture); // we should clan this
         transform.make_dirty();
         transform.set_position(glm::vec3(i, i, i));
         new_mesh->set_transform(transform);

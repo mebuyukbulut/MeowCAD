@@ -23,7 +23,7 @@ class Scene{
 	ETime time;
 
 	TextureManager texture_manager;
-	Texture albedo, arm, normal, brdf_lut;
+	Texture brdf_lut;
 	// maybe we need a dirty flag for update 
 public:
 	SkyBox skybox;

@@ -34,9 +34,9 @@ struct MaterialID {
 
 class Material{
     MaterialID ID;
+public:
     MaterialInfo material_info{};
     
-public:
     void init(MaterialInfo materialInfo, MaterialID ID);
     void use(Shader* shader);
 

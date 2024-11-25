@@ -9,10 +9,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-void Scene::init() {
-	albedo.init("images/albedo.png");
-	arm.init("images/arm.png");
-	normal.init("images/gl_normal.png");
+void Scene::init() {	
 	brdf_lut.init("images/ibl_brdf_lut.png");
 
 	mesh_manager.init();
@@ -80,18 +77,25 @@ void Scene::draw() {
 	}
 
 
-	albedo.use(GL_TEXTURE3);
-	arm.use(GL_TEXTURE4);
-	normal.use(GL_TEXTURE5);
-
 	brdf_lut.use(GL_TEXTURE6);
 
 	for (auto m : mesh_manager.meshes) {
-		auto i = m.second;
+		Mesh* i = m.second;
+
 		if (!i) continue;
 		if (i->get_ID() == mesh_manager.meshes[0]->get_ID())
 			continue;
-		//i->get_material()->use(&shader);
+		
+		Material* mat = i->get_material();
+		mat->use(&shader);
+		texture_manager.use_material(
+			mat->material_info.albedo_tex,
+			mat->material_info.arm_tex,
+			mat->material_info.normal_tex
+		);
+
+
+
 
 		glm::mat4 model = i->get_transform().get_model_matrix();
 		glm::mat4 projection = camera.get_projection();

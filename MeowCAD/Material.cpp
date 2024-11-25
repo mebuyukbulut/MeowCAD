@@ -12,6 +12,8 @@ void Material::use(Shader* shader){
     shader->set("metallic",   material_info.metallic);
     shader->set("roughness",  material_info.roughness);
     shader->set("ao", material_info.ao);
+
+
 }
 
 MaterialInfo Material::get(){
