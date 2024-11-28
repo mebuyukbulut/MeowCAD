@@ -27,7 +27,7 @@ public:
 	void init(Camera* camera, MeshManager* mesh_manager) {
 		this->camera = camera;
 		this->mesh_manager = mesh_manager;
-		shader.init("shaders/mesh_selector.vs", "shaders/mesh_selector.fs");
+		shader.init("mesh_selector","shaders/mesh_selector.vs", "shaders/mesh_selector.fs");
 	}
 
 	void draw() {

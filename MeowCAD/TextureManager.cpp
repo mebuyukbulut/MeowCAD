@@ -9,10 +9,13 @@ void TextureManager::init_skybox(std::string path){
 	std::string irradiance_file = path + "irradiance/output_skybox_";
 
 	std::vector<std::string> sky_faces, radiance_faces, irradiance_faces;
+	std::string postfix = ".jpg";
 	std::vector<std::string> faces{
-		"posx.hdr",			"negx.hdr",			"posy.hdr",
-		"negy.hdr",			"posz.hdr",			"negz.hdr"
+		"posx",			"negx",			"posy",
+		"negy",			"posz",			"negz"
 	};
+	for (auto& f : faces)
+		f += postfix;
 
 	for (int i{}; i < 6; i++) sky_faces.push_back(sky_file + faces[i]);
 	for (int i{}; i < 6; i++) radiance_faces.push_back(radiance_file + faces[i]);

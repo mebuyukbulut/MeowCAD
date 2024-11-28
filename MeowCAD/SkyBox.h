@@ -16,7 +16,7 @@ public:
 
 	Mesh* init(Camera* camera) {
 		this->camera = camera;
-		cubemap_shader.init("shaders/skybox.vs", "shaders/skybox.fs");
+		cubemap_shader.init("skybox", "shaders/skybox.vs", "shaders/skybox.fs");
 		
 		mesh = new Mesh;
 		Transform t;

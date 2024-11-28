@@ -2,17 +2,18 @@
 #include <string>
 #include <sstream>
 #include <fstream>
-
+#include <vector>
 
 class FileUtils
 {
 public:
-	std::string read(const std::string& filename) {
-		std::ifstream t(filename);
-		std::stringstream buffer;
-		buffer << t.rdbuf();
+	std::string read(const std::string& fileName);
+	std::vector<unsigned char> read_binary(const std::string& fileName);
 
-		return buffer.str();
-	}
+	void write(const std::string& context, const std::string& fileName);
+	void write_binary(const char* binData, uint32_t binSize, const std::string& fileName);
+
+
+	
 };
 

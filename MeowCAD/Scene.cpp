@@ -15,7 +15,7 @@ void Scene::init() {
 	mesh_manager.init();
 	mesh_selector.init(&camera, &mesh_manager);
 
-	shader.init("shaders/pbr.vs", "shaders/pbr.fs");
+	shader.init("pbr","shaders/pbr.vs", "shaders/pbr.fs");
 	shader.use();
 
 	glm::vec3 lightPositions[] = {

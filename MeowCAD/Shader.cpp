@@ -7,6 +7,9 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "FileUtils.h"
+#include <filesystem>
+#include <fstream>
+#include <iostream>
 
 uint32_t Shader::link_program(uint32_t vertexShader, uint32_t fragmentShader) {
     // link shaders
@@ -23,6 +26,34 @@ uint32_t Shader::link_program(uint32_t vertexShader, uint32_t fragmentShader) {
         glGetProgramInfoLog(shaderProgram, 1024, NULL, infoLog);
         std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
     }
+
+
+
+    std::cout << shader_name << " is caching...\n";
+
+    //BEGIN/ https://gist.github.com/yeaFern/ecd60a9bb93cb75ef9c4f775cb1d9f3f
+    // Get the size of the binary.
+    GLint binaryLength = 0;
+    glGetProgramiv(shaderProgram, GL_PROGRAM_BINARY_LENGTH, &binaryLength);
+
+    // Allocate space for the binary, as well as the binary format.
+    size_t bufferSize = sizeof(GLenum) + binaryLength;
+    char* binary = new char[sizeof(GLenum) + binaryLength];
+
+    // Get the binary from the driver, saving the format.
+    GLenum binaryFormat;
+    glGetProgramBinary(shaderProgram, binaryLength, nullptr, &binaryFormat, binary+ sizeof(GLenum));
+    
+    // Prefix the binary with the format.
+    *((GLenum*)binary) = binaryFormat;
+
+    //END/https://gist.github.com/yeaFern/ecd60a9bb93cb75ef9c4f775cb1d9f3f
+    
+    FileUtils fu;
+    fu.write_binary(binary, bufferSize, "shaders/cache/" + shader_name + ".bin");
+
+    std::cout << shader_name << " cached to:\t" << ("shaders/cache/" + shader_name + ".bin") << "\n";
+
 
     return shaderProgram;
 }
@@ -64,12 +95,59 @@ int Shader::get_loc(std::string& uniform_name)
     }
 }
 
+bool Shader::load_from_cache(){
+    std::filesystem::path directoryPath = std::filesystem::current_path();
+    std::string stringpath = directoryPath.generic_string();
+    stringpath += "/shaders/cache/" + shader_name + ".bin";
+
+    if (std::filesystem::exists(stringpath)) {
+        FileUtils fu;
+        auto my_data = fu.read_binary(stringpath);
+
+        // Read it into a buffer.
+        char* buffer = new char[my_data.size()];
+        std::copy(my_data.begin(), my_data.end(), buffer);
+        
+
+        // Grab the format from the front of the buffer;
+        GLenum format = *((GLenum*)buffer);
+
+        // Calculate offset to start of the shader binary.
+        void* binaryStart = buffer + sizeof(GLenum);
+        size_t binaryLength = my_data.size() - sizeof(GLenum);
+
+
+        uint32_t shaderProgram = glCreateProgram();
+        // Upload the binary.
+        glProgramBinary(shaderProgram, format, binaryStart, binaryLength);
+
+        // Clean up.
+        delete[] buffer;
+
+        // Check for success.
+        GLint success = 0;
+        glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+        if (success) {
+            std::cout << shader_name << " loaded from cache succesful" << std::endl;
+            ID = shaderProgram;
+            return true;
+        }
+    }
+    
+    return false;
+}
+
 
 Shader::~Shader(){
     glDeleteProgram(ID);
 }
 
-void Shader::init(const std::string& vertexShaderFilePath, const std::string& fragmentShaderFilePath) {
+void Shader::init(const std::string& shaderName, const std::string& vertexShaderFilePath, const std::string& fragmentShaderFilePath) {
+    shader_name = shaderName;
+
+    if (load_from_cache())
+        return;
+    std::cout << shader_name << " is compiling...\n";
 
     FileUtils fu;
     auto vertex_code = fu.read(vertexShaderFilePath);
