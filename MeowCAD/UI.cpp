@@ -20,6 +20,8 @@
 #include "Transform.h"
 #include "Mesh.h"
 
+#include "FileUtils.h"
+
 //#include "Camera.h"
 
 void UI::menu_bar() {
@@ -219,7 +221,8 @@ void UI::viewport_window(){
     );
 
 
-    // viewport toolbar BEGIN 
+    // viewport toolbar BEGIN
+    // https://gist.github.com/rmitton/f80cbb028fca4495ab1859a155db4cd8
     float menuBarHeight = 25;
     float toolbarSize = 30;
     ImGuiWindow* viewport = ImGui::GetCurrentWindow();
@@ -440,6 +443,58 @@ void UI::material_window(){
     ImGui::End();
 }
 
+void UI::skybox_window()
+{
+
+    ImGui::Begin("Skybox", &is_skybox_window_active);
+
+    static std::vector<std::string> name_list{};
+    if (name_list.empty()) {
+        FileUtils fu;
+        auto str = fu.read("images/skybox/skybox.txt");
+        //std::cout << str << std::endl;
+        name_list = fu.split(str,'\n');
+        //for (auto i : vec) { // https://stackoverflow.com/questions/54519163/how-to-convert-stdvectorstdstring-to-const-char-array
+        //    
+        //    name_list.push_back(i.c_str());
+        //}
+    }
+
+
+
+    
+    //const char* items[] = { "AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK", "LLLLLLL", "MMMM", "OOOOOOO", "PPPP", "QQQQQQQQQQ", "RRR", "SSSS" };
+   
+    // https://github.com/ocornut/imgui/issues/1658
+    static std::string current_item = "";
+    //static const char* current_item = NULL;
+
+    if (ImGui::BeginCombo("##combo", current_item.c_str())) // The second parameter is the label previewed before opening the combo.
+    {
+        for (int n = 0; n < name_list.size(); n++)
+        {
+            bool is_selected = (current_item == name_list[n]); // You can store your selection however you want, outside or inside your objects
+
+            if (ImGui::Selectable(name_list[n].c_str(), is_selected))
+                current_item = name_list[n].c_str();
+
+            if (is_selected) {
+                ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+            }
+                
+        }
+        ImGui::EndCombo();
+    }
+
+    if (ImGui::Button("Load")) {
+        if(current_item.size()>1)
+            Engine::get().scene.load_skybox(current_item);
+
+    }
+
+    ImGui::End();
+}
+
 
 
 void UI::init_imgui() {
@@ -511,6 +566,7 @@ void UI::render() {
     if (viewport->is_active()) viewport_window();
     if (is_color_tooltip_active) color_tooltip();
     if (is_camera_preferences_active) camera_preferences_window();
+    if (is_skybox_window_active) skybox_window();
 
 
 

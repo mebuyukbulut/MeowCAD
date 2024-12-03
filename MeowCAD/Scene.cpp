@@ -40,8 +40,9 @@ void Scene::init() {
 
 
 	// Cubemap 
-	texture_manager.init_skybox("images/skybox/ocean/");
-	texture_manager.use_skybox();
+	load_skybox("meadow");
+	//texture_manager.init_skybox("images/skybox/ocean/");
+	//texture_manager.use_skybox();
 	auto cubemap_mesh = skybox.init(&camera);
 	mesh_manager.add_mesh(cubemap_mesh);
 }
@@ -118,6 +119,11 @@ void Scene::draw() {
 Camera& Scene::get_camera() { return camera; }
 
 ETime& Scene::get_time() { return time; }
+void Scene::load_skybox(std::string name)
+{
+	texture_manager.init_skybox("images/skybox/"+name+"/");
+	texture_manager.use_skybox();
+}
 Scene::~Scene() {
 	// Delete meshes 
 	// Delete other resources 

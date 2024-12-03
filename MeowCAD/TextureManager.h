@@ -5,7 +5,7 @@
 
 
 class TextureManager{
-	Texture sky, radiance, irradiance;
+	Texture* sky{}, * radiance{}, * irradiance{};
 
 public:
 	void init_skybox(std::string path);

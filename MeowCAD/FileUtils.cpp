@@ -2,6 +2,8 @@
 
 #include <fstream>
 #include <vector>
+#include <algorithm>
+#include <string>
 
 /// <summary>
 /// Read the text file and return as a string
@@ -50,4 +52,17 @@ void FileUtils::write_binary(const char* binData,uint32_t binSize, const std::st
 	my_file.open(fileName, std::ios::out | std::ios::binary);
 	my_file.write(binData, binSize);
 	my_file.close();
+}
+
+// https://stackoverflow.com/questions/14265581/parse-split-a-string-in-c-using-string-delimiter-standard-c
+std::vector<std::string> FileUtils::split(const std::string& s, char delim) {
+	std::vector<std::string> result;
+	std::stringstream ss(s);
+	std::string item;
+
+	while (getline(ss, item, delim)) {
+		result.push_back(item);
+	}
+
+	return result;
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <string>
 
 #include "Camera.h"
 #include "ETime.h"
@@ -38,5 +39,6 @@ public:
 
 	Camera& get_camera();
 	ETime& get_time();
+	void load_skybox(std::string name);
 };
 

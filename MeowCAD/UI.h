@@ -31,6 +31,7 @@ class UI{
 	//bool is_viewport_window_active = true;
 	bool is_color_tooltip_active = false; 
 	bool is_camera_preferences_active = false;
+	bool is_skybox_window_active = true; 
 	
 	
 
@@ -48,6 +49,7 @@ class UI{
 	void color_tooltip();
 	void camera_preferences_window();
 	void material_window();
+	void skybox_window();
 
 	void init_imgui();
 	EViewport* viewport;
