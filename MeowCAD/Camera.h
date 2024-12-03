@@ -27,6 +27,9 @@ class Camera{
     unsigned int SCR_WIDTH{};
     unsigned int SCR_HEIGHT{};
 
+
+    double step = 1;
+
 public:
 
     void mouse(float xoffset, float yoffset);
