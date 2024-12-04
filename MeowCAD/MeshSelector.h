@@ -46,7 +46,7 @@ public:
 			shader.set("view", view);
 			shader.set("projection", projection);
 
-			//
+			// We need a better method for transfer IDs to colors 
 			//std::bitset<32> color_bitset{ i->get_ID()};
 			float ID = i->get_ID() / 255.0 * 5.0;
 			glm::vec3 color = glm::vec3(ID, ID, ID);

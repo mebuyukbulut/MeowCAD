@@ -216,6 +216,8 @@
     <None Include="mesh_selector.vs" />
     <None Include="shaders\base.frag" />
     <None Include="shaders\base.vert" />
+    <None Include="shaders\matcap.fs" />
+    <None Include="shaders\matcap.vs" />
     <None Include="shaders\material.frag" />
     <None Include="shaders\material.vert" />
     <None Include="shaders\pbr.fs" />

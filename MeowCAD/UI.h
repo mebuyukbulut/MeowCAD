@@ -50,6 +50,8 @@ class UI{
 	void camera_preferences_window();
 	void material_window();
 	void skybox_window();
+	void skybox_window_skybox();
+	void skybox_window_matcap();
 
 	void init_imgui();
 	EViewport* viewport;

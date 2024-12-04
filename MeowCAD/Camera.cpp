@@ -56,8 +56,8 @@ void Camera::zoom(float value) {
     double logZoom = logMinZoom + (logMaxZoom - logMinZoom) * step / (maxSteps - 1);
     cameraArmLength = exp(logZoom);
 
-    std::cout << "step: " << step << std::endl;
-    std::cout << "arm length: " << cameraArmLength << std::endl;
+    //std::cout << "step: " << step << std::endl;
+    //std::cout << "arm length: " << cameraArmLength << std::endl;
     
     //cameraArmLength += value;
     //if (cameraArmLength < 1)

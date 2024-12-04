@@ -20,7 +20,8 @@ class Mesh;
 
 class Scene{
 	Camera camera;
-	Shader shader;
+	Shader pbr_shader, matcap_shader;
+	Shader* shader; 
 	ETime time;
 
 	TextureManager texture_manager;
@@ -40,5 +41,9 @@ public:
 	Camera& get_camera();
 	ETime& get_time();
 	void load_skybox(std::string name);
+	void load_matcap(std::string name);
+
+	void activate_pbr();
+	void activate_matcap();
 };
 

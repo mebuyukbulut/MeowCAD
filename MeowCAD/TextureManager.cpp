@@ -59,3 +59,10 @@ void TextureManager::use_material(Texture* albedo, Texture* arm, Texture* normal
 	if(normal)
 		normal->use(GL_TEXTURE5);
 }
+
+void TextureManager::use_matcap(Texture* matcap){
+	if (matcap)
+		matcap->use(GL_TEXTURE7);
+}
+
+

@@ -447,13 +447,21 @@ void UI::skybox_window()
 {
 
     ImGui::Begin("Skybox", &is_skybox_window_active);
+    skybox_window_skybox();
+    skybox_window_matcap();
+
+    ImGui::End();
+}
+
+void UI::skybox_window_skybox()
+{
 
     static std::vector<std::string> name_list{};
     if (name_list.empty()) {
         FileUtils fu;
         auto str = fu.read("images/skybox/skybox.txt");
         //std::cout << str << std::endl;
-        name_list = fu.split(str,'\n');
+        name_list = fu.split(str, '\n');
         //for (auto i : vec) { // https://stackoverflow.com/questions/54519163/how-to-convert-stdvectorstdstring-to-const-char-array
         //    
         //    name_list.push_back(i.c_str());
@@ -461,10 +469,8 @@ void UI::skybox_window()
     }
 
 
-
-    
     //const char* items[] = { "AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK", "LLLLLLL", "MMMM", "OOOOOOO", "PPPP", "QQQQQQQQQQ", "RRR", "SSSS" };
-   
+
     // https://github.com/ocornut/imgui/issues/1658
     static std::string current_item = "";
     //static const char* current_item = NULL;
@@ -481,18 +487,54 @@ void UI::skybox_window()
             if (is_selected) {
                 ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
             }
-                
+
         }
         ImGui::EndCombo();
     }
 
-    if (ImGui::Button("Load")) {
-        if(current_item.size()>1)
+    if (ImGui::Button("Load skybox")) {
+        if (current_item.size() > 1)
             Engine::get().scene.load_skybox(current_item);
 
     }
+}
 
-    ImGui::End();
+void UI::skybox_window_matcap()
+{
+    static std::vector<std::string> name_list{};
+    if (name_list.empty()) {
+        FileUtils fu;
+        auto str = fu.read("images/matcap/matcap.txt");
+        //std::cout << str << std::endl;
+        name_list = fu.split(str, '\n');
+    }
+
+    // https://github.com/ocornut/imgui/issues/1658
+    static std::string current_item = "";
+    //static const char* current_item = NULL;
+
+    if (ImGui::BeginCombo("##matcap", current_item.c_str())) // The second parameter is the label previewed before opening the combo.
+    {
+        for (int n = 0; n < name_list.size(); n++)
+        {
+            bool is_selected = (current_item == name_list[n]); // You can store your selection however you want, outside or inside your objects
+
+            if (ImGui::Selectable(name_list[n].c_str(), is_selected))
+                current_item = name_list[n].c_str();
+
+            if (is_selected) {
+                ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+            }
+
+        }
+        ImGui::EndCombo();
+    }
+
+    if (ImGui::Button("Load matcap")) {
+        if (current_item.size() > 1)
+            Engine::get().scene.load_matcap(current_item);
+
+    }
 }
 
 

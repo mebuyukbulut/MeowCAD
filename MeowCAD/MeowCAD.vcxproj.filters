@@ -249,5 +249,11 @@
     <None Include="shaders\pbr.vs">
       <Filter>Resource Files\Shaders</Filter>
     </None>
+    <None Include="shaders\matcap.fs">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="shaders\matcap.vs">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
